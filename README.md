@@ -6,7 +6,7 @@ An online Checkers game system built in Java 8 and Spark, a web micro-framework.
 ## Team
 
 - Karthik Iyer
-- MEMBER2
+- Emily Wesson
 - MEMBER3
 - MEMBER4
 
