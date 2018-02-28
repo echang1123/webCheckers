@@ -17,6 +17,8 @@
     <div class="body">
       <p>Welcome to the world of online Checkers.</p>
     </div>
+
+    <button type="button">Go to Sign In</button>
     
   </div>
 </body>
