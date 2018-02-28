@@ -11,14 +11,16 @@
     <h1>Web Checkers</h1>
     
     <div class="navigation">
-      <a href="/">my home</a>
+      <a href="/">My Home</a>
+    </div>
+
+    <div class="navigation">
+        <a href="/signin">Sign In</a>
     </div>
     
     <div class="body">
       <p>Welcome to the world of online Checkers.</p>
     </div>
-
-    <button type="button">Go to Sign In</button>
     
   </div>
 </body>
