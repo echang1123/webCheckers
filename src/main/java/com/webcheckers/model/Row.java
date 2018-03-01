@@ -1,3 +1,9 @@
+/**
+ * This class represents a Row on the board
+ * @author Karthik Iyer
+ */
+
+
 package com.webcheckers.model;
 
 import java.util.ArrayList;
