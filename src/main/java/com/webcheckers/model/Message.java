@@ -11,10 +11,11 @@ package com.webcheckers.model;
 
 public class Message {
 
+  // Enums
+  private enum MessageType { INFO, ERROR }; // the type of the message
+
   // Attributes
   private String text; // the text of the message
-
-  private enum MessageType { INFO, ERROR }; // the type of the message
   private MessageType messageType;
 
 
