@@ -14,7 +14,7 @@ public class GetSignInRoute implements Route{
     private static final Logger LOG = Logger.getLogger(GetSignInRoute.class.getName());
 
     private final TemplateEngine templateEngine;
-    private HashMap<String, Object> players = new HashMap<>();
+    private HashMap<String, Object> players;
 
     /**
      * Create the Spark Route (UI controller) for the

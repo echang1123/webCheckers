@@ -61,7 +61,7 @@ public class WebServer {
 
   private final TemplateEngine templateEngine;
   private final Gson gson;
-  private HashMap<String, Object> players = new HashMap<>();
+  private HashMap<String, Object> players;
 
 
   //

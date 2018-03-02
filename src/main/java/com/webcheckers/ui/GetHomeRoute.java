@@ -18,7 +18,7 @@ public class GetHomeRoute implements Route {
 
   static final String PLAYERS_KEY = "players";
   private final TemplateEngine templateEngine;
-  private HashMap<String, Object> players = new HashMap<>();
+  private HashMap<String, Object> players;
 
   /**
    * Create the Spark Route (UI controller) for the

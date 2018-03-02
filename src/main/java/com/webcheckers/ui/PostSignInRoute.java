@@ -13,7 +13,7 @@ public class PostSignInRoute implements Route{
 
     private static final Logger LOG = Logger.getLogger(PostSignInRoute.class.getName());
     private final TemplateEngine templateEngine;
-    private HashMap<String, Object> players = new HashMap<>();
+    private HashMap<String, Object> players;
 
     public PostSignInRoute(TemplateEngine templateEngine, final HashMap<String,Object> players) {
         // validation
