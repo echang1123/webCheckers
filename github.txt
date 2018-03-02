@@ -1,0 +1,41 @@
+commit 380eedaa76527d674e0d7235825b45028450587b
+Author: Eugene <exc8593@rit.edu>
+Date:   Tue Feb 20 16:58:16 2018 -0500
+
+    some commit message blah blah blah
+
+commit a1bb2230dcc4f72ee44948dffd002a02c27714a1
+Author: Hongda Lin <36648759+q904765080@users.noreply.github.com>
+Date:   Mon Feb 19 18:20:42 2018 -0500
+
+    Update README.md
+
+commit 4d01f978e9d19c98c3f3377f06ce5350de8250b1
+Author: gauravdevpant <32993714+gauravdevpant@users.noreply.github.com>
+Date:   Mon Feb 19 18:18:39 2018 -0500
+
+    Update README.md
+
+commit b5e8638857bfeb45898fec8e003f7f3ae7f3dbc1
+Author: unknown <eaw7163@rit.edu>
+Date:   Mon Feb 19 18:09:58 2018 -0500
+
+    added my name
+
+commit 15f369577420e161a392476ee319249867f05390
+Author: kni6228 <kni6228@rit.edu>
+Date:   Mon Feb 19 18:01:35 2018 -0500
+
+    Added my name to README
+
+commit 0fdf762bd8d56b8a30549e3af710d6e7447386f8
+Author: Kenn Martinez <kbmvse@rit.edu>
+Date:   Wed Feb 14 14:09:36 2018 -0500
+
+    added docs/ and etc/ and xml to produce the right zip
+
+commit 9d4007ebe9b0a5f58d7a6512416474cf72933406
+Author: Kenn Martinez <kbmvse@rit.edu>
+Date:   Mon Feb 12 06:29:23 2018 -0500
+
+    Initial SEEDing of TEAM PROJECT repo

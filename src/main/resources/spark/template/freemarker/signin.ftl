@@ -18,11 +18,13 @@
       <#if message??>
       <div class="error">${message}</div>
       </#if>
-      
+
       <form action="/signin" method="POST">
         Your name: <input name="name" />
         <br/>
-        <button type="submit">Ok</button>
+          <form action = "" method = "post">
+            <input type="submit" class="btn btn-default" value="ok" />
+          </form>
       </form>
     </div>
     
