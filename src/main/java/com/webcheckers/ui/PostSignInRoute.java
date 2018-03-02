@@ -3,6 +3,7 @@ package com.webcheckers.ui;
 import spark.*;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
@@ -27,8 +28,15 @@ public class PostSignInRoute implements Route{
     }
     @Override
     public Object handle(Request request, Response response) throws Exception {
+        final Map<String, Object> vm = new HashMap<>();
+        vm.put("title", "Sign In");
         final Session session = request.session();
-
+        final String userName = request.queryParams("name");
+        if(userName.isEmpty()){
+            String msg = new String("You must enter a username.");
+            vm.put("message",msg);
+            return templateEngine.render( new ModelAndView( vm, "signin.ftl" ) );
+        }
         //session.at;
 //        final PlayerLobby playerLobby = session.attribute("signedin", true);
         return null;
