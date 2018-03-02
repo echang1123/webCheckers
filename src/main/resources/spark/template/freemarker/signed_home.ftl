@@ -16,7 +16,7 @@
     </div>
 
     <div class="navigation">
-        <a href="/signin">Sign In</a>
+        <a href="/">Sign Out</a>
     </div>
   </div>
 

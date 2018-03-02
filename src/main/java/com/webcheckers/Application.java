@@ -1,6 +1,7 @@
 package com.webcheckers;
 
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
@@ -46,6 +47,7 @@ public final class Application {
 			System.err.println("Could not initialize log manager because: " + e.getMessage());
 		}
 
+		final HashMap<String, Object> players = new HashMap<>();
 		// The application uses FreeMarker templates to generate the HTML
 		// responses sent back to the client. This will be the engine processing
 		// the templates and associated data.
@@ -57,7 +59,7 @@ public final class Application {
 		final Gson gson = new Gson();
 
 		// inject the game center and freemarker engine into web server
-		final WebServer webServer = new WebServer(templateEngine, gson);
+		final WebServer webServer = new WebServer(templateEngine, gson,players);
 
 		// inject web server into application
 		final Application app = new Application(webServer);

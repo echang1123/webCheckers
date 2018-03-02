@@ -19,7 +19,9 @@ import spark.TemplateEngine;
 public class GetHomeRoute implements Route {
   private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
 
+  static final String PLAYERS_KEY = "players";
   private final TemplateEngine templateEngine;
+  private HashMap<String, Object> players = new HashMap<>();
 
   /**
    * Create the Spark Route (UI controller) for the
@@ -28,11 +30,13 @@ public class GetHomeRoute implements Route {
    * @param templateEngine
    *   the HTML template rendering engine
    */
-  public GetHomeRoute(final TemplateEngine templateEngine) {
+  public GetHomeRoute(final TemplateEngine templateEngine, final HashMap<String,Object> players) {
     // validation
     Objects.requireNonNull(templateEngine, "templateEngine must not be null");
+    Objects.requireNonNull(templateEngine, "players must not be null");
     //
     this.templateEngine = templateEngine;
+    this.players = players;
     //
     LOG.config("GetHomeRoute is initialized.");
   }
@@ -54,6 +58,7 @@ public class GetHomeRoute implements Route {
     //
     Map<String, Object> vm = new HashMap<>();
     vm.put("title", "Welcome!");
+//    request.session().attribute( PLAYERS_KEY, PlayerLobby);
     return templateEngine.render(new ModelAndView(vm , "home.ftl"));
   }
 

@@ -2,6 +2,7 @@ package com.webcheckers.ui;
 
 import static spark.Spark.*;
 
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.logging.Logger;
 
@@ -53,13 +54,15 @@ public class WebServer {
    * The URL pattern to request the Home page.
    */
   public static final String HOME_URL = "/";
-
+  public static final String SIGN_URL = "/signin";
   //
   // Attributes
   //
 
   private final TemplateEngine templateEngine;
   private final Gson gson;
+  private HashMap<String, Object> players = new HashMap<>();
+
 
   //
   // Constructor
@@ -76,13 +79,15 @@ public class WebServer {
    * @throws NullPointerException
    *    If any of the parameters are {@code null}.
    */
-  public WebServer(final TemplateEngine templateEngine, final Gson gson) {
+  public WebServer(final TemplateEngine templateEngine, final Gson gson, final HashMap<String,Object> players) {
     // validation
     Objects.requireNonNull(templateEngine, "templateEngine must not be null");
     Objects.requireNonNull(gson, "gson must not be null");
+    Objects.requireNonNull(players, "players must not be null");
     //
     this.templateEngine = templateEngine;
     this.gson = gson;
+    this.players = players;
   }
 
   //
@@ -137,9 +142,10 @@ public class WebServer {
     //// code clean; using small classes.
 
     // Shows the Checkers game Home page.
-    get(HOME_URL, new GetHomeRoute(templateEngine));
+    get(HOME_URL, new GetHomeRoute(templateEngine,players));
+    get(SIGN_URL, new GetSignInRoute(templateEngine,players));
+    post(SIGN_URL, new GetSIHomeRoute(templateEngine));;
 
-    //
     LOG.config("WebServer is initialized.");
   }
 
