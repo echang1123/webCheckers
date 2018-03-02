@@ -18,12 +18,13 @@ public class Board {
    * Automagically adds the spaces to the Board
    */
   public Board() {
-    this.spaces = new Space[ 8 ][ 8 ];
+    this.spaces = new Space[ 8 ][ 8 ]; // initialize ( construct ) the 2D array
 
     // create empty spaces
     for( int row = 0; row < 8; row++ ) {
       for( int col = 0; col < 8; col++ ) {
         this.spaces[ row ][ col ] = new Space( col, null, ( row % 2 ) == ( col % 2 ) );
+        // a space is valid ( dark ) if both the row index and the column index share the same parity ( even or odd )
       }
     }
 

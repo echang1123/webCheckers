@@ -16,7 +16,7 @@ import spark.*;
 public class GetHomeRoute implements Route {
   private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
 
-  static final String PLAYERS_KEY = "players";
+  static final String PLAYER_LOBBY_KEY = "playerLobby";
   private final TemplateEngine templateEngine;
   private HashMap<String, Object> players;
 
@@ -56,10 +56,16 @@ public class GetHomeRoute implements Route {
     Map<String, Object> vm = new HashMap<>();
     vm.put("title", "Welcome!");
     final Session httpSession = request.session();
-    if(httpSession.attribute(PLAYERS_KEY) == null){
+
+    if(httpSession.attribute(PLAYER_LOBBY_KEY) == null){
       final PlayerLobby playerLobby = new PlayerLobby(players);
-      httpSession.attribute( PLAYERS_KEY, playerLobby);
+      httpSession.attribute( PLAYER_LOBBY_KEY, playerLobby);
     }
+
+    else {
+      
+    }
+
     return templateEngine.render(new ModelAndView(vm , "home.ftl"));
   }
 
