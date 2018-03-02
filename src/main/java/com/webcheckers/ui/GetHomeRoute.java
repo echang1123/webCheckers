@@ -5,11 +5,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
-import spark.ModelAndView;
-import spark.Request;
-import spark.Response;
-import spark.Route;
-import spark.TemplateEngine;
+import com.webcheckers.appl.PlayerLobby;
+import spark.*;
 
 /**
  * The UI Controller to GET the Home page.
@@ -58,9 +55,11 @@ public class GetHomeRoute implements Route {
     //
     Map<String, Object> vm = new HashMap<>();
     vm.put("title", "Welcome!");
-    final Sessions httpSession = request.session();
-//    final PlayerLobby playerLobby = PlayerLobby;
-//    httpSession.attribute( PLAYERS_KEY, playerLobby);
+    final Session httpSession = request.session();
+    if(httpSession.attribute(PLAYERS_KEY) == null){
+      final PlayerLobby playerLobby = new PlayerLobby(templateEngine,players);
+      httpSession.attribute( PLAYERS_KEY, playerLobby);
+    }
     return templateEngine.render(new ModelAndView(vm , "home.ftl"));
   }
 
