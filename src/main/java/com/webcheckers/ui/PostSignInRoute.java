@@ -14,6 +14,11 @@ import java.util.logging.Logger;
  */
 public class PostSignInRoute implements Route{
 
+    static final String PLAYER_LOBBY_KEY = "playerLobby";
+    static final String SIGNED_IN = "isSignedIn";
+    static final String CURRENT_PLAYER = "currentPlayer";
+    static final String PLAYERS = "players";
+
     private static final Logger LOG = Logger.getLogger(PostSignInRoute.class.getName());
     private final TemplateEngine templateEngine;
     private HashMap<String, Object> players;
@@ -41,11 +46,12 @@ public class PostSignInRoute implements Route{
             return templateEngine.render( new ModelAndView( vm, "signin.ftl" ) );
         }
         else {
-            PlayerLobby playerLobby = session.attribute( GetHomeRoute.PLAYER_LOBBY_KEY );
+            PlayerLobby playerLobby = session.attribute( PLAYER_LOBBY_KEY );
             Player player = new Player( userName );
             playerLobby.addPlayer( player );
-            session.attribute( GetHomeRoute.PLAYER_LOBBY_KEY, playerLobby );
-            session.attribute( "isSignedIn", true );
+            session.attribute( PLAYER_LOBBY_KEY, playerLobby );
+            session.attribute( SIGNED_IN, true );
+            session.attribute( CURRENT_PLAYER, userName );
             response.redirect("/" );
         }
 

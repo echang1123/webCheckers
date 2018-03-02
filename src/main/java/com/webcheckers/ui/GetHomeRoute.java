@@ -17,8 +17,14 @@ public class GetHomeRoute implements Route {
   private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
 
   static final String PLAYER_LOBBY_KEY = "playerLobby";
+  static final String SIGNED_IN = "isSignedIn";
+  static final String CURRENT_PLAYER = "currentPlayer";
+  static final String PLAYERS = "players";
+
+
   private final TemplateEngine templateEngine;
   private HashMap<String, Object> players;
+
 
   /**
    * Create the Spark Route (UI controller) for the
@@ -31,10 +37,8 @@ public class GetHomeRoute implements Route {
     // validation
     Objects.requireNonNull(templateEngine, "templateEngine must not be null");
     Objects.requireNonNull(templateEngine, "players must not be null");
-    //
     this.templateEngine = templateEngine;
     this.players = players;
-    //
     LOG.config("GetHomeRoute is initialized.");
   }
 
@@ -62,11 +66,18 @@ public class GetHomeRoute implements Route {
       httpSession.attribute( PLAYER_LOBBY_KEY, playerLobby);
     }
 
-    else {
-      
+    if( ( httpSession.attribute( SIGNED_IN ) == null ) || ( httpSession.attribute( SIGNED_IN ).equals( false ) ) ) {
+      httpSession.attribute( SIGNED_IN, false );
+      vm.put( SIGNED_IN, false );
+      return templateEngine.render(new ModelAndView(vm , "home.ftl"));
     }
 
-    return templateEngine.render(new ModelAndView(vm , "home.ftl"));
+    else {
+      vm.put( CURRENT_PLAYER, httpSession.attribute( CURRENT_PLAYER ) );
+      vm.put( PLAYERS, players );
+      vm.put( SIGNED_IN, true );
+      return null;
+    }
   }
 
 }
