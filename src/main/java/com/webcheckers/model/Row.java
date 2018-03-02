@@ -1,6 +1,6 @@
 /**
  * This class represents a Row on the BoardView (for the template)
- * 
+ *
  * @author Karthik Iyer
  */
 

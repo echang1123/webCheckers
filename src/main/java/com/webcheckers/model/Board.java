@@ -19,11 +19,14 @@ public class Board {
    */
   public Board() {
     this.spaces = new Space[ 8 ][ 8 ];
+
+    // create empty spaces
     for( int row = 0; row < 8; row++ ) {
       for( int col = 0; col < 8; col++ ) {
         this.spaces[ row ][ col ] = new Space( col, null, ( row % 2 ) == ( col % 2 ) );
       }
     }
+
   }
 
 

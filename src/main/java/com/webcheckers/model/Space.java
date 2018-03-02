@@ -55,4 +55,13 @@ public class Space {
   }
 
 
+  /**
+   * Setter for the piece on the board
+   * @param piece the piece to place on the space
+   */
+  public void setPiece( Piece piece ) {
+    this.piece = piece;
+  }
+
+
 }
