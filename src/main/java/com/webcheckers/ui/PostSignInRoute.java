@@ -1,5 +1,7 @@
 package com.webcheckers.ui;
 
+import com.webcheckers.appl.PlayerLobby;
+import com.webcheckers.model.Player;
 import spark.*;
 
 import java.util.HashMap;
@@ -36,6 +38,14 @@ public class PostSignInRoute implements Route{
             String msg = new String("You must enter a username.");
             vm.put("message",msg);
             return templateEngine.render( new ModelAndView( vm, "signin.ftl" ) );
+        }
+        else{
+            PlayerLobby pL = new PlayerLobby(players);
+            Player p = new Player(userName);
+            pL.addPlayer(p);
+            session.attribute("playerLobby",pL);
+            session.attribute( "isSignedIn", true );
+            response.redirect("/");
         }
         //session.at;
 //        final PlayerLobby playerLobby = session.attribute("signedin", true);

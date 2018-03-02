@@ -11,13 +11,10 @@ import java.util.logging.Logger;
  */
 public class PlayerLobby {
     private static final Logger LOG = Logger.getLogger(PlayerLobby.class.getName());
-    private final TemplateEngine templateEngine;
     private HashMap<String, Object> players = new HashMap<>();
 //    private Boolean signedIn;
 
-    public PlayerLobby (final TemplateEngine templateEngine, final HashMap<String,Object> players) {
-        Objects.requireNonNull(templateEngine, "templateEngine must not be null");
-        this.templateEngine = templateEngine;
+    public PlayerLobby (final HashMap<String,Object> players) {
         this.players = players;
         LOG.fine("New player lobby instance created.");
     }

@@ -57,7 +57,7 @@ public class GetHomeRoute implements Route {
     vm.put("title", "Welcome!");
     final Session httpSession = request.session();
     if(httpSession.attribute(PLAYERS_KEY) == null){
-      final PlayerLobby playerLobby = new PlayerLobby(templateEngine,players);
+      final PlayerLobby playerLobby = new PlayerLobby(players);
       httpSession.attribute( PLAYERS_KEY, playerLobby);
     }
     return templateEngine.render(new ModelAndView(vm , "home.ftl"));
