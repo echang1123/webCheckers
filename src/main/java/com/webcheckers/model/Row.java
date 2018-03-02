@@ -1,5 +1,6 @@
 /**
- * This class represents a Row on the board
+ * This class represents a Row on the BoardView (for the template)
+ * 
  * @author Karthik Iyer
  */
 
@@ -18,23 +19,10 @@ public class Row implements Iterable< Space > {
 
   /**
    * Constructor for the Row class
-   * Automagically populates the spaces in the row
    * @param index the index of the row
    */
   public Row( int index ) {
     this.index = index;
-
-    if( index % 2 == 0 ) { // if even-index row, then even-index spaces are dark and valid
-      for( int i = 0; i < 8; i++ ) {
-        this.spaces.add( new Space( i, null, ( i % 2 == 0 ) ) );
-      }
-    }
-
-    else { // if odd-index row, then odd-index spaces are dark and valid
-      for( int i = 0; i < 8; i++ ) {
-        this.spaces.add( new Space( i, null, ( i % 2 != 0 ) ) );
-      }
-    }
   }
 
 
@@ -48,12 +36,24 @@ public class Row implements Iterable< Space > {
 
 
   /**
+   * Override of the iterator function since we are implementing Iterable
    * Returns an iterator for the spaces of the row
    * Since spaces is an ArrayList, we can just return it's iterator
    * @return the iterator for the row spaces
    */
+  @Override
   public Iterator< Space > iterator() {
     return this.spaces.iterator();
+  }
+
+
+  /**
+   * A function to add a Space to a row at a specified index
+   * @param index the index to add the Space at
+   * @param space the Space to add to
+   */
+  public void add( int index, Space space ) {
+    this.spaces.add( index, space );
   }
 
 

@@ -1,11 +1,12 @@
 /**
- * Class that represents a Board
+ * Class that represents a BoardView to be used in the Freemarker template (game.ftl)
  *
  * @author Karthik Iyer
  */
 
 
 package com.webcheckers.model;
+
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -17,23 +18,30 @@ public class BoardView implements Iterable< Row > {
 
 
   /**
-   * Constructor for the BoardView class
-   * Automagically creates and adds the rows
+   * Constructor for the Board view
+   * Generates a collection of rows, each having a collection of Spaces
+   * @param board the Board that this BoardView needs to represent
    */
-  public BoardView() {
-    for( int i = 0; i < 8; i++ ) {
-      this.rows.add( new Row( i ) );
+  public BoardView( Board board ) {
+    for( int row = 0; row < 8; row++ ) {
+      Row newRow = new Row( row );
+      for( int col = 0; col < 8; col++ ) {
+        newRow.add( col, board.getSpace( row, col ) );
+      }
+      rows.add( row, newRow );
     }
   }
 
 
   /**
-   * Implement the iterator function since we're implementing Iterable
-   * We can just use the iterator of the rows, since it is an ArrayList
-   * @return an iterator that can be used to iterate through the rows
+   * Override of the iterator function since we are implementing Iterable
+   * We can just use the in-built ArrayList Iterator since rows is an ArrayList
+   * @return
    */
+  @Override
   public Iterator< Row > iterator() {
     return this.rows.iterator();
   }
+
 
 }
