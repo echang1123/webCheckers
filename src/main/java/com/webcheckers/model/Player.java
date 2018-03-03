@@ -13,7 +13,7 @@ public class Player {
 
   // attributes
   private String name; // the name of the player
-  private Boolean inGame;
+  private Boolean isInGame;
   private Player opponent;
 
   /**
@@ -22,7 +22,7 @@ public class Player {
    */
   public Player( String name ) {
     this.name = name;
-    inGame = false;
+    isInGame = false;
     opponent = null;
   }
 
