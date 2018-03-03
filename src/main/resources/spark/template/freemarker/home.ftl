@@ -18,7 +18,8 @@
       <#if isSignedIn == false>
           <div class="navigation">
               <a href="/signin">Sign In</a>
-          </div>
+          </div><br><br>
+          <strong> Number of players currently signed in :</strong> ${players?size}
 
       <#else>
           <div class="navigation">

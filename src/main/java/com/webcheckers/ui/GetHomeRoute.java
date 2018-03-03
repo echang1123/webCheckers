@@ -69,6 +69,7 @@ public class GetHomeRoute implements Route {
     if( ( httpSession.attribute( SIGNED_IN ) == null ) || ( httpSession.attribute( SIGNED_IN ).equals( false ) ) ) {
       httpSession.attribute( SIGNED_IN, false );
       vm.put( SIGNED_IN, false );
+      vm.put( PLAYERS, players );
     }
 
     else {
