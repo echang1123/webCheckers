@@ -52,7 +52,7 @@ public class PostSignInRoute implements Route{
             session.attribute( PLAYER_LOBBY_KEY, playerLobby );
             session.attribute( SIGNED_IN, true );
             session.attribute( CURRENT_PLAYER, userName );
-            response.redirect("/" );
+            response.redirect( WebServer.HOME_URL );
         }
 
         return null;
