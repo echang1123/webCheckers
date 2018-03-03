@@ -13,7 +13,8 @@ public class Player {
 
   // attributes
   private String name; // the name of the player
-
+  private Boolean inGame;
+  private Player opponent;
 
   /**
    * Constructor for the Player class
@@ -21,6 +22,8 @@ public class Player {
    */
   public Player( String name ) {
     this.name = name;
+    inGame = false;
+    opponent = null;
   }
 
 
