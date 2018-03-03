@@ -29,6 +29,7 @@ public class WebServer {
   public static final String HOME_URL = "/";
   public static final String SIGN_URL = "/signin";
   public static final String SIGN_OUT_URL = "/signout";
+  public static final String INGAME_URL = "/ingame";
 
   // Attributes
   private final TemplateEngine templateEngine;
@@ -70,7 +71,7 @@ public class WebServer {
     get(SIGN_URL, new GetSignInRoute(templateEngine,players));
     post(SIGN_URL, new PostSignInRoute(templateEngine,players));
     get( SIGN_OUT_URL, new GetSignOutRoute(templateEngine,players));
-
+    get(INGAME_URL, new GetBoardRoute(templateEngine,players));
     LOG.config("WebServer is initialized.");
   }
 
