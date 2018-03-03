@@ -29,7 +29,7 @@
           <strong>Current Player: </strong> ${currentPlayer}<br><br>
           <strong>Other Players Currently Online</strong><br>
           <#list players as username, value>
-              <input type="button" class="btn btn-default" value=${username} /><br>
+              <input type="button" class="btn btn-default" name=${username} value=${username} /><br>
               <#else>
               No other players online :( <br>
           </#list>

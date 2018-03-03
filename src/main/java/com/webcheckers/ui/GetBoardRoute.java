@@ -17,9 +17,11 @@ public class GetBoardRoute implements Route{
     static final String SIGNED_IN = "isSignedIn";
     static final String CURRENT_PLAYER = "currentPlayer";
     static final String PLAYERS = "players";
+    public static final String INGAME_URL = "/board";
 
     private final TemplateEngine templateEngine;
     private HashMap<String, Object> players;
+
 
     /**
      * Create the Spark Route (UI controller) for the

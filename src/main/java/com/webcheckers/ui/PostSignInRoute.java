@@ -26,6 +26,7 @@ public class PostSignInRoute implements Route{
     static final String SIGNED_IN = "isSignedIn";
     static final String CURRENT_PLAYER = "currentPlayer";
     static final String PLAYERS = "players";
+    public static final String INGAME_URL = "/board";
 
     // Attributes
     private static final Logger LOG = Logger.getLogger(PostSignInRoute.class.getName());
