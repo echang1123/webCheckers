@@ -54,7 +54,6 @@ public class PostSignInRoute implements Route{
             session.attribute( CURRENT_PLAYER, userName );
             response.redirect( WebServer.HOME_URL );
         }
-
         return null;
     }
 }

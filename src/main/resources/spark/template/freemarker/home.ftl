@@ -14,7 +14,7 @@
     <div class="navigation">
       <a href="/">My Home</a>
     </div>
-
+      <#--is Signed Out-->
       <#if isSignedIn == false>
           <div class="navigation">
               <a href="/signin">Sign In</a>
@@ -33,7 +33,7 @@
               <#else>
               No players online :( <br>
           </#list>
-      </#if>
+      </#if >
   </div>
 
 </body>
