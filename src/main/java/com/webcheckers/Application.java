@@ -1,3 +1,12 @@
+/**
+ * The entry point for the WebCheckers web application.
+ *
+ * @author Eugene Chang
+ * @author Karthik Iyer
+ * @author Gaurav Pant
+ */
+
+
 package com.webcheckers;
 
 import java.io.InputStream;
@@ -13,41 +22,31 @@ import spark.TemplateEngine;
 import spark.template.freemarker.FreeMarkerEngine;
 
 
-/**
- * The entry point for the WebCheckers web application.
- *
- * @author <a href='mailto:bdbvse@rit.edu'>Bryan Basham</a>
- */
 public final class Application {
+
 	private static final Logger LOG = Logger.getLogger(Application.class.getName());
 
-	//
-	// Application Launch method
-	//
 
 	/**
 	 * Entry point for the WebCheckers web application.
-	 *
-	 * <p>
-	 * It wires the application components together.  This is an example
-	 * of <a href='https://en.wikipedia.org/wiki/Dependency_injection'>Dependency Injection</a>
-	 * </p>
-	 *
-	 * @param args
-	 *    Command line arguments; none expected.
+	 * It wires the application components together.
+	 * @param args Command line arguments; none expected.
 	 */
 	public static void main(String[] args) {
+
 		// initialize Logging
 		try {
 			ClassLoader classLoader = Application.class.getClassLoader();
-			final InputStream logConfig = classLoader.getResourceAsStream("log.properties");
-			LogManager.getLogManager().readConfiguration(logConfig);
-		} catch (Exception e) {
+			final InputStream logConfig = classLoader.getResourceAsStream( "log.properties" );
+			LogManager.getLogManager().readConfiguration( logConfig );
+		} catch( Exception e ) {
 			e.printStackTrace();
-			System.err.println("Could not initialize log manager because: " + e.getMessage());
+			System.err.println( "Could not initialize log manager because: " + e.getMessage() );
 		}
 
-		final HashMap<String, Object> players = new HashMap<>();
+		// List of usernames (players) that are signed in
+		final HashMap< String, Object > players = new HashMap<>();
+
 		// The application uses FreeMarker templates to generate the HTML
 		// responses sent back to the client. This will be the engine processing
 		// the templates and associated data.
@@ -59,37 +58,37 @@ public final class Application {
 		final Gson gson = new Gson();
 
 		// inject the game center and freemarker engine into web server
-		final WebServer webServer = new WebServer(templateEngine, gson,players);
+		final WebServer webServer = new WebServer( templateEngine, gson, players );
 
 		// inject web server into application
-		final Application app = new Application(webServer);
+		final Application app = new Application( webServer );
 
 		// start the application up
 		app.initialize();
 	}
 
-	//
 	// Attributes
-	//
-
 	private final WebServer webServer;
 
-	//
-	// Constructor
-	//
 
-	private Application(final WebServer webServer) {
+	/**
+	 * Constructor for the Application
+	 * @param webServer the webserver
+	 */
+	private Application( final WebServer webServer ) {
 		// validation
 		Objects.requireNonNull(webServer, "webServer must not be null");
-		//
+
 		this.webServer = webServer;
 	}
 
-	//
-	// Private methods
-	//
 
+	/**
+	 * Application initializer
+	 * Starts up and configures everything
+	 */
 	private void initialize() {
+		
 		LOG.config("WebCheckers is initializing.");
 
 		// configure Spark and startup the Jetty web server
