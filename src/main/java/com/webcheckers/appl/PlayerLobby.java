@@ -10,11 +10,12 @@ package com.webcheckers.appl;
 
 import com.webcheckers.model.Player;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 
 public class PlayerLobby {
-    private static final Logger LOG = Logger.getLogger(PlayerLobby.class.getName());
+    private static final Logger LOG = Logger.getLogger( PlayerLobby.class.getName() );
     private HashMap<String, Object> players;
 
 
@@ -22,9 +23,9 @@ public class PlayerLobby {
      * Constructor for a PlayerLobby
      * @param players the hashtable of all signed-in players
      */
-    public PlayerLobby (final HashMap<String,Object> players) {
+    public PlayerLobby( final HashMap<String,Object> players ) {
         this.players = players;
-        LOG.fine("New player lobby instance created.");
+        LOG.fine( "New player lobby instance created." );
     }
 
 
@@ -33,8 +34,18 @@ public class PlayerLobby {
      * Ideally used ONLY for sign in
      * @param player the player to add ( sign in )
      */
-    public void addPlayer( Player player ){
+    public boolean addPlayer( Player player, Map< String, Object > vm ) {
+        char quotes = '"'; // to be used for checking username
+        if( player.getName().indexOf( quotes ) != -1 ) { // contains the quotes
+            vm.put( "message", "Username cannot contain quotes" );
+            return false;
+        }
+        if( players.containsKey( player.getName() ) ) {
+            vm.put( "message", "The username " + player.getName() + " is already taken" );
+            return false;
+        }
         players.put( player.getName(), player );
+        return true;
     }
 
 

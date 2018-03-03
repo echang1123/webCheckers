@@ -65,17 +65,20 @@ public class PostSignInRoute implements Route{
         final String userName = request.queryParams("name");
         if( userName.isEmpty() ) {
             String msg = "You must enter a username.";
-            vm.put( "message", msg) ;
+            vm.put( "message", msg); // add the error message
             return templateEngine.render( new ModelAndView( vm, "signin.ftl" ) );
         }
         else {
             PlayerLobby playerLobby = session.attribute( PLAYER_LOBBY_KEY );
             Player player = new Player( userName );
-            playerLobby.addPlayer( player );
-            session.attribute( PLAYER_LOBBY_KEY, playerLobby );
-            session.attribute( SIGNED_IN, true );
-            session.attribute( CURRENT_PLAYER, userName );
-            response.redirect( WebServer.HOME_URL );
+            if( playerLobby.addPlayer( player, vm ) ) {
+                session.attribute( SIGNED_IN, true );
+                session.attribute( CURRENT_PLAYER, userName );
+                response.redirect( WebServer.HOME_URL );
+            }
+            else {
+                return templateEngine.render( new ModelAndView( vm, "signin.ftl" ) );
+            }
         }
         return null;
     }

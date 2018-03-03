@@ -88,7 +88,7 @@ public final class Application {
 	 * Starts up and configures everything
 	 */
 	private void initialize() {
-		
+
 		LOG.config("WebCheckers is initializing.");
 
 		// configure Spark and startup the Jetty web server
