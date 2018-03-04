@@ -20,6 +20,7 @@ public class Board {
   public Board(boolean ownedByFirstPlayer) {
     this.spaces = new Space[ 8 ][ 8 ]; // initialize ( construct ) the 2D array
     this.ownedByFirstPlayer = ownedByFirstPlayer;
+    
     // create empty spaces
     for( int row = 0; row < 8; row++ ) {
       for( int col = 0; col < 8; col++ ) {
@@ -39,8 +40,6 @@ public class Board {
     }
 
   }
-
-
   /**
    * A function that allows you to access a Space in the Board
    * @param row the row index of the board
