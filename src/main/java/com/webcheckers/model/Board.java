@@ -65,7 +65,6 @@ public class Board {
    */
   public BoardView getBoardView() {
     return new BoardView( this );
-
   }
 
   public boolean isOwnedByFirstPlayer() {

@@ -15,7 +15,7 @@ public class BoardView implements Iterable< Row > {
 
   // Attributes
   private ArrayList< Row > rows;
-
+  private boolean isFirst;
 
   /**
    * Constructor for the Board view
@@ -42,6 +42,6 @@ public class BoardView implements Iterable< Row > {
   public Iterator< Row > iterator() {
     return this.rows.iterator();
   }
-
+  public boolean getIsFirst(){ return isFirst;}
 
 }
