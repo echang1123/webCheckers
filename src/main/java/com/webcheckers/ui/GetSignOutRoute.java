@@ -9,6 +9,7 @@
 
 package com.webcheckers.ui;
 
+import com.webcheckers.model.Player;
 import spark.*;
 
 import java.util.HashMap;
@@ -30,14 +31,14 @@ public class GetSignOutRoute implements Route{
 
     // Attributes
     private final TemplateEngine templateEngine;
-    private HashMap< String, Object > players;
+    private HashMap< String, Player > players;
 
 
     /**
      * Constructor for the GetSignOutRoute route handler
      * @param templateEngine  the HTML template rendering engine
      */
-    public GetSignOutRoute( final TemplateEngine templateEngine, final HashMap< String,Object > players ) {
+    public GetSignOutRoute( final TemplateEngine templateEngine, final HashMap< String, Player > players ) {
         // validation
         Objects.requireNonNull( templateEngine, "templateEngine must not be null" );
         //

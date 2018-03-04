@@ -16,6 +16,7 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import com.google.gson.Gson;
+import com.webcheckers.model.Player;
 import com.webcheckers.ui.WebServer;
 
 import spark.TemplateEngine;
@@ -45,7 +46,7 @@ public final class Application {
 		}
 
 		// List of usernames (players) that are signed in
-		final HashMap< String, Object > players = new HashMap<>();
+		final HashMap< String, Player > players = new HashMap<>();
 
 		// The application uses FreeMarker templates to generate the HTML
 		// responses sent back to the client. This will be the engine processing

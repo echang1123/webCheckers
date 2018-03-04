@@ -13,7 +13,8 @@ public class Player {
 
   // attributes
   private String name; // the name of the player
-
+  private Boolean isInGame;
+  private Player opponent;
 
   /**
    * Constructor for the Player class
@@ -21,6 +22,8 @@ public class Player {
    */
   public Player( String name ) {
     this.name = name;
+    isInGame = false;
+    opponent = null;
   }
 
 
@@ -31,5 +34,21 @@ public class Player {
   public String getName() {
     return this.name;
   }
+
+
+  /**
+   * Add an opponent to the current player, and logically make isInGame true
+   * @param opponent the opponent to add
+   * @return true if added successfully, false if already in game
+   */
+  public Boolean addOpponent( Player opponent ) {
+    if( this.isInGame ) {
+      return false;
+    }
+    this.isInGame = true;
+    this.opponent = opponent;
+    return true;
+  }
+
 
 }

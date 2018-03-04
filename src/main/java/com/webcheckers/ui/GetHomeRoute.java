@@ -15,6 +15,7 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 import com.webcheckers.appl.PlayerLobby;
+import com.webcheckers.model.Player;
 import spark.*;
 
 
@@ -30,14 +31,14 @@ public class GetHomeRoute implements Route {
 
   // Attributes
   private final TemplateEngine templateEngine;
-  private HashMap< String, Object > players;
+  private HashMap< String, Player > players;
 
 
   /**
    * Constructor for the GetHomeRoute routehandler
    * @param templateEngine the HTML template rendering engine
    */
-  public GetHomeRoute( final TemplateEngine templateEngine, final HashMap< String,Object > players ) {
+  public GetHomeRoute( final TemplateEngine templateEngine, final HashMap< String, Player > players ) {
     // validation
     Objects.requireNonNull( templateEngine, "templateEngine must not be null" );
     Objects.requireNonNull( templateEngine, "players must not be null" );
