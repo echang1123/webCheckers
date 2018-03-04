@@ -61,4 +61,26 @@ public class PlayerLobby {
     }
 
 
+    /**
+     * Get a player's opponent if exists
+     * @param player the player whose opponent we ae looking for
+     * @return the opponent Player, if exists.
+     * @return null otherwise
+     */
+    public Player findOpponent( Player player ) {
+        for( String key : this.players.keySet() ) {
+            if( key.equals( player.getName() ) ) {
+                continue;
+            }
+            else if( this.players.get( key ).getOpponent() == null ) {
+                continue;
+            }
+            else if( this.players.get( key ).equals( player.getName() ) ) {
+                return this.players.get( key );
+            }
+        }
+        return null;
+    }
+
+
 }

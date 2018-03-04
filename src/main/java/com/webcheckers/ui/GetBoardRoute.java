@@ -1,7 +1,9 @@
 package com.webcheckers.ui;
 
+import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.model.Board;
 import com.webcheckers.model.BoardView;
+import com.webcheckers.model.Piece;
 import com.webcheckers.model.Player;
 import spark.*;
 
@@ -15,6 +17,7 @@ import java.util.logging.Logger;
  */
 public class GetBoardRoute implements Route{
     private static final Logger LOG = Logger.getLogger(GetSignInRoute.class.getName());
+    public enum ViewMode { PLAY, SPECTATOR, REPLAY };
 
     static final String PLAYER_LOBBY_KEY = "playerLobby";
     static final String SIGNED_IN = "isSignedIn";
@@ -63,6 +66,9 @@ public class GetBoardRoute implements Route{
         vm.put("title", "Welcome!");
         final Session httpSession = request.session();
         String currentPlayerName = httpSession.attribute( CURRENT_PLAYER );
+        Player currentPlayer = players.get( currentPlayerName );
+        PlayerLobby playerLobby = httpSession.attribute( PLAYER_LOBBY_KEY );
+        Player opponent = playerLobby.findOpponent( currentPlayer );
 
         // check if you are the first player
         Boolean isFirstPlayer = false;
@@ -83,13 +89,21 @@ public class GetBoardRoute implements Route{
         }
 
         Board boardModel = new Board( isFirstPlayer ); // create the board model and put in the pieces
-        BoardView board = new BoardView( boardModel ); // create the view for the template
+        BoardView board = boardModel.getBoardView(); // create the view for the template
 
-        if( isFirstPlayer ) { // you are the first player
-            Player currentPlayer = players.get( currentPlayerName );
-
+        vm.put( "board", board );
+        vm.put( "viewMode", ViewMode.PLAY );
+        vm.put( CURRENT_PLAYER, currentPlayer );
+        if( isFirstPlayer ) {
+            vm.put( "redPlayer", currentPlayer );
+            vm.put( "whitePlayer", opponent );
         }
+        else {
+            vm.put( "redPlayer", opponent );
+            vm.put( "whitePlayer", currentPlayer );
+        }
+        vm.put( "activeColor", Piece.Color.RED );
 
-        return null;
+        return templateEngine.render( new ModelAndView( vm, "game.ftl" ) );
     }
 }

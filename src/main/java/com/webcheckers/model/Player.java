@@ -51,4 +51,13 @@ public class Player {
   }
 
 
+  /**
+   * Getter for the player's opponent
+   * @return the opponent
+   */
+  public Player getOpponent() {
+    return this.opponent;
+  }
+
+
 }
