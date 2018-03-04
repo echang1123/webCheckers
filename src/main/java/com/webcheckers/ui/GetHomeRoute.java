@@ -85,6 +85,8 @@ public class GetHomeRoute implements Route {
 
       //select another player as your opponent
 
+      //return templateEngine.render(new ModelAndView(vm, "game.ftl")); //render the gameboard for me
+
 
       //check if another player selected you as their opponent
       if(otherPlayers.size() > 0) { //need at least 1 other player to have a game
@@ -97,7 +99,8 @@ public class GetHomeRoute implements Route {
             if (opponentName.equals(myName)) { //if the other player selected me as their opponent
               boolean isAdded = me.addOpponent(playerName.getValue());
               if (isAdded) {
-                return templateEngine.render(new ModelAndView(vm, "game.ftl")); //render the gameboard for me
+                response.redirect( WebServer.INGAME_URL );
+//                return templateEngine.render(new ModelAndView(vm, "game.ftl")); //render the gameboard for me
               } else {
               String msg = "Player in game selected different player!";
               vm.put( "message", msg); // add the error message
