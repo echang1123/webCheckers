@@ -1,5 +1,8 @@
 package com.webcheckers.ui;
 
+import com.webcheckers.model.Board;
+import com.webcheckers.model.BoardView;
+import com.webcheckers.model.Player;
 import spark.*;
 
 import java.util.HashMap;
@@ -20,7 +23,7 @@ public class GetBoardRoute implements Route{
     public static final String INGAME_URL = "/board";
 
     private final TemplateEngine templateEngine;
-    private HashMap<String, Object> players;
+    private HashMap<String, Player> players;
 
 
     /**
@@ -30,7 +33,7 @@ public class GetBoardRoute implements Route{
      * @param templateEngine
      *   the HTML template rendering engine
      */
-    public GetBoardRoute(final TemplateEngine templateEngine, final HashMap<String,Object> players) {
+    public GetBoardRoute(final TemplateEngine templateEngine, final HashMap<String,Player> players) {
         // validation
         Objects.requireNonNull(templateEngine, "templateEngine must not be null");
         //
@@ -39,6 +42,7 @@ public class GetBoardRoute implements Route{
         //
         LOG.config("GetBoardRoute is initialized.");
     }
+
 
     /**
      * Render the signed-in WebCheckers Home page.
@@ -57,9 +61,34 @@ public class GetBoardRoute implements Route{
         //
         Map<String, Object> vm = new HashMap<>();
         vm.put("title", "Welcome!");
-        final Session session = request.session();
-//        String username = session.attribute(CURRENT_PLAYER);
-        response.redirect( WebServer.INGAME_URL );
+        final Session httpSession = request.session();
+        String currentPlayerName = httpSession.attribute( CURRENT_PLAYER );
+
+        // check if you are the first player
+        Boolean isFirstPlayer = false;
+        for( String playerName : players.keySet() ) { // iterate through all the players
+            if( playerName.equals( currentPlayerName ) ) { // current player
+                continue;
+            }
+            else { // other player
+                String playerButton = request.queryParams( playerName ); // get the button
+                if( playerButton == null ) {
+                    continue;
+                }
+                else {
+                    isFirstPlayer = true;
+                    break;
+                }
+            }
+        }
+
+        Board boardModel = new Board(); // create the board model and put in the pieces
+        BoardView board = new BoardView( boardModel ); // create the view for the template
+
+        if( isFirstPlayer ) { // you are the first player
+            Player currentPlayer = ( Player )players.get( currentPlayerName );
+        }
+
         return null;
     }
 }

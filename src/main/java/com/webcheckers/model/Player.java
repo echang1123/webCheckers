@@ -35,4 +35,20 @@ public class Player {
     return this.name;
   }
 
+
+  /**
+   * Add an opponent to the current player, and logically make isInGame true
+   * @param opponent the opponent to add
+   * @return true if added successfully, false if already in game
+   */
+  public Boolean addOpponent( Player opponent ) {
+    if( this.isInGame ) {
+      return false;
+    }
+    this.isInGame = true;
+    this.opponent = opponent;
+    return true;
+  }
+
+
 }

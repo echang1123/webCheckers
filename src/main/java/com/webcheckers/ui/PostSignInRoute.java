@@ -31,7 +31,7 @@ public class PostSignInRoute implements Route{
     // Attributes
     private static final Logger LOG = Logger.getLogger(PostSignInRoute.class.getName());
     private final TemplateEngine templateEngine;
-    private HashMap<String, Object> players;
+    private HashMap< String, Player > players;
 
 
     /**
@@ -39,7 +39,7 @@ public class PostSignInRoute implements Route{
      * @param templateEngine the template engine to render the HTML template
      * @param players the hash table of players
      */
-    public PostSignInRoute(TemplateEngine templateEngine, final HashMap<String,Object> players) {
+    public PostSignInRoute(TemplateEngine templateEngine, final HashMap<String, Player > players) {
         // validation
         Objects.requireNonNull(templateEngine, "templateEngine must not be null");
         Objects.requireNonNull(templateEngine, "players must not be null");

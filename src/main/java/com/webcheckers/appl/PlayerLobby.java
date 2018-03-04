@@ -16,14 +16,14 @@ import java.util.logging.Logger;
 
 public class PlayerLobby {
     private static final Logger LOG = Logger.getLogger( PlayerLobby.class.getName() );
-    private HashMap<String, Object> players;
+    private HashMap<String, Player> players;
 
 
     /**
      * Constructor for a PlayerLobby
      * @param players the hashtable of all signed-in players
      */
-    public PlayerLobby( final HashMap<String,Object> players ) {
+    public PlayerLobby( final HashMap<String,Player> players ) {
         this.players = players;
         LOG.fine( "New player lobby instance created." );
     }
@@ -59,4 +59,6 @@ public class PlayerLobby {
             players.remove( player.getName() );
         }
     }
+
+
 }
