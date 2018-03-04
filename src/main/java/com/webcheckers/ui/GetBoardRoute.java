@@ -82,7 +82,6 @@ public class GetBoardRoute implements Route{
                 if( playerButton == null ) // not pressed
                     continue;
                 else { // has been pressed
-                    isFirstPlayer = true;
                     opponentName = playerName; //get the opponent's name
                     if( players.get( opponentName ).getOpponent() != null ) { // the selected opponent is already in game
                         String message = "Player \"" + opponentName + "\" is already playing a game.";
@@ -94,6 +93,7 @@ public class GetBoardRoute implements Route{
                         vm.put( SIGNED_IN, true );
                         templateEngine.render( new ModelAndView( vm, "home.ftl" ) );
                     }
+                    isFirstPlayer = true;
                     break;
                 }
             }
@@ -117,7 +117,7 @@ public class GetBoardRoute implements Route{
         }
         else {
             opponent = playerLobby.findOpponent( currentPlayer );
-            assert opponent != null; // make sure the opponent is not null
+            System.out.println( opponent.toString() );
             currentPlayer.addOpponent( opponent );
             vm.put( "redPlayer", opponent );
             vm.put( "whitePlayer", currentPlayer );
