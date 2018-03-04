@@ -109,6 +109,7 @@ public class GetBoardRoute implements Route{
 
         // set opponent, redplayer, whiteplayer
         Player opponent;
+        System.out.println( currentPlayerName + " " + isFirstPlayer.toString() );
         if( isFirstPlayer ) {
             opponent = players.get( opponentName );
             currentPlayer.addOpponent( opponent );

@@ -45,7 +45,7 @@ public class BoardView implements Iterable< Row > {
    */
   @Override
   public Iterator< Row > iterator() {
-    if( this.isFirst ) {
+    if( !this.isFirst ) {
       return this.rows.iterator();
     }
     else {
