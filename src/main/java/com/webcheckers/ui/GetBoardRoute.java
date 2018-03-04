@@ -14,10 +14,12 @@ import java.util.logging.Logger;
 
 /**
  * Created by Eugene on 3/3/2018.
+ * @author Karthik Iyer
+ * @author Emily Wesson
  */
 public class GetBoardRoute implements Route{
     private static final Logger LOG = Logger.getLogger(GetSignInRoute.class.getName());
-    public enum ViewMode { PLAY, SPECTATOR, REPLAY };
+    public enum ViewMode { PLAY, SPECTATOR, REPLAY }
 
     static final String PLAYER_LOBBY_KEY = "playerLobby";
     static final String SIGNED_IN = "isSignedIn";
@@ -71,6 +73,7 @@ public class GetBoardRoute implements Route{
 
         // check if you are the first player
         Boolean isFirstPlayer = false;
+        String opponentName = "";
         for( String playerName : players.keySet() ) { // iterate through all the players
             if( playerName.equals( currentPlayerName ) ) { // current player
                 continue;
@@ -82,13 +85,23 @@ public class GetBoardRoute implements Route{
                 }
                 else {
                     isFirstPlayer = true;
+                    opponentName = playerName; //get the opponent's name
                     break;
                 }
             }
         }
 
-        Player opponent = playerLobby.findOpponent( currentPlayer );
-        currentPlayer.addOpponent( opponent );
+        Player opponent;
+        //set your opponent
+        if(isFirstPlayer){
+            opponent = players.get( opponentName );
+            currentPlayer.addOpponent( opponent ); //add 2nd player as opponent
+        }
+        else{
+            opponent = playerLobby.findOpponent( currentPlayer ); //only if 2nd player
+            currentPlayer.addOpponent( opponent );
+        }
+
         Board boardModel = new Board( isFirstPlayer ); // create the board model and put in the pieces
         BoardView board = boardModel.getBoardView(); // create the view for the template
 
