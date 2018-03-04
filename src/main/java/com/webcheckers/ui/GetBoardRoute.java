@@ -73,11 +73,11 @@ public class GetBoardRoute implements Route{
 
         // check if you are the first player
         Boolean isFirstPlayer = false;
-        String opponentName = ""; // initialize the opponent name as empty
+        String opponentName = ""; // initialize the opponent name with an empty string
         for( String playerName : players.keySet() ) { // iterate through all the players
-            if( playerName.equals( currentPlayerName ) ) // current player
+            if( playerName.equals( currentPlayerName ) ) // skip if we run into the current player
                 continue;
-            else { // other player
+            else { //otherwise, for other players...
                 String playerButton = request.queryParams( playerName ); // get the button
                 if( playerButton == null ) // not pressed
                     continue;
@@ -88,7 +88,7 @@ public class GetBoardRoute implements Route{
                         vm.put( "message", message );
                         vm.put( CURRENT_PLAYER, currentPlayerName );
                         Map< String, Player > otherPlayers = new HashMap<>( players );
-                        otherPlayers.remove( currentPlayerName ); // remove the current player, so doesn't get shown
+                        otherPlayers.remove( currentPlayerName ); // remove the current player from being shown
                         vm.put( PLAYERS, otherPlayers );
                         vm.put( SIGNED_IN, true );
                         templateEngine.render( new ModelAndView( vm, "home.ftl" ) );

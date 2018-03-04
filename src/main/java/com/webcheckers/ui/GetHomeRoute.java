@@ -95,7 +95,7 @@ public class GetHomeRoute implements Route {
                     Player player = otherPlayers.get( playerName ); // get the player
                     if( player.getOpponent() == null ) // not selected
                         continue;
-                    else if( player.getOpponent().equals( currentPlayer ) ) { // we have been selected
+                    else if( player.getOpponent().equals( currentPlayer ) ) { // you've have been selected
                         response.redirect( INGAME_URL );
                     }
                 }
