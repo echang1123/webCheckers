@@ -29,13 +29,11 @@
           <strong>Current Player: </strong> ${currentPlayer}<br><br>
           <strong>Other Players Currently Online</strong><br>
           <#list players as username, value>
-
                 <form action="/board" method="GET">
                     <form action = "" method = "get">
-                        <input type="submit" class="btn btn-default" name=${username} value=${username} /><br>
+                        <input type="submit" class="btn btn-default" name="${username}" value=${username} /><br>
                     </form>
                 </form>
-
               <#else>
               No other players online :( <br>
           </#list>

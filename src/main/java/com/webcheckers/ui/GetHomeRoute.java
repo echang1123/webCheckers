@@ -63,7 +63,6 @@ public class GetHomeRoute implements Route {
     Map< String, Object > vm = new HashMap<>();
     vm.put( "title", "Welcome!" );
     final Session httpSession = request.session();
-
     if( httpSession.attribute(PLAYER_LOBBY_KEY) == null ) { // first time opening
       final PlayerLobby playerLobby = new PlayerLobby( players );
       httpSession.attribute( PLAYER_LOBBY_KEY, playerLobby );
@@ -86,29 +85,33 @@ public class GetHomeRoute implements Route {
       //select another player as your opponent
 
       //return templateEngine.render(new ModelAndView(vm, "game.ftl")); //render the gameboard for me
+        String myName = httpSession.attribute(CURRENT_PLAYER);
+        String myButton = request.queryParams( myName );
+        if(myButton == null){
 
-
-      //check if another player selected you as their opponent
-      if(otherPlayers.size() > 0) { //need at least 1 other player to have a game
-        for (Map.Entry<String, Player> playerName : otherPlayers.entrySet()) {
-          Player opponent = playerName.getValue().getOpponent();
-          if(opponent != null){ //make sure opponent is not null
-            String opponentName = opponent.getName();
-            String myName = httpSession.attribute(CURRENT_PLAYER);
-            Player me = players.get(myName);
-            if (opponentName.equals(myName)) { //if the other player selected me as their opponent
-              boolean isAdded = me.addOpponent(playerName.getValue());
-              if (isAdded) {
-                response.redirect( WebServer.INGAME_URL );
-//                return templateEngine.render(new ModelAndView(vm, "game.ftl")); //render the gameboard for me
-              } else {
-              String msg = "Player in game selected different player!";
-              vm.put( "message", msg); // add the error message
-              }
-            }
-          }
         }
-      }
+        else{
+            //check if another player selected you as their opponent
+            if(otherPlayers.size() > 0) { //need at least 1 other player to have a game
+                for (Map.Entry<String, Player> playerName : otherPlayers.entrySet()) {
+                    Player opponent = playerName.getValue().getOpponent();
+                    if(opponent != null){ //make sure opponent is not null
+                        String opponentName = opponent.getName();
+                        Player me = players.get(myName);
+                        if (opponentName.equals(myName)) { //if the other player selected me as their opponent
+                            boolean isAdded = me.addOpponent(playerName.getValue());
+                            if (isAdded) {
+                                response.redirect(WebServer.INGAME_URL); //render the gameboard for me
+                            }
+                            else {
+                                String msg = "Player in game selected different player!";
+                                vm.put( "message", msg); // add the error message
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
     return templateEngine.render( new ModelAndView( vm, "home.ftl" ) );
   }
