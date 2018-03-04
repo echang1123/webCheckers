@@ -3,6 +3,7 @@
  *
  * @author Eugene Chang
  * @author Karthik Iyer
+ * @author Emily Wesson
  */
 
 
