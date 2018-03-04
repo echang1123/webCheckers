@@ -27,9 +27,12 @@ public class Board {
             Piece redPiece= new Piece(Piece.PieceType.SINGLE, Piece.Color.RED);
             this.spaces[ row ][ col ] = new Space( col, redPiece, ( row % 2 ) == ( col % 2 ) );
           }
-          if(row%2==col%2  && row>4){
+          else if(row%2==col%2  && row>4){
             Piece whitePiece= new Piece(Piece.PieceType.SINGLE, Piece.Color.WHITE);
             this.spaces[ row ][ col ] = new Space( col, whitePiece, ( row % 2 ) == ( col % 2 ) );
+          }
+          else {
+            this.spaces[ row ][ col ] = new Space( col, null, ( row % 2 ) == ( col % 2 ) );
           }
           // a space is valid ( dark ) if both the row index and the column index share the same parity ( even or odd)
       }
