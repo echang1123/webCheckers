@@ -4,6 +4,7 @@
  * @author Eugene Chang
  * @author Karthik Iyer
  * @author Gaurav Pant
+ * @author Emily Wesson
  */
 
 
@@ -82,6 +83,10 @@ public class GetHomeRoute implements Route {
       vm.put( PLAYERS, otherPlayers );
       vm.put( SIGNED_IN, true );
 
+      //select another player as your opponent
+
+
+      //check if another player selected you as their opponent
       if(otherPlayers.size() > 0) { //need at least 1 other player to have a game
         for (Map.Entry<String, Player> playerName : otherPlayers.entrySet()) {
           Player opponent = playerName.getValue().getOpponent();
