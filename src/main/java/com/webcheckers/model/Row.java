@@ -15,14 +15,22 @@ public class Row implements Iterable< Space > {
   // Attributes
   private int index; // the index of the row
   private ArrayList< Space > spaces; // the spaces in the row
+  private Iterator< Space > spaceIterator;
 
 
   /**
    * Constructor for the Row class
    * @param index the index of the row
    */
-  public Row( int index ) {
+  public Row( int index, boolean isFirst ) {
     this.index = index;
+    this.spaces = new ArrayList<>();
+    if( isFirst ) {
+      this.spaceIterator = this.spaces.iterator();
+    }
+    else {
+      this.spaceIterator = new ReverseIterator<>( spaces );
+    }
   }
 
 
@@ -43,7 +51,7 @@ public class Row implements Iterable< Space > {
    */
   @Override
   public Iterator< Space > iterator() {
-    return this.spaces.iterator();
+    return this.spaceIterator;
   }
 
 
@@ -54,6 +62,16 @@ public class Row implements Iterable< Space > {
    */
   public void add( int index, Space space ) {
     this.spaces.add( index, space );
+  }
+
+
+  /**
+   * Set the iterator for the row
+   * @param isFirst whether first player perspective or not
+   */
+  public void setIterator( Boolean isFirst ) {
+    if( isFirst ) this.spaceIterator = this.spaces.iterator();
+    else this.spaceIterator = new ReverseIterator<>( this.spaces );
   }
 
 

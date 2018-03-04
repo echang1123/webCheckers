@@ -3,6 +3,7 @@
  *
  * @author Eugene Chang
  * @author Karthik Iyer
+ * @author Emily Wesson
  */
 
 
@@ -58,6 +59,29 @@ public class PlayerLobby {
         if ( players.containsKey( player.getName() ) ) {
             players.remove( player.getName() );
         }
+    }
+
+
+    /**
+     * Get a player's opponent if exists
+     * @param player the player whose opponent we ae looking for
+     * @return the opponent Player, if exists.
+     * @return null otherwise
+     */
+    public Player findOpponent( Player player ) {
+        for( String key : this.players.keySet() ) {
+            Player currPlayerBeingViewed = this.players.get( key ); //current player- one of the other signed in players
+            if( key.equals( player.getName() ) ) {
+                continue;
+            }
+            else if( currPlayerBeingViewed.getOpponent() == null ) {
+                continue;
+            }
+            else if( currPlayerBeingViewed.getOpponent().equals( player ) ) {
+                return currPlayerBeingViewed; // returns
+            }
+        }
+        return null;
     }
 
 

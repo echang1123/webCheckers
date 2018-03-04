@@ -51,4 +51,28 @@ public class Player {
   }
 
 
+  /**
+   * Getter for the player's opponent
+   * @return the opponent
+   */
+  public Player getOpponent() {
+    return this.opponent;
+  }
+
+
+  /**
+   * Override the default equals to check player name
+   * @param o the object to compare with (Player)
+   * @return whether has the same username or not
+   */
+  @Override
+  public boolean equals( Object o ) {
+    if( o instanceof Player ) {
+      Player player = ( Player )o;
+      return this.name.equals( player.getName() );
+    }
+    return false;
+  }
+
+
 }

@@ -1,7 +1,9 @@
 package com.webcheckers.ui;
 
+import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.model.Board;
 import com.webcheckers.model.BoardView;
+import com.webcheckers.model.Piece;
 import com.webcheckers.model.Player;
 import spark.*;
 
@@ -12,9 +14,12 @@ import java.util.logging.Logger;
 
 /**
  * Created by Eugene on 3/3/2018.
+ * @author Karthik Iyer
+ * @author Emily Wesson
  */
 public class GetBoardRoute implements Route{
     private static final Logger LOG = Logger.getLogger(GetSignInRoute.class.getName());
+    public enum ViewMode { PLAY, SPECTATOR, REPLAY }
 
     static final String PLAYER_LOBBY_KEY = "playerLobby";
     static final String SIGNED_IN = "isSignedIn";
@@ -58,37 +63,69 @@ public class GetBoardRoute implements Route{
     @Override
     public Object handle(Request request, Response response) {
         LOG.finer("GetBoardRoute is invoked.");
-        //
+
         Map<String, Object> vm = new HashMap<>();
         vm.put("title", "Welcome!");
         final Session httpSession = request.session();
         String currentPlayerName = httpSession.attribute( CURRENT_PLAYER );
+        Player currentPlayer = players.get( currentPlayerName );
+        PlayerLobby playerLobby = httpSession.attribute( PLAYER_LOBBY_KEY );
 
         // check if you are the first player
         Boolean isFirstPlayer = false;
+        String opponentName = ""; // initialize the opponent name with an empty string
         for( String playerName : players.keySet() ) { // iterate through all the players
-            if( playerName.equals( currentPlayerName ) ) { // current player
+            if( playerName.equals( currentPlayerName ) ) // skip if we run into the current player
                 continue;
-            }
-            else { // other player
+            else { //otherwise, for other players...
                 String playerButton = request.queryParams( playerName ); // get the button
-                if( playerButton == null ) {
+                if( playerButton == null ) // not pressed
                     continue;
-                }
-                else {
+                else { // has been pressed
+                    opponentName = playerName; //get the opponent's name
+                    if( players.get( opponentName ).getOpponent() != null ) { // the selected opponent is already in game
+                        String message = "Player \"" + opponentName + "\" is already playing a game.";
+                        vm.put( "message", message );
+                        vm.put( CURRENT_PLAYER, currentPlayerName );
+                        Map< String, Player > otherPlayers = new HashMap<>( players );
+                        otherPlayers.remove( currentPlayerName ); // remove the current player from being shown
+                        vm.put( PLAYERS, otherPlayers );
+                        vm.put( SIGNED_IN, true );
+                        return templateEngine.render( new ModelAndView( vm, "home.ftl" ) );
+                    }
                     isFirstPlayer = true;
                     break;
                 }
             }
         }
 
-        Board boardModel = new Board(); // create the board model and put in the pieces
-        BoardView board = new BoardView( boardModel ); // create the view for the template
+        // add main info
+        Board boardModel = new Board( isFirstPlayer );
+        BoardView board = boardModel.getBoardView();
+        vm.put( "board", board );
+        vm.put( "viewMode", ViewMode.PLAY );
+        vm.put( CURRENT_PLAYER, currentPlayer );
+        vm.put( "activeColor", Piece.Color.RED );
 
-        if( isFirstPlayer ) { // you are the first player
-            Player currentPlayer = ( Player )players.get( currentPlayerName );
+        // set opponent, redplayer, whiteplayer
+        Player opponent;
+        System.out.println( currentPlayerName + " " + isFirstPlayer.toString() );
+        if( isFirstPlayer ) {
+            opponent = players.get( opponentName );
+            currentPlayer.addOpponent( opponent );
+            vm.put( "redPlayer", currentPlayer );
+            vm.put( "whitePlayer", opponent );
+        }
+        else {
+            opponent = playerLobby.findOpponent( currentPlayer );
+            System.out.println( opponent.toString() );
+            currentPlayer.addOpponent( opponent );
+            vm.put( "redPlayer", opponent );
+            vm.put( "whitePlayer", currentPlayer );
         }
 
-        return null;
+        // render
+        return templateEngine.render( new ModelAndView( vm, "game.ftl" ) );
+
     }
 }
