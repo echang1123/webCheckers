@@ -77,10 +77,27 @@ public class GetHomeRoute implements Route {
 
     else { // player is signed in
       vm.put( CURRENT_PLAYER, httpSession.attribute( CURRENT_PLAYER ) );
-      Map< String, Object > otherPlayers = new HashMap<>( players );
+      Map< String, Player > otherPlayers = new HashMap<>( players );
       otherPlayers.remove( httpSession.attribute( CURRENT_PLAYER ) ); // remove the current player, so doesn't get shown
       vm.put( PLAYERS, otherPlayers );
       vm.put( SIGNED_IN, true );
+
+//      for(Map.Entry<String, Player> e: otherPlayers.entrySet()){
+//        String opponentName = e.getValue().getOpponent().getName();
+//        String myName = httpSession.attribute( CURRENT_PLAYER );
+//        Player me = players.get(myName);
+//        if(opponentName.equals(myName)){
+//          boolean isAdded = me.addOpponent(e.getValue());
+//          if(isAdded){
+//            return templateEngine.render(new ModelAndView(vm, "game.ftl"));
+//          }
+//          else{
+//              String msg = "Player in game selected different player!";
+//              vm.put( "message", msg); // add the error message
+//          }
+//        }
+//      }
+
 
     }
     return templateEngine.render( new ModelAndView( vm, "home.ftl" ) );
