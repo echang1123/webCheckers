@@ -37,6 +37,9 @@
               <#else>
               No other players online :( <br>
           </#list>
+          <#if message??>
+              <div class="error">${message}</div>
+          </#if>
       </#if >
   </div>
 

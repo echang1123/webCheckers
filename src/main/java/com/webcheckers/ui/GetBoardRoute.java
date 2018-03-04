@@ -63,7 +63,7 @@ public class GetBoardRoute implements Route{
     @Override
     public Object handle(Request request, Response response) {
         LOG.finer("GetBoardRoute is invoked.");
-        //
+
         Map<String, Object> vm = new HashMap<>();
         vm.put("title", "Welcome!");
         final Session httpSession = request.session();
@@ -73,51 +73,58 @@ public class GetBoardRoute implements Route{
 
         // check if you are the first player
         Boolean isFirstPlayer = false;
-        String opponentName = "";
+        String opponentName = ""; // initialize the opponent name as empty
         for( String playerName : players.keySet() ) { // iterate through all the players
-            if( playerName.equals( currentPlayerName ) ) { // current player
+            if( playerName.equals( currentPlayerName ) ) // current player
                 continue;
-            }
             else { // other player
                 String playerButton = request.queryParams( playerName ); // get the button
-                if( playerButton == null ) {
+                if( playerButton == null ) // not pressed
                     continue;
-                }
-                else {
+                else { // has been pressed
                     isFirstPlayer = true;
                     opponentName = playerName; //get the opponent's name
+                    if( players.get( opponentName ).getOpponent() != null ) { // the selected opponent is already in game
+                        String message = "Player \"" + opponentName + "\" is already playing a game.";
+                        vm.put( "message", message );
+                        vm.put( CURRENT_PLAYER, currentPlayerName );
+                        Map< String, Player > otherPlayers = new HashMap<>( players );
+                        otherPlayers.remove( currentPlayerName ); // remove the current player, so doesn't get shown
+                        vm.put( PLAYERS, otherPlayers );
+                        vm.put( SIGNED_IN, true );
+                        templateEngine.render( new ModelAndView( vm, "home.ftl" ) );
+                    }
                     break;
                 }
             }
         }
 
-        Player opponent;
-        //set your opponent
-        if(isFirstPlayer){
-            opponent = players.get( opponentName );
-            currentPlayer.addOpponent( opponent ); //add 2nd player as opponent
-        }
-        else{
-            opponent = playerLobby.findOpponent( currentPlayer ); //only if 2nd player
-            currentPlayer.addOpponent( opponent );
-        }
-
-        Board boardModel = new Board( isFirstPlayer ); // create the board model and put in the pieces
-        BoardView board = boardModel.getBoardView(); // create the view for the template
-
+        // add main info
+        Board boardModel = new Board( isFirstPlayer );
+        BoardView board = boardModel.getBoardView();
         vm.put( "board", board );
         vm.put( "viewMode", ViewMode.PLAY );
         vm.put( CURRENT_PLAYER, currentPlayer );
+        vm.put( "activeColor", Piece.Color.RED );
+
+        // set opponent, redplayer, whiteplayer
+        Player opponent;
         if( isFirstPlayer ) {
+            opponent = players.get( opponentName );
+            currentPlayer.addOpponent( opponent );
             vm.put( "redPlayer", currentPlayer );
             vm.put( "whitePlayer", opponent );
         }
         else {
+            opponent = playerLobby.findOpponent( currentPlayer );
+            assert opponent != null; // make sure the opponent is not null
+            currentPlayer.addOpponent( opponent );
             vm.put( "redPlayer", opponent );
             vm.put( "whitePlayer", currentPlayer );
         }
-        vm.put( "activeColor", Piece.Color.RED );
 
+        // render
         return templateEngine.render( new ModelAndView( vm, "game.ftl" ) );
+
     }
 }

@@ -26,6 +26,7 @@ public class BoardView implements Iterable< Row > {
    */
   public BoardView( Board board ) {
     this.isFirst = board.isOwnedByFirstPlayer();
+    this.rows = new ArrayList<>();
     for( int row = 0; row < 8; row++ ) {
       Row newRow = new Row( row, this.isFirst );
       for( int col = 0; col < 8; col++ ) {
