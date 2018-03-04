@@ -68,7 +68,6 @@ public class GetBoardRoute implements Route{
         String currentPlayerName = httpSession.attribute( CURRENT_PLAYER );
         Player currentPlayer = players.get( currentPlayerName );
         PlayerLobby playerLobby = httpSession.attribute( PLAYER_LOBBY_KEY );
-        Player opponent = playerLobby.findOpponent( currentPlayer );
 
         // check if you are the first player
         Boolean isFirstPlayer = false;
@@ -88,6 +87,8 @@ public class GetBoardRoute implements Route{
             }
         }
 
+        Player opponent = playerLobby.findOpponent( currentPlayer );
+        currentPlayer.addOpponent( opponent );
         Board boardModel = new Board( isFirstPlayer ); // create the board model and put in the pieces
         BoardView board = boardModel.getBoardView(); // create the view for the template
 
