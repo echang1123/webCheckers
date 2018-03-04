@@ -82,23 +82,25 @@ public class GetHomeRoute implements Route {
       vm.put( PLAYERS, otherPlayers );
       vm.put( SIGNED_IN, true );
 
-//      for(Map.Entry<String, Player> e: otherPlayers.entrySet()){
-//        String opponentName = e.getValue().getOpponent().getName();
-//        String myName = httpSession.attribute( CURRENT_PLAYER );
-//        Player me = players.get(myName);
-//        if(opponentName.equals(myName)){
-//          boolean isAdded = me.addOpponent(e.getValue());
-//          if(isAdded){
-//            return templateEngine.render(new ModelAndView(vm, "game.ftl"));
-//          }
-//          else{
-//              String msg = "Player in game selected different player!";
-//              vm.put( "message", msg); // add the error message
-//          }
-//        }
-//      }
-
-
+      if(otherPlayers.size() > 0) { //need at least 1 other player to have a game
+        for (Map.Entry<String, Player> playerName : otherPlayers.entrySet()) {
+          Player opponent = playerName.getValue().getOpponent();
+          if(opponent != null){ //make sure opponent is not null
+            String opponentName = opponent.getName();
+            String myName = httpSession.attribute(CURRENT_PLAYER);
+            Player me = players.get(myName);
+            if (opponentName.equals(myName)) { //if the other player selected me as their opponent
+              boolean isAdded = me.addOpponent(playerName.getValue());
+              if (isAdded) {
+                return templateEngine.render(new ModelAndView(vm, "game.ftl")); //render the gameboard for me
+              } else {
+              String msg = "Player in game selected different player!";
+              vm.put( "message", msg); // add the error message
+              }
+            }
+          }
+        }
+      }
     }
     return templateEngine.render( new ModelAndView( vm, "home.ftl" ) );
   }
