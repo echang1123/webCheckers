@@ -69,14 +69,15 @@ public class PlayerLobby {
      */
     public Player findOpponent( Player player ) {
         for( String key : this.players.keySet() ) {
+            Player currPlayerBeingViewed = this.players.get( key ); //current player- one of the other signed in players
             if( key.equals( player.getName() ) ) {
                 continue;
             }
-            else if( this.players.get( key ).getOpponent() == null ) {
+            else if( currPlayerBeingViewed.getOpponent() == null ) {
                 continue;
             }
-            else if( this.players.get( key ).equals( player.getName() ) ) {
-                return this.players.get( key );
+            else if( currPlayerBeingViewed.getOpponent().equals( player ) ) {
+                return currPlayerBeingViewed; // returns
             }
         }
         return null;

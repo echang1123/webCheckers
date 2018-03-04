@@ -117,7 +117,7 @@ public class GetBoardRoute implements Route{
             vm.put( "whitePlayer", opponent );
         }
         else {
-            opponent = playerLobby.findOpponent( currentPlayer );
+            opponent = playerLobby.findOpponent( currentPlayer ); //FIX HERE TODO
             System.out.println( opponent.toString() );
             currentPlayer.addOpponent( opponent );
             vm.put( "redPlayer", opponent );
