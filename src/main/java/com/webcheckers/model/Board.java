@@ -26,7 +26,7 @@ public class Board {
         for(int x=0; x<3; x++){
           Piece redPiece= new Piece(Piece.PieceType.SINGLE, Piece.Color.RED);
           this.spaces[ row ][ col ] = new Space( col, redPiece, ( row % 2 ) == ( col % 2 ) );
-          // a space is valid ( dark ) if both the row index and the column index share the same parity ( even or odd )
+          // a space is valid ( dark ) if both the row index and the column index share the same parity ( even or odd)
         }
         for(int x=7; x<4; x++){
           Piece whitePiece= new Piece(Piece.PieceType.SINGLE, Piece.Color.WHITE);
