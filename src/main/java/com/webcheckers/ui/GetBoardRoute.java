@@ -82,11 +82,12 @@ public class GetBoardRoute implements Route{
             }
         }
 
-        Board boardModel = new Board(); // create the board model and put in the pieces
+        Board boardModel = new Board( isFirstPlayer ); // create the board model and put in the pieces
         BoardView board = new BoardView( boardModel ); // create the view for the template
 
         if( isFirstPlayer ) { // you are the first player
-            Player currentPlayer = ( Player )players.get( currentPlayerName );
+            Player currentPlayer = players.get( currentPlayerName );
+
         }
 
         return null;
