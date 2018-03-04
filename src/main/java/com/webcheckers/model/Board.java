@@ -23,16 +23,16 @@ public class Board {
     // create empty spaces
     for( int row = 0; row < 8; row++ ) {
       for( int col = 0; col < 8; col++ ) {
-          if(row%2!=col%2  && row<3){
+          if(row%2==col%2  && row<3){
             Piece redPiece= new Piece(Piece.PieceType.SINGLE, Piece.Color.RED);
-            this.spaces[ row ][ col ] = new Space( col, redPiece, ( row % 2 ) != ( col % 2 ) );
+            this.spaces[ row ][ col ] = new Space( col, redPiece, ( row % 2 ) == ( col % 2 ) );
           }
-          else if(row%2!=col%2  && row>4){
+          else if(row%2==col%2  && row>4){
             Piece whitePiece= new Piece(Piece.PieceType.SINGLE, Piece.Color.WHITE);
-            this.spaces[ row ][ col ] = new Space( col, whitePiece, ( row % 2 ) != ( col % 2 ) );
+            this.spaces[ row ][ col ] = new Space( col, whitePiece, ( row % 2 ) == ( col % 2 ) );
           }
           else {
-            this.spaces[ row ][ col ] = new Space( col, null, ( row % 2 ) != ( col % 2 ) );
+            this.spaces[ row ][ col ] = new Space( col, null, ( row % 2 ) == ( col % 2 ) );
           }
           // a space is valid ( dark ) if both the row index and the column index share the same parity ( even or odd)
       }
