@@ -11,15 +11,15 @@ public class Board {
 
   // Attributes
   private Space spaces[][]; // the spaces
-
+  private boolean ownedByFirstPlayer;
 
   /**
    * Constructor for the Board class
    * Automagically adds the spaces to the Board
    */
-  public Board() {
+  public Board(boolean ownedByFirstPlayer) {
     this.spaces = new Space[ 8 ][ 8 ]; // initialize ( construct ) the 2D array
-
+    this.ownedByFirstPlayer = ownedByFirstPlayer;
     // create empty spaces
     for( int row = 0; row < 8; row++ ) {
       for( int col = 0; col < 8; col++ ) {
@@ -58,7 +58,6 @@ public class Board {
     return this.spaces[ row ][ col ];
   }
 
-
   /**
    * BoardView generator for this Board (this is only there for the View)
    * The BoardView can iterate over a Collection of Rows, and Row can iterate over a Collection of Spaces
@@ -66,7 +65,10 @@ public class Board {
    */
   public BoardView getBoardView() {
     return new BoardView( this );
+
   }
 
-
+  public boolean isOwnedByFirstPlayer() {
+    return ownedByFirstPlayer;
+  }
 }
