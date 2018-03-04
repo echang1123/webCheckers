@@ -91,7 +91,7 @@ public class GetBoardRoute implements Route{
                         otherPlayers.remove( currentPlayerName ); // remove the current player from being shown
                         vm.put( PLAYERS, otherPlayers );
                         vm.put( SIGNED_IN, true );
-                        templateEngine.render( new ModelAndView( vm, "home.ftl" ) );
+                        return templateEngine.render( new ModelAndView( vm, "home.ftl" ) );
                     }
                     isFirstPlayer = true;
                     break;
@@ -117,7 +117,7 @@ public class GetBoardRoute implements Route{
             vm.put( "whitePlayer", opponent );
         }
         else {
-            opponent = playerLobby.findOpponent( currentPlayer ); //FIX HERE TODO
+            opponent = playerLobby.findOpponent( currentPlayer );
             System.out.println( opponent.toString() );
             currentPlayer.addOpponent( opponent );
             vm.put( "redPlayer", opponent );
