@@ -1,4 +1,4 @@
-/**
+/*
  * POST "/signin" Route Handler
  *
  * @author Eugene Chang
@@ -39,14 +39,14 @@ public class PostSignInRoute implements Route{
      * @param templateEngine the template engine to render the HTML template
      * @param players the hash table of players
      */
-    public PostSignInRoute(TemplateEngine templateEngine, final HashMap<String, Player > players) {
+    public PostSignInRoute( TemplateEngine templateEngine, final HashMap< String, Player > players ) {
         // validation
-        Objects.requireNonNull(templateEngine, "templateEngine must not be null");
-        Objects.requireNonNull(templateEngine, "players must not be null");
+        Objects.requireNonNull( templateEngine, "templateEngine must not be null" );
+        Objects.requireNonNull( templateEngine, "players must not be null" );
 
         this.templateEngine = templateEngine;
         this.players = players;
-        LOG.config("PostSignInRoute is initialized.");
+        LOG.config( "PostSignInRoute is initialized." );
     }
 
 
@@ -59,25 +59,27 @@ public class PostSignInRoute implements Route{
      */
     @Override
     public Object handle( Request request, Response response ) {
+        LOG.finer( "PostSignInRoute is invoked." );
 
+        // construct the view model
         final Map< String, Object > vm = new HashMap<>();
-        vm.put("title", "Sign In");
+        vm.put( "title", "Sign In" );
         final Session session = request.session();
-        final String userName = request.queryParams("name");
+        final String userName = request.queryParams( "name" );
         if( userName.isEmpty() ) {
             String msg = "You must enter a username.";
-            vm.put( "message", msg); // add the error message
+            vm.put( "message", msg ); // add the error message
             return templateEngine.render( new ModelAndView( vm, "signin.ftl" ) );
         }
         else {
             PlayerLobby playerLobby = session.attribute( PLAYER_LOBBY_KEY );
             Player player = new Player( userName );
-            if( playerLobby.addPlayer( player, vm ) ) {
+            if( playerLobby.addPlayer( player, vm ) ) { // try adding the username to the hash table
                 session.attribute( SIGNED_IN, true );
                 session.attribute( CURRENT_PLAYER, userName );
                 response.redirect( WebServer.HOME_URL );
             }
-            else {
+            else { // didn't work!
                 return templateEngine.render( new ModelAndView( vm, "signin.ftl" ) );
             }
         }

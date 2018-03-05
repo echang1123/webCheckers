@@ -1,4 +1,4 @@
-/**
+/*
  * Class that handles player sign-in and sign-out
  *
  * @author Eugene Chang
@@ -17,14 +17,14 @@ import java.util.logging.Logger;
 
 public class PlayerLobby {
     private static final Logger LOG = Logger.getLogger( PlayerLobby.class.getName() );
-    private HashMap<String, Player> players;
+    private HashMap< String, Player > players;
 
 
     /**
      * Constructor for a PlayerLobby
      * @param players the hashtable of all signed-in players
      */
-    public PlayerLobby( final HashMap<String,Player> players ) {
+    public PlayerLobby( final HashMap< String, Player > players ) {
         this.players = players;
         LOG.fine( "New player lobby instance created." );
     }

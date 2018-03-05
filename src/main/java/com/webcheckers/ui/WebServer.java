@@ -1,4 +1,4 @@
-/**
+/*
  * The server that initializes the set of HTTP request handlers.
  * This defines the web application interface for this
  * WebCheckers application.
@@ -24,7 +24,7 @@ import spark.TemplateEngine;
 
 
 public class WebServer {
-  private static final Logger LOG = Logger.getLogger(WebServer.class.getName());
+  private static final Logger LOG = Logger.getLogger( WebServer.class.getName() );
 
   // Keys
   public static final String HOME_URL = "/";
@@ -35,7 +35,7 @@ public class WebServer {
   // Attributes
   private final TemplateEngine templateEngine;
   private final Gson gson;
-  private HashMap<String, Player > players;
+  private HashMap< String, Player > players;
 
 
   /**
@@ -46,9 +46,9 @@ public class WebServer {
    */
   public WebServer( final TemplateEngine templateEngine, final Gson gson, final HashMap< String, Player > players ) {
     // validation
-    Objects.requireNonNull(templateEngine, "templateEngine must not be null");
-    Objects.requireNonNull(gson, "gson must not be null");
-    Objects.requireNonNull(players, "players must not be null");
+    Objects.requireNonNull( templateEngine, "templateEngine must not be null" );
+    Objects.requireNonNull( gson, "gson must not be null" );
+    Objects.requireNonNull( players, "players must not be null" );
 
     this.templateEngine = templateEngine;
     this.gson = gson;
@@ -65,15 +65,15 @@ public class WebServer {
   public void initialize() {
 
     // Configuration to serve static files
-    staticFileLocation("/public");
+    staticFileLocation( "/public" );
 
-    // Shows the Checkers game Home page.
-    get(HOME_URL, new GetHomeRoute(templateEngine,players));
-    get(SIGN_URL, new GetSignInRoute(templateEngine,players));
-    post(SIGN_URL, new PostSignInRoute(templateEngine,players));
-    get(SIGN_OUT_URL, new GetSignOutRoute(templateEngine,players));
-    get(INGAME_URL, new GetBoardRoute(templateEngine,players));
-    LOG.config("WebServer is initialized.");
+    // Set up the route handlers
+    get( HOME_URL, new GetHomeRoute( templateEngine, players ) );
+    get( SIGN_URL, new GetSignInRoute( templateEngine, players ) );
+    post( SIGN_URL, new PostSignInRoute( templateEngine, players ) );
+    get( SIGN_OUT_URL, new GetSignOutRoute( templateEngine, players ) );
+    get( INGAME_URL, new GetBoardRoute( templateEngine, players ) );
+    LOG.config( "WebServer is initialized." );
   }
 
 }

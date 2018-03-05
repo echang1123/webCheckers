@@ -1,4 +1,4 @@
-/**
+/*
  * This class represents a Row on the BoardView (for the template)
  *
  * @author Karthik Iyer
@@ -70,8 +70,10 @@ public class Row implements Iterable< Space > {
    * @param isFirst whether first player perspective or not
    */
   public void setIterator( Boolean isFirst ) {
-    if( isFirst ) this.spaceIterator = this.spaces.iterator();
-    else this.spaceIterator = new ReverseIterator<>( this.spaces );
+    if( isFirst )
+      this.spaceIterator = this.spaces.iterator();
+    else
+      this.spaceIterator = new ReverseIterator<>( this.spaces );
   }
 
 

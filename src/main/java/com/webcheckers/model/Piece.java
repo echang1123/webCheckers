@@ -1,4 +1,4 @@
-/**
+/*
  * Class that represents a Piece on the board
  *
  * @author Karthik Iyer
@@ -10,8 +10,8 @@ package com.webcheckers.model;
 public class Piece {
 
   // Enums
-  public enum PieceType { SINGLE, KING };
-  public enum Color { RED, WHITE };
+  public enum PieceType { SINGLE, KING } // type of the piece
+  public enum Color { RED, WHITE } // color of the piece
 
   // Attributes
   public PieceType pieceType; // the type of piece

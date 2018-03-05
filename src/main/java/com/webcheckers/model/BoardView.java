@@ -1,7 +1,8 @@
-/**
+/*
  * Class that represents a BoardView to be used in the Freemarker template (game.ftl)
  *
  * @author Karthik Iyer
+ * @author Hongda Lin
  */
 
 
@@ -10,7 +11,6 @@ package com.webcheckers.model;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 
 public class BoardView implements Iterable< Row > {
 
@@ -45,10 +45,10 @@ public class BoardView implements Iterable< Row > {
    */
   @Override
   public Iterator< Row > iterator() {
-    if( !this.isFirst ) {
+    if( !this.isFirst ) { // not the first player, so iterate start to end
       return this.rows.iterator();
     }
-    else {
+    else { // first player, so iterate end to start
       return new ReverseIterator<>( this.rows );
     }
   }
@@ -58,6 +58,8 @@ public class BoardView implements Iterable< Row > {
    * Getter for the is first
    * @return whether the board view is for the first player
    */
-  public boolean getIsFirst(){ return isFirst;}
+  public boolean getIsFirst(){
+    return isFirst;
+  }
 
 }

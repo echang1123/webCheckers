@@ -1,3 +1,10 @@
+/*
+ * Class that is a generic reverse ArrayList iterator
+ *
+ * @author Karthik Iyer
+ */
+
+
 package com.webcheckers.model;
 
 
@@ -5,11 +12,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-/**
- * Class that is a generic reverse iterator
- */
+
 public class ReverseIterator< E > implements Iterator< E > {
 
+	// Attributes
 	private int index; // the starting index
 	private ArrayList< E > list; // the array list
 
@@ -45,4 +51,5 @@ public class ReverseIterator< E > implements Iterator< E > {
 		}
 		throw new NoSuchElementException();
 	}
+
 }

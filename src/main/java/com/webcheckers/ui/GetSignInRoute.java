@@ -1,4 +1,4 @@
-/**
+/*
  * GET "/signin" route handler
  *
  * @author Eugene Chang
@@ -21,17 +21,17 @@ import java.util.logging.Logger;
 public class GetSignInRoute implements Route{
 
     // Attributes
-    private static final Logger LOG = Logger.getLogger(GetSignInRoute.class.getName());
+    private static final Logger LOG = Logger.getLogger( GetSignInRoute.class.getName() );
     private final TemplateEngine templateEngine;
-    private HashMap<String, Player > players;
+    private HashMap< String, Player > players;
 
     /**
      * Constructor for the GetSignInRoute route handler
      * @param templateEngine the HTML template rendering engine
      */
-    public GetSignInRoute(final TemplateEngine templateEngine, final HashMap<String,Player> players) {
+    public GetSignInRoute( final TemplateEngine templateEngine, final HashMap< String,Player > players ) {
         // validation
-        Objects.requireNonNull(templateEngine, "templateEngine must not be null");
+        Objects.requireNonNull( templateEngine, "templateEngine must not be null" );
         Objects.requireNonNull( players, "players must not be null" );
 
         this.templateEngine = templateEngine;

@@ -1,4 +1,4 @@
-/**
+/*
  * The entry point for the WebCheckers web application.
  *
  * @author Eugene Chang
@@ -33,7 +33,7 @@ public final class Application {
 	 * It wires the application components together.
 	 * @param args Command line arguments; none expected.
 	 */
-	public static void main(String[] args) {
+	public static void main( String[] args ) {
 
 		// initialize Logging
 		try {
@@ -45,7 +45,7 @@ public final class Application {
 			System.err.println( "Could not initialize log manager because: " + e.getMessage() );
 		}
 
-		// List of usernames (players) that are signed in
+		// Hash map of player usernames (players) that are signed in
 		final HashMap< String, Player > players = new HashMap<>();
 
 		// The application uses FreeMarker templates to generate the HTML
@@ -78,7 +78,7 @@ public final class Application {
 	 */
 	private Application( final WebServer webServer ) {
 		// validation
-		Objects.requireNonNull(webServer, "webServer must not be null");
+		Objects.requireNonNull( webServer, "webServer must not be null" );
 
 		this.webServer = webServer;
 	}
@@ -90,14 +90,14 @@ public final class Application {
 	 */
 	private void initialize() {
 
-		LOG.config("WebCheckers is initializing.");
+		LOG.config( "WebCheckers is initializing." );
 
 		// configure Spark and startup the Jetty web server
 		webServer.initialize();
 
 		// other applications might have additional services to configure
 
-		LOG.config("WebCheckers initialization complete.");
+		LOG.config( "WebCheckers initialization complete." );
 	}
 
 }

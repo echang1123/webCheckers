@@ -1,4 +1,4 @@
-/**
+/*
  * Class that represents a Player
  *
  * @author Karthik Iyer
@@ -15,6 +15,7 @@ public class Player {
   private String name; // the name of the player
   private Boolean isInGame;
   private Player opponent;
+
 
   /**
    * Constructor for the Player class
@@ -42,7 +43,7 @@ public class Player {
    * @return true if added successfully, false if already in game
    */
   public Boolean addOpponent( Player opponent ) {
-    if( this.isInGame ) {
+    if( this.isInGame ) { // already in a game, has an opponent
       return false;
     }
     this.isInGame = true;
@@ -73,6 +74,5 @@ public class Player {
     }
     return false;
   }
-
 
 }

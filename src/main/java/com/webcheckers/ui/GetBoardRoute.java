@@ -1,3 +1,12 @@
+/*
+ * GET "/board" Route Handler
+ *
+ * @author Karthik Iyer
+ * @author Eugene Chang
+ * @author Emily Wesson
+ */
+
+
 package com.webcheckers.ui;
 
 import com.webcheckers.appl.PlayerLobby;
@@ -12,59 +21,52 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
-/**
- * Created by Eugene on 3/3/2018.
- * @author Karthik Iyer
- * @author Emily Wesson
- */
+
 public class GetBoardRoute implements Route{
+
     private static final Logger LOG = Logger.getLogger(GetSignInRoute.class.getName());
     public enum ViewMode { PLAY, SPECTATOR, REPLAY }
 
+    // Keys
     static final String PLAYER_LOBBY_KEY = "playerLobby";
     static final String SIGNED_IN = "isSignedIn";
     static final String CURRENT_PLAYER = "currentPlayer";
     static final String PLAYERS = "players";
     public static final String INGAME_URL = "/board";
 
+    // Attributes
     private final TemplateEngine templateEngine;
     private HashMap<String, Player> players;
 
 
     /**
-     * Create the Spark Route (UI controller) for the
-     * {@code GET /} HTTP request.
-     *
-     * @param templateEngine
-     *   the HTML template rendering engine
+     * Constructor for the GetBoardRoute route handler
+     * @param templateEngine  the HTML template rendering engine
+     * @param players the hashmap of player usernames --> player objects
      */
-    public GetBoardRoute(final TemplateEngine templateEngine, final HashMap<String,Player> players) {
+    public GetBoardRoute( final TemplateEngine templateEngine, final HashMap< String,Player > players ) {
         // validation
-        Objects.requireNonNull(templateEngine, "templateEngine must not be null");
-        //
+        Objects.requireNonNull( templateEngine, "templateEngine must not be null" );
+
         this.templateEngine = templateEngine;
         this.players = players;
         //
-        LOG.config("GetBoardRoute is initialized.");
+        LOG.config( "GetBoardRoute is initialized." );
     }
 
 
     /**
      * Render the signed-in WebCheckers Home page.
-     *
-     * @param request
-     *   the HTTP request
-     * @param response
-     *   the HTTP response
-     *
-     * @return
-     *   the rendered HTML for the Home page
+     * @param request  the HTTP request
+     * @param response  the HTTP response
+     * @return the rendered HTML for the Home page
      */
     @Override
-    public Object handle(Request request, Response response) {
-        LOG.finer("GetBoardRoute is invoked.");
+    public Object handle( Request request, Response response ) {
+        LOG.finer( "GetBoardRoute is invoked." );
 
-        Map<String, Object> vm = new HashMap<>();
+        // construct the view model
+        Map< String, Object > vm = new HashMap<>();
         vm.put("title", "Welcome!");
         final Session httpSession = request.session();
         String currentPlayerName = httpSession.attribute( CURRENT_PLAYER );
@@ -77,12 +79,12 @@ public class GetBoardRoute implements Route{
         for( String playerName : players.keySet() ) { // iterate through all the players
             if( playerName.equals( currentPlayerName ) ) // skip if we run into the current player
                 continue;
-            else { //otherwise, for other players...
+            else { // otherwise, for other players...
                 String playerButton = request.queryParams( playerName ); // get the button
                 if( playerButton == null ) // not pressed
                     continue;
                 else { // has been pressed
-                    opponentName = playerName; //get the opponent's name
+                    opponentName = playerName; // get the opponent's name
                     if( players.get( opponentName ).getOpponent() != null ) { // the selected opponent is already in game
                         String message = "Player \"" + opponentName + "\" is already playing a game.";
                         vm.put( "message", message );
@@ -91,6 +93,7 @@ public class GetBoardRoute implements Route{
                         otherPlayers.remove( currentPlayerName ); // remove the current player from being shown
                         vm.put( PLAYERS, otherPlayers );
                         vm.put( SIGNED_IN, true );
+                        // render home with error message
                         return templateEngine.render( new ModelAndView( vm, "home.ftl" ) );
                     }
                     isFirstPlayer = true;
@@ -109,14 +112,13 @@ public class GetBoardRoute implements Route{
 
         // set opponent, redplayer, whiteplayer
         Player opponent;
-        System.out.println( currentPlayerName + " " + isFirstPlayer.toString() );
-        if( isFirstPlayer ) {
+        if( isFirstPlayer ) { // first player
             opponent = players.get( opponentName );
             currentPlayer.addOpponent( opponent );
             vm.put( "redPlayer", currentPlayer );
             vm.put( "whitePlayer", opponent );
         }
-        else {
+        else { // second player
             opponent = playerLobby.findOpponent( currentPlayer );
             System.out.println( opponent.toString() );
             currentPlayer.addOpponent( opponent );

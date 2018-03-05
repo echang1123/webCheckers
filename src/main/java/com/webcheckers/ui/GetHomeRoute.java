@@ -1,4 +1,4 @@
-/**
+/*
  * GET "/" Route Handler
  *
  * @author Eugene Chang
@@ -66,7 +66,7 @@ public class GetHomeRoute implements Route {
 
         // first time opening
         final Session httpSession = request.session();
-        if( httpSession.attribute(PLAYER_LOBBY_KEY) == null ) {
+        if( httpSession.attribute( PLAYER_LOBBY_KEY ) == null ) {
             final PlayerLobby playerLobby = new PlayerLobby( players );
             httpSession.attribute( PLAYER_LOBBY_KEY, playerLobby );
         }
@@ -95,13 +95,14 @@ public class GetHomeRoute implements Route {
                     Player player = otherPlayers.get( playerName ); // get the player
                     if( player.getOpponent() == null ) // not selected
                         continue;
-                    else if( player.getOpponent().equals( currentPlayer ) ) { // you've have been selected
+                    else if( player.getOpponent().equals( currentPlayer ) ) { // you've have been selected; redirect
                         response.redirect( INGAME_URL );
                     }
                 }
             }
         }
 
+        // render
         return templateEngine.render( new ModelAndView( vm, "home.ftl" ) );
 
     }

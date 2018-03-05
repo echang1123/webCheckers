@@ -1,4 +1,4 @@
-/**
+/*
  * GET "/signout" route handler
  *
  * @author Eugene Chang
@@ -13,7 +13,6 @@ import com.webcheckers.model.Player;
 import spark.*;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
@@ -41,10 +40,9 @@ public class GetSignOutRoute implements Route{
     public GetSignOutRoute( final TemplateEngine templateEngine, final HashMap< String, Player > players ) {
         // validation
         Objects.requireNonNull( templateEngine, "templateEngine must not be null" );
-        //
+
         this.templateEngine = templateEngine;
         this.players = players;
-        //
         LOG.config( "GetSignOutRoute is initialized." );
     }
 
@@ -53,14 +51,12 @@ public class GetSignOutRoute implements Route{
      * Render the signed-in WebCheckers Home page.
      * @param request the HTTP request
      * @param response  the HTTP response
-     * @return the rendered HTML for the Home page
+     * @return the rendered HTML for the Home page (redirects to GetHomeRoute )
      */
     @Override
     public Object handle( Request request, Response response ) {
         LOG.finer( "GetSignOutRoute is invoked." );
-        //
-        Map< String, Object > vm = new HashMap<>();
-        vm.put( "title", "Welcome!" );
+
         final Session session = request.session();
         String username = session.attribute( CURRENT_PLAYER );
         if( players.containsKey( username ) )

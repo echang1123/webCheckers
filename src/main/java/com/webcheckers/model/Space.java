@@ -1,4 +1,4 @@
-/**
+/*
  * Class that represents a Space
  *
  * @author Karthik Iyer
