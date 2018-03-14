@@ -9,10 +9,12 @@
 
 package com.webcheckers.ui;
 
+
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.appl.RoutesAndKeys;
 import com.webcheckers.model.Player;
 import spark.*;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +24,6 @@ import java.util.logging.Logger;
 
 public class PostSignInRoute implements Route{
 
-    // Attributes
     private static final Logger LOG = Logger.getLogger(PostSignInRoute.class.getName());
     private final TemplateEngine templateEngine;
     private final PlayerLobby playerLobby;

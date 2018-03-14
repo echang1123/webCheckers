@@ -9,17 +9,18 @@
 
 package com.webcheckers;
 
+
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
+
 import com.google.gson.Gson;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.model.Player;
 import com.webcheckers.ui.WebServer;
-
 import spark.TemplateEngine;
 import spark.template.freemarker.FreeMarkerEngine;
 
@@ -46,9 +47,7 @@ public final class Application {
 			System.err.println( "Could not initialize log manager because: " + e.getMessage() );
 		}
 
-		// Hash map of player usernames (players) that are signed in
-		final HashMap< String, Player > players = new HashMap<>();
-
+		// the player lobby
 		final PlayerLobby playerLobby = new PlayerLobby();
 
 		// The application uses FreeMarker templates to generate the HTML

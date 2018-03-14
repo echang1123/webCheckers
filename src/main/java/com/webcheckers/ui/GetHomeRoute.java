@@ -10,10 +10,12 @@
 
 package com.webcheckers.ui;
 
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
+
 
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.appl.RoutesAndKeys;
@@ -22,9 +24,8 @@ import spark.*;
 
 
 public class GetHomeRoute implements Route {
-    private static final Logger LOG = Logger.getLogger( GetHomeRoute.class.getName() );
 
-    // Attributes
+    private static final Logger LOG = Logger.getLogger( GetHomeRoute.class.getName() );
     private final TemplateEngine templateEngine;
     private final PlayerLobby playerLobby;
 
@@ -32,6 +33,7 @@ public class GetHomeRoute implements Route {
     /**
      * Constructor for the GetHomeRoute routehandler
      * @param templateEngine the HTML template rendering engine
+     * @param playerLobby the player lobby
      */
     public GetHomeRoute( final TemplateEngine templateEngine, final PlayerLobby playerLobby ) {
         // validation

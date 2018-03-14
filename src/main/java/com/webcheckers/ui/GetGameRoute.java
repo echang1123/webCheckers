@@ -1,5 +1,5 @@
 /*
- * GET "/board" Route Handler
+ * GET "/game" Route Handler
  *
  * @author Karthik Iyer
  * @author Eugene Chang
@@ -9,6 +9,7 @@
 
 package com.webcheckers.ui;
 
+
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.appl.RoutesAndKeys;
 import com.webcheckers.model.Board;
@@ -16,6 +17,7 @@ import com.webcheckers.model.BoardView;
 import com.webcheckers.model.Piece;
 import com.webcheckers.model.Player;
 import spark.*;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,10 +27,9 @@ import java.util.logging.Logger;
 
 public class GetGameRoute implements Route {
 
-    private static final Logger LOG = Logger.getLogger(GetSignInRoute.class.getName());
     public enum ViewMode { PLAY, SPECTATOR, REPLAY }
 
-    // Attributes
+    private static final Logger LOG = Logger.getLogger(GetSignInRoute.class.getName());
     private final TemplateEngine templateEngine;
     private final PlayerLobby playerLobby;
 
@@ -36,6 +37,7 @@ public class GetGameRoute implements Route {
     /**
      * Constructor for the GetGameRoute route handler
      * @param templateEngine  the HTML template rendering engine
+     * @param playerLobby the player lobby
      */
     public GetGameRoute( final TemplateEngine templateEngine, final PlayerLobby playerLobby ) {
         // validation

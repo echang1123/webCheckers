@@ -11,22 +11,21 @@
 
 package com.webcheckers.ui;
 
+
 import static spark.Spark.*;
+import com.google.gson.Gson;
+
 
 import java.util.Objects;
 import java.util.logging.Logger;
-
-import com.google.gson.Gson;
-
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.appl.RoutesAndKeys;
 import spark.TemplateEngine;
 
 
 public class WebServer {
-  private static final Logger LOG = Logger.getLogger( WebServer.class.getName() );
 
-  // Attributes
+  private static final Logger LOG = Logger.getLogger( WebServer.class.getName() );
   private final TemplateEngine templateEngine;
   private final Gson gson;
   private final PlayerLobby playerLobby;
@@ -36,6 +35,7 @@ public class WebServer {
    * The constructor for the Web Server.
    * @param templateEngine The default {@link TemplateEngine} to render page-level HTML views.
    * @param gson  The Google JSON parser object used to render Ajax responses.
+   * @param playerLobby the player lobby
    * @throws NullPointerException If any of the parameters are {@code null}.
    */
   public WebServer( final TemplateEngine templateEngine, final Gson gson, PlayerLobby playerLobby ) {

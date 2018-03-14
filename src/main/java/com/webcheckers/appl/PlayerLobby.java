@@ -1,5 +1,5 @@
 /*
- * Class that handles player sign-in and sign-out
+ * Class that maintains player usernames, handles player sign in, sign out and also helps locate opponents
  *
  * @author Eugene Chang
  * @author Karthik Iyer
@@ -9,6 +9,7 @@
 
 package com.webcheckers.appl;
 
+
 import com.webcheckers.model.Player;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,8 +17,9 @@ import java.util.logging.Logger;
 
 
 public class PlayerLobby {
+
     private static final Logger LOG = Logger.getLogger( PlayerLobby.class.getName() );
-    private HashMap< String, Player > players;
+    private HashMap< String, Player > players; // usernames mapping to Player objects
 
 
     /**
