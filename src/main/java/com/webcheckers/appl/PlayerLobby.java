@@ -1,5 +1,5 @@
 /*
- * Class that handles player sign-in and sign-out
+ * Class that maintains player usernames, handles player sign in, sign out and also helps locate opponents
  *
  * @author Eugene Chang
  * @author Karthik Iyer
@@ -9,6 +9,7 @@
 
 package com.webcheckers.appl;
 
+
 import com.webcheckers.model.Player;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,17 +17,26 @@ import java.util.logging.Logger;
 
 
 public class PlayerLobby {
+
     private static final Logger LOG = Logger.getLogger( PlayerLobby.class.getName() );
-    private HashMap< String, Player > players;
+    private HashMap< String, Player > players; // usernames mapping to Player objects
 
 
     /**
      * Constructor for a PlayerLobby
-     * @param players the hashtable of all signed-in players
      */
-    public PlayerLobby( final HashMap< String, Player > players ) {
-        this.players = players;
+    public PlayerLobby() {
+        this.players = new HashMap<>();
         LOG.fine( "New player lobby instance created." );
+    }
+
+
+    /**
+     * Getter for the hash map of player usernames
+     * @return the hash map of player usernames
+     */
+    public HashMap< String, Player > getPlayers() {
+        return this.players;
     }
 
 
@@ -53,12 +63,10 @@ public class PlayerLobby {
     /**
      * Function that removes a player from the hash table
      * Ideally to be used ONLY for sign out
-     * @param player the player to remove ( sign out )
+     * @param playerName the player to remove ( sign out )
      */
-    public void removePlayer( Player player ){
-        if ( players.containsKey( player.getName() ) ) {
-            players.remove( player.getName() );
-        }
+    public void removePlayer( String playerName ){
+        players.remove( playerName );
     }
 
 
@@ -70,14 +78,14 @@ public class PlayerLobby {
      */
     public Player findOpponent( Player player ) {
         for( String key : this.players.keySet() ) {
-            Player currPlayerBeingViewed = this.players.get( key ); //current player- one of the other signed in players
-            if( key.equals( player.getName() ) ) {
+            Player currPlayerBeingViewed = this.players.get( key ); // current player: one of the signed in players
+            if( key.equals( player.getName() ) ) { // self
                 continue;
             }
-            else if( currPlayerBeingViewed.getOpponent() == null ) {
+            else if( currPlayerBeingViewed.getOpponent() == null ) { // no opponent
                 continue;
             }
-            else if( currPlayerBeingViewed.getOpponent().equals( player ) ) {
+            else if( currPlayerBeingViewed.getOpponent().equals( player ) ) { // found it
                 return currPlayerBeingViewed; // returns
             }
         }

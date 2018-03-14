@@ -10,42 +10,38 @@
 
 package com.webcheckers.ui;
 
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+
 import com.webcheckers.appl.PlayerLobby;
+import com.webcheckers.appl.RoutesAndKeys;
 import com.webcheckers.model.Player;
 import spark.*;
 
 
 public class GetHomeRoute implements Route {
+
     private static final Logger LOG = Logger.getLogger( GetHomeRoute.class.getName() );
-
-    // Keys
-    static final String PLAYER_LOBBY_KEY = "playerLobby";
-    static final String SIGNED_IN = "isSignedIn";
-    static final String CURRENT_PLAYER = "currentPlayer";
-    static final String PLAYERS = "players";
-    public static final String INGAME_URL = "/board";
-
-    // Attributes
     private final TemplateEngine templateEngine;
-    private HashMap< String, Player > players;
+    private final PlayerLobby playerLobby;
 
 
     /**
      * Constructor for the GetHomeRoute routehandler
      * @param templateEngine the HTML template rendering engine
+     * @param playerLobby the player lobby
      */
-    public GetHomeRoute( final TemplateEngine templateEngine, final HashMap< String, Player > players ) {
+    public GetHomeRoute( final TemplateEngine templateEngine, final PlayerLobby playerLobby ) {
         // validation
         Objects.requireNonNull( templateEngine, "templateEngine must not be null" );
-        Objects.requireNonNull( templateEngine, "players must not be null" );
+        Objects.requireNonNull( playerLobby, "playerLobby must not be null" );
 
         this.templateEngine = templateEngine;
-        this.players = players;
+        this.playerLobby = playerLobby;
         LOG.config( "GetHomeRoute is initialized." );
     }
 
@@ -66,40 +62,35 @@ public class GetHomeRoute implements Route {
 
         // first time opening
         final Session httpSession = request.session();
-        if( httpSession.attribute( PLAYER_LOBBY_KEY ) == null ) {
-            final PlayerLobby playerLobby = new PlayerLobby( players );
-            httpSession.attribute( PLAYER_LOBBY_KEY, playerLobby );
-        }
 
         // player has not signed in
-        if( ( httpSession.attribute( SIGNED_IN ) == null ) || ( httpSession.attribute( SIGNED_IN ).equals( false ) ) ) {
-            httpSession.attribute( SIGNED_IN, false );
-            vm.put( SIGNED_IN, false );
-            vm.put( PLAYERS, players );
+        if( ( httpSession.attribute( RoutesAndKeys.SIGNED_IN ) == null ) ||
+                ( httpSession.attribute( RoutesAndKeys.SIGNED_IN ).equals( false ) ) ) {
+            httpSession.attribute( RoutesAndKeys.SIGNED_IN, false );
+            vm.put( RoutesAndKeys.SIGNED_IN, false );
+            vm.put( RoutesAndKeys.PLAYERS, playerLobby.getPlayers() );
         }
 
         else { // player is signed in
-            String currentPlayerName = httpSession.attribute( CURRENT_PLAYER );
+            String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER );
+            HashMap< String, Player > players = playerLobby.getPlayers();
             Player currentPlayer = players.get( currentPlayerName );
-            vm.put( CURRENT_PLAYER, currentPlayerName);
-            Map< String, Player > otherPlayers = new HashMap<>( players );
-            otherPlayers.remove( currentPlayerName ); // remove the current player, so doesn't get shown
-            vm.put( PLAYERS, otherPlayers );
-            vm.put( SIGNED_IN, true );
 
-            // check if you have been selected for game and redirect
-            for( String playerName : otherPlayers.keySet() ) { // iterate through the other players
-                if( playerName.equals( currentPlayerName ) ) // should not happen, but play safe
-                    continue;
-                else { // some other player
-                    Player player = otherPlayers.get( playerName ); // get the player
-                    if( player.getOpponent() == null ) // not selected
-                        continue;
-                    else if( player.getOpponent().equals( currentPlayer ) ) { // you've have been selected; redirect
-                        response.redirect( INGAME_URL );
-                    }
-                }
+            Map< String, Player > otherPlayers = new HashMap<>( players ); // create a copy
+            otherPlayers.remove( currentPlayerName ); // remove the current player, so doesn't get shown
+
+            // check if you have been selected for a game
+            Player opponent = playerLobby.findOpponent( currentPlayer ); // get the opponent
+
+            if( opponent != null ) { // someone has selected you for a game
+                response.redirect( RoutesAndKeys.GAME_URL );
             }
+
+            // you have not been selected for a game, display home ( populate the vm )
+            vm.put( RoutesAndKeys.CURRENT_PLAYER, currentPlayerName);
+            vm.put( RoutesAndKeys.PLAYERS, otherPlayers );
+            vm.put( RoutesAndKeys.SIGNED_IN, true );
+
         }
 
         // render

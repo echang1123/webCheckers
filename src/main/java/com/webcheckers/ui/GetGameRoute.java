@@ -1,5 +1,5 @@
 /*
- * GET "/board" Route Handler
+ * GET "/game" Route Handler
  *
  * @author Karthik Iyer
  * @author Eugene Chang
@@ -9,12 +9,15 @@
 
 package com.webcheckers.ui;
 
+
 import com.webcheckers.appl.PlayerLobby;
+import com.webcheckers.appl.RoutesAndKeys;
 import com.webcheckers.model.Board;
 import com.webcheckers.model.BoardView;
 import com.webcheckers.model.Piece;
 import com.webcheckers.model.Player;
 import spark.*;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,36 +25,28 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 
-public class GetBoardRoute implements Route{
+public class GetGameRoute implements Route {
 
-    private static final Logger LOG = Logger.getLogger(GetSignInRoute.class.getName());
     public enum ViewMode { PLAY, SPECTATOR, REPLAY }
 
-    // Keys
-    static final String PLAYER_LOBBY_KEY = "playerLobby";
-    static final String SIGNED_IN = "isSignedIn";
-    static final String CURRENT_PLAYER = "currentPlayer";
-    static final String PLAYERS = "players";
-    public static final String INGAME_URL = "/board";
-
-    // Attributes
+    private static final Logger LOG = Logger.getLogger(GetSignInRoute.class.getName());
     private final TemplateEngine templateEngine;
-    private HashMap<String, Player> players;
+    private final PlayerLobby playerLobby;
 
 
     /**
-     * Constructor for the GetBoardRoute route handler
+     * Constructor for the GetGameRoute route handler
      * @param templateEngine  the HTML template rendering engine
-     * @param players the hashmap of player usernames --> player objects
+     * @param playerLobby the player lobby
      */
-    public GetBoardRoute( final TemplateEngine templateEngine, final HashMap< String,Player > players ) {
+    public GetGameRoute( final TemplateEngine templateEngine, final PlayerLobby playerLobby ) {
         // validation
         Objects.requireNonNull( templateEngine, "templateEngine must not be null" );
+        Objects.requireNonNull( playerLobby, "playerLobby must not be null" );
 
         this.templateEngine = templateEngine;
-        this.players = players;
-        //
-        LOG.config( "GetBoardRoute is initialized." );
+        this.playerLobby = playerLobby;
+        LOG.config( "GetGameRoute is initialized." );
     }
 
 
@@ -63,15 +58,17 @@ public class GetBoardRoute implements Route{
      */
     @Override
     public Object handle( Request request, Response response ) {
-        LOG.finer( "GetBoardRoute is invoked." );
+        LOG.finer( "GetGameRoute is invoked." );
 
         // construct the view model
         Map< String, Object > vm = new HashMap<>();
         vm.put("title", "Welcome!");
+
         final Session httpSession = request.session();
-        String currentPlayerName = httpSession.attribute( CURRENT_PLAYER );
+        HashMap< String, Player > players = playerLobby.getPlayers();
+
+        String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER );
         Player currentPlayer = players.get( currentPlayerName );
-        PlayerLobby playerLobby = httpSession.attribute( PLAYER_LOBBY_KEY );
 
         // check if you are the first player
         Boolean isFirstPlayer = false;
@@ -88,11 +85,11 @@ public class GetBoardRoute implements Route{
                     if( players.get( opponentName ).getOpponent() != null ) { // the selected opponent is already in game
                         String message = "Player \"" + opponentName + "\" is already playing a game.";
                         vm.put( "message", message );
-                        vm.put( CURRENT_PLAYER, currentPlayerName );
+                        vm.put( RoutesAndKeys.CURRENT_PLAYER, currentPlayerName );
                         Map< String, Player > otherPlayers = new HashMap<>( players );
                         otherPlayers.remove( currentPlayerName ); // remove the current player from being shown
-                        vm.put( PLAYERS, otherPlayers );
-                        vm.put( SIGNED_IN, true );
+                        vm.put( RoutesAndKeys.PLAYERS, otherPlayers );
+                        vm.put( RoutesAndKeys.SIGNED_IN, true );
                         // render home with error message
                         return templateEngine.render( new ModelAndView( vm, "home.ftl" ) );
                     }
@@ -107,7 +104,7 @@ public class GetBoardRoute implements Route{
         BoardView board = boardModel.getBoardView();
         vm.put( "board", board );
         vm.put( "viewMode", ViewMode.PLAY );
-        vm.put( CURRENT_PLAYER, currentPlayer );
+        vm.put( RoutesAndKeys.CURRENT_PLAYER, currentPlayer );
         vm.put( "activeColor", Piece.Color.RED );
 
         // set opponent, redplayer, whiteplayer
@@ -120,7 +117,6 @@ public class GetBoardRoute implements Route{
         }
         else { // second player
             opponent = playerLobby.findOpponent( currentPlayer );
-            System.out.println( opponent.toString() );
             currentPlayer.addOpponent( opponent );
             vm.put( "redPlayer", opponent );
             vm.put( "whitePlayer", currentPlayer );

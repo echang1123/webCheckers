@@ -9,10 +9,12 @@
 
 package com.webcheckers.ui;
 
-import com.webcheckers.model.Player;
+
+import com.webcheckers.appl.PlayerLobby;
+import com.webcheckers.appl.RoutesAndKeys;
 import spark.*;
 
-import java.util.HashMap;
+
 import java.util.Objects;
 import java.util.logging.Logger;
 
@@ -20,29 +22,17 @@ import java.util.logging.Logger;
 public class GetSignOutRoute implements Route{
 
     private static final Logger LOG = Logger.getLogger( GetSignInRoute.class.getName() );
-
-    // Keys
-    static final String PLAYER_LOBBY_KEY = "playerLobby";
-    static final String SIGNED_IN = "isSignedIn";
-    static final String CURRENT_PLAYER = "currentPlayer";
-    static final String PLAYERS = "players";
-    public static final String INGAME_URL = "/board";
-
-    // Attributes
-    private final TemplateEngine templateEngine;
-    private HashMap< String, Player > players;
+    private final PlayerLobby playerLobby;
 
 
     /**
      * Constructor for the GetSignOutRoute route handler
-     * @param templateEngine  the HTML template rendering engine
+     * @param playerLobby the player lobby
      */
-    public GetSignOutRoute( final TemplateEngine templateEngine, final HashMap< String, Player > players ) {
+    public GetSignOutRoute( final PlayerLobby playerLobby ) {
         // validation
-        Objects.requireNonNull( templateEngine, "templateEngine must not be null" );
-
-        this.templateEngine = templateEngine;
-        this.players = players;
+        Objects.requireNonNull( playerLobby, "playerLobby must not be null" );
+        this.playerLobby = playerLobby;
         LOG.config( "GetSignOutRoute is initialized." );
     }
 
@@ -58,11 +48,10 @@ public class GetSignOutRoute implements Route{
         LOG.finer( "GetSignOutRoute is invoked." );
 
         final Session session = request.session();
-        String username = session.attribute( CURRENT_PLAYER );
-        if( players.containsKey( username ) )
-            players.remove(username);
-        session.attribute( SIGNED_IN,false );
-        response.redirect( WebServer.HOME_URL );
+        String username = session.attribute( RoutesAndKeys.CURRENT_PLAYER );
+        playerLobby.removePlayer( username );
+        session.attribute( RoutesAndKeys.SIGNED_IN,false );
+        response.redirect( RoutesAndKeys.HOME_URL );
         return null;
     }
 }
