@@ -13,25 +13,18 @@ package com.webcheckers.ui;
 
 import static spark.Spark.*;
 
-import java.util.HashMap;
 import java.util.Objects;
 import java.util.logging.Logger;
 
 import com.google.gson.Gson;
 
 import com.webcheckers.appl.PlayerLobby;
-import com.webcheckers.model.Player;
+import com.webcheckers.appl.RoutesAndKeys;
 import spark.TemplateEngine;
 
 
 public class WebServer {
   private static final Logger LOG = Logger.getLogger( WebServer.class.getName() );
-
-  // Keys
-  public static final String HOME_URL = "/";
-  public static final String SIGN_URL = "/signin";
-  public static final String SIGN_OUT_URL = "/signout";
-  public static final String INGAME_URL = "/board";
 
   // Attributes
   private final TemplateEngine templateEngine;
@@ -69,11 +62,12 @@ public class WebServer {
     staticFileLocation( "/public" );
 
     // Set up the route handlers
-    get( HOME_URL, new GetHomeRoute( templateEngine, playerLobby ) );
-    get( SIGN_URL, new GetSignInRoute( templateEngine, playerLobby ) );
-    post( SIGN_URL, new PostSignInRoute( templateEngine, playerLobby ) );
-    get( SIGN_OUT_URL, new GetSignOutRoute( playerLobby ) );
-    get( INGAME_URL, new GetBoardRoute( templateEngine, playerLobby ) );
+    get( RoutesAndKeys.HOME_URL, new GetHomeRoute( templateEngine, playerLobby ) );
+    get( RoutesAndKeys.SIGN_IN_URL, new GetSignInRoute( templateEngine, playerLobby ) );
+    post( RoutesAndKeys.SIGN_IN_URL, new PostSignInRoute( templateEngine, playerLobby ) );
+    get( RoutesAndKeys.SIGN_OUT_URL, new GetSignOutRoute( playerLobby ) );
+    get( RoutesAndKeys.GAME_URL, new GetGameRoute( templateEngine, playerLobby ) );
+
     LOG.config( "WebServer is initialized." );
   }
 

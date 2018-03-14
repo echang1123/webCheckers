@@ -10,6 +10,7 @@
 package com.webcheckers.ui;
 
 import com.webcheckers.appl.PlayerLobby;
+import com.webcheckers.appl.RoutesAndKeys;
 import com.webcheckers.model.Player;
 import spark.*;
 
@@ -21,17 +22,9 @@ import java.util.logging.Logger;
 
 public class PostSignInRoute implements Route{
 
-    // Keys
-    static final String PLAYER_LOBBY_KEY = "playerLobby";
-    static final String SIGNED_IN = "isSignedIn";
-    static final String CURRENT_PLAYER = "currentPlayer";
-    static final String PLAYERS = "players";
-    public static final String INGAME_URL = "/board";
-
     // Attributes
     private static final Logger LOG = Logger.getLogger(PostSignInRoute.class.getName());
     private final TemplateEngine templateEngine;
-    private HashMap< String, Player > players;
     private final PlayerLobby playerLobby;
 
 
@@ -75,9 +68,9 @@ public class PostSignInRoute implements Route{
         else {
             Player player = new Player( userName );
             if( playerLobby.addPlayer( player, vm ) ) { // try adding the username to the hash table
-                session.attribute( SIGNED_IN, true );
-                session.attribute( CURRENT_PLAYER, userName );
-                response.redirect( WebServer.HOME_URL );
+                session.attribute( RoutesAndKeys.SIGNED_IN, true );
+                session.attribute( RoutesAndKeys.CURRENT_PLAYER, userName );
+                response.redirect( RoutesAndKeys.HOME_URL );
             }
             else { // didn't work!
                 return templateEngine.render( new ModelAndView( vm, "signin.ftl" ) );
