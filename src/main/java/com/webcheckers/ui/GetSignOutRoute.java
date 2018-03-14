@@ -9,6 +9,7 @@
 
 package com.webcheckers.ui;
 
+import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.model.Player;
 import spark.*;
 
@@ -29,20 +30,17 @@ public class GetSignOutRoute implements Route{
     public static final String INGAME_URL = "/board";
 
     // Attributes
-    private final TemplateEngine templateEngine;
-    private HashMap< String, Player > players;
+    private final PlayerLobby playerLobby;
 
 
     /**
      * Constructor for the GetSignOutRoute route handler
-     * @param templateEngine  the HTML template rendering engine
+     * @param playerLobby the player lobby
      */
-    public GetSignOutRoute( final TemplateEngine templateEngine, final HashMap< String, Player > players ) {
+    public GetSignOutRoute( final PlayerLobby playerLobby ) {
         // validation
-        Objects.requireNonNull( templateEngine, "templateEngine must not be null" );
-
-        this.templateEngine = templateEngine;
-        this.players = players;
+        Objects.requireNonNull( playerLobby, "playerLobby must not be null" );
+        this.playerLobby = playerLobby;
         LOG.config( "GetSignOutRoute is initialized." );
     }
 
@@ -59,8 +57,7 @@ public class GetSignOutRoute implements Route{
 
         final Session session = request.session();
         String username = session.attribute( CURRENT_PLAYER );
-        if( players.containsKey( username ) )
-            players.remove(username);
+        playerLobby.removePlayer( username );
         session.attribute( SIGNED_IN,false );
         response.redirect( WebServer.HOME_URL );
         return null;

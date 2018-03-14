@@ -36,21 +36,20 @@ public class GetBoardRoute implements Route{
 
     // Attributes
     private final TemplateEngine templateEngine;
-    private HashMap<String, Player> players;
+    private final PlayerLobby playerLobby;
 
 
     /**
      * Constructor for the GetBoardRoute route handler
      * @param templateEngine  the HTML template rendering engine
-     * @param players the hashmap of player usernames --> player objects
      */
-    public GetBoardRoute( final TemplateEngine templateEngine, final HashMap< String,Player > players ) {
+    public GetBoardRoute( final TemplateEngine templateEngine, final PlayerLobby playerLobby ) {
         // validation
         Objects.requireNonNull( templateEngine, "templateEngine must not be null" );
+        Objects.requireNonNull( playerLobby, "playerLobby must not be null" );
 
         this.templateEngine = templateEngine;
-        this.players = players;
-        //
+        this.playerLobby = playerLobby;
         LOG.config( "GetBoardRoute is initialized." );
     }
 
@@ -68,10 +67,12 @@ public class GetBoardRoute implements Route{
         // construct the view model
         Map< String, Object > vm = new HashMap<>();
         vm.put("title", "Welcome!");
+
         final Session httpSession = request.session();
+        HashMap< String, Player > players = playerLobby.getPlayers();
+
         String currentPlayerName = httpSession.attribute( CURRENT_PLAYER );
         Player currentPlayer = players.get( currentPlayerName );
-        PlayerLobby playerLobby = httpSession.attribute( PLAYER_LOBBY_KEY );
 
         // check if you are the first player
         Boolean isFirstPlayer = false;
@@ -120,7 +121,6 @@ public class GetBoardRoute implements Route{
         }
         else { // second player
             opponent = playerLobby.findOpponent( currentPlayer );
-            System.out.println( opponent.toString() );
             currentPlayer.addOpponent( opponent );
             vm.put( "redPlayer", opponent );
             vm.put( "whitePlayer", currentPlayer );

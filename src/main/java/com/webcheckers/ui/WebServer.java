@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 
 import com.google.gson.Gson;
 
+import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.model.Player;
 import spark.TemplateEngine;
 
@@ -35,7 +36,7 @@ public class WebServer {
   // Attributes
   private final TemplateEngine templateEngine;
   private final Gson gson;
-  private HashMap< String, Player > players;
+  private final PlayerLobby playerLobby;
 
 
   /**
@@ -44,15 +45,15 @@ public class WebServer {
    * @param gson  The Google JSON parser object used to render Ajax responses.
    * @throws NullPointerException If any of the parameters are {@code null}.
    */
-  public WebServer( final TemplateEngine templateEngine, final Gson gson, final HashMap< String, Player > players ) {
+  public WebServer( final TemplateEngine templateEngine, final Gson gson, PlayerLobby playerLobby ) {
     // validation
     Objects.requireNonNull( templateEngine, "templateEngine must not be null" );
     Objects.requireNonNull( gson, "gson must not be null" );
-    Objects.requireNonNull( players, "players must not be null" );
+    Objects.requireNonNull( playerLobby, "playerLobby must not be null" );
 
     this.templateEngine = templateEngine;
     this.gson = gson;
-    this.players = players;
+    this.playerLobby = playerLobby;
   }
 
 
@@ -68,11 +69,11 @@ public class WebServer {
     staticFileLocation( "/public" );
 
     // Set up the route handlers
-    get( HOME_URL, new GetHomeRoute( templateEngine, players ) );
-    get( SIGN_URL, new GetSignInRoute( templateEngine, players ) );
-    post( SIGN_URL, new PostSignInRoute( templateEngine, players ) );
-    get( SIGN_OUT_URL, new GetSignOutRoute( templateEngine, players ) );
-    get( INGAME_URL, new GetBoardRoute( templateEngine, players ) );
+    get( HOME_URL, new GetHomeRoute( templateEngine, playerLobby ) );
+    get( SIGN_URL, new GetSignInRoute( templateEngine, playerLobby ) );
+    post( SIGN_URL, new PostSignInRoute( templateEngine, playerLobby ) );
+    get( SIGN_OUT_URL, new GetSignOutRoute( playerLobby ) );
+    get( INGAME_URL, new GetBoardRoute( templateEngine, playerLobby ) );
     LOG.config( "WebServer is initialized." );
   }
 

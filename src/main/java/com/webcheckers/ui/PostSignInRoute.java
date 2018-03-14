@@ -32,20 +32,21 @@ public class PostSignInRoute implements Route{
     private static final Logger LOG = Logger.getLogger(PostSignInRoute.class.getName());
     private final TemplateEngine templateEngine;
     private HashMap< String, Player > players;
+    private final PlayerLobby playerLobby;
 
 
     /**
      * Constructor for the PostSignInRoute route handler
      * @param templateEngine the template engine to render the HTML template
-     * @param players the hash table of players
+     * @param playerLobby the player lobby
      */
-    public PostSignInRoute( TemplateEngine templateEngine, final HashMap< String, Player > players ) {
+    public PostSignInRoute( TemplateEngine templateEngine, final PlayerLobby playerLobby ) {
         // validation
         Objects.requireNonNull( templateEngine, "templateEngine must not be null" );
-        Objects.requireNonNull( templateEngine, "players must not be null" );
+        Objects.requireNonNull( playerLobby, "playerLobby must not be null" );
 
         this.templateEngine = templateEngine;
-        this.players = players;
+        this.playerLobby = playerLobby;
         LOG.config( "PostSignInRoute is initialized." );
     }
 
@@ -72,7 +73,6 @@ public class PostSignInRoute implements Route{
             return templateEngine.render( new ModelAndView( vm, "signin.ftl" ) );
         }
         else {
-            PlayerLobby playerLobby = session.attribute( PLAYER_LOBBY_KEY );
             Player player = new Player( userName );
             if( playerLobby.addPlayer( player, vm ) ) { // try adding the username to the hash table
                 session.attribute( SIGNED_IN, true );
