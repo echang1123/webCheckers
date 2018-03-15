@@ -8,7 +8,6 @@
 package com.webcheckers.ui;
 
 
-import com.google.gson.Gson;
 import com.webcheckers.appl.JsonUtils;
 import com.webcheckers.model.Move;
 import spark.Request;
