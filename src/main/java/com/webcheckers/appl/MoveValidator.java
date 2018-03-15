@@ -10,6 +10,7 @@ package com.webcheckers.appl;
 
 
 import com.webcheckers.model.Move;
+import com.webcheckers.model.Position;
 
 
 public class MoveValidator {
@@ -26,5 +27,14 @@ public class MoveValidator {
         this.move = move;
     }
 
-   
+
+    public boolean isSimpleMove() {
+        Position start = move.getStart();
+        Position end = move.getEnd();
+
+        return ( end.getRow() - start.getRow() == 1 ) &&
+                ( Math.abs( end.getCell() - start.getCell() ) == 1 );
+    }
+
+
 }
