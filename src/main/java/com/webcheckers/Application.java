@@ -11,15 +11,14 @@ package com.webcheckers;
 
 
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.Objects;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 
 import com.google.gson.Gson;
+import com.webcheckers.appl.JsonUtils;
 import com.webcheckers.appl.PlayerLobby;
-import com.webcheckers.model.Player;
 import com.webcheckers.ui.WebServer;
 import spark.TemplateEngine;
 import spark.template.freemarker.FreeMarkerEngine;
@@ -55,13 +54,8 @@ public final class Application {
 		// the templates and associated data.
 		final TemplateEngine templateEngine = new FreeMarkerEngine();
 
-		// The application uses Gson to generate JSON representations of Java objects.
-		// This should be used by your Ajax Routes to generate JSON for the HTTP
-		// response to Ajax requests.
-		final Gson gson = new Gson();
-
 		// inject the game center and freemarker engine into web server
-		final WebServer webServer = new WebServer( templateEngine, gson, playerLobby );
+		final WebServer webServer = new WebServer( templateEngine, playerLobby );
 
 		// inject web server into application
 		final Application app = new Application( webServer );
