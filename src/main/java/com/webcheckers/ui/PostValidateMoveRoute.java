@@ -10,22 +10,13 @@ package com.webcheckers.ui;
 
 import com.google.gson.Gson;
 import com.webcheckers.appl.JsonUtils;
+import com.webcheckers.model.Move;
 import spark.Request;
 import spark.Response;
 import spark.Route;
 
 
 public class PostValidateMoveRoute implements Route {
-
-	private final JsonUtils jsonUtils;
-
-	/**
-	 * Constructor for the PostValidateMoveRoute route handler
-	 * @param jsonUtils the JsonUtils object
-	 */
-	public PostValidateMoveRoute( JsonUtils jsonUtils ) {
-		this.jsonUtils = jsonUtils;
-	}
 
 
 	/**
@@ -37,6 +28,7 @@ public class PostValidateMoveRoute implements Route {
 	@Override
 	public Object handle( Request request, Response response ) {
 		final String dataString = request.body();
+		Move move = JsonUtils.fromJson( dataString, Move.class );
 		return null;
 	}
 }

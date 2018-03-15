@@ -54,13 +54,8 @@ public final class Application {
 		// the templates and associated data.
 		final TemplateEngine templateEngine = new FreeMarkerEngine();
 
-		// The application uses Gson to generate JSON representations of Java objects.
-		// This should be used by your Ajax Routes to generate JSON for the HTTP
-		// response to Ajax requests.
-		final JsonUtils jsonUtils = new JsonUtils();
-
 		// inject the game center and freemarker engine into web server
-		final WebServer webServer = new WebServer( templateEngine, jsonUtils, playerLobby );
+		final WebServer webServer = new WebServer( templateEngine, playerLobby );
 
 		// inject web server into application
 		final Application app = new Application( webServer );
