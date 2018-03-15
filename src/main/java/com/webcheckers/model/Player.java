@@ -75,4 +75,14 @@ public class Player {
     return false;
   }
 
+
+  /**
+   * Override the default hashCode method to use only the player's username
+   * @return the hashcode that is representative of this player object
+   */
+  @Override
+  public int hashCode() {
+    return this.name.hashCode();
+  }
+
 }
