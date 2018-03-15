@@ -16,7 +16,6 @@ public class BoardView implements Iterable< Row > {
 
   // Attributes
   private ArrayList< Row > rows;
-  private boolean isFirst;
 
 
   /**
@@ -25,14 +24,12 @@ public class BoardView implements Iterable< Row > {
    * @param board the Board that this BoardView needs to represent
    */
   public BoardView( Board board ) {
-    this.isFirst = board.isOwnedByFirstPlayer();
-    this.rows = new ArrayList<>();
+    this.rows = new ArrayList<>( 8 );
     for( int row = 0; row < 8; row++ ) {
-      Row newRow = new Row( row, this.isFirst );
+      Row newRow = new Row( row );
       for( int col = 0; col < 8; col++ ) {
         newRow.add( col, board.getSpace( row, col ) );
       }
-      newRow.setIterator( this.isFirst );
       rows.add( row, newRow );
     }
   }
@@ -40,26 +37,12 @@ public class BoardView implements Iterable< Row > {
 
   /**
    * Override of the iterator function since we are implementing Iterable
-   * We can just use the in-built ArrayList Iterator since rows is an ArrayList
-   * @return
+   * @return the iterator to iterate over the rows
    */
   @Override
   public Iterator< Row > iterator() {
-    if( !this.isFirst ) { // not the first player, so iterate start to end
-      return this.rows.iterator();
-    }
-    else { // first player, so iterate end to start
-      return new ReverseIterator<>( this.rows );
-    }
+    return new ReverseIterator<>( this.rows );
   }
 
-
-  /**
-   * Getter for the is first
-   * @return whether the board view is for the first player
-   */
-  public boolean getIsFirst(){
-    return isFirst;
-  }
 
 }
