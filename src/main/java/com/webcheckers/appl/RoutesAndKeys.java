@@ -15,6 +15,7 @@ public class RoutesAndKeys {
 	public static final String SIGN_IN_URL = "/signin";
 	public static final String SIGN_OUT_URL = "/signout";
 	public static final String GAME_URL = "/game";
+	public static final String VALIDATE_MOVE_URL = "/validateMove";
 
 	// KEYS
 
