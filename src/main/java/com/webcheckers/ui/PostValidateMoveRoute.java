@@ -29,6 +29,7 @@ public class PostValidateMoveRoute implements Route {
 	public Object handle( Request request, Response response ) {
 		final String dataString = request.body();
 		Move move = JsonUtils.fromJson( dataString, Move.class );
+
 		return null;
 	}
 }
