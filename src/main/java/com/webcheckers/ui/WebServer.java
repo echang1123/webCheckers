@@ -18,6 +18,8 @@ import com.google.gson.Gson;
 
 import java.util.Objects;
 import java.util.logging.Logger;
+
+import com.webcheckers.appl.JsonUtils;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.appl.RoutesAndKeys;
 import spark.TemplateEngine;
@@ -27,25 +29,25 @@ public class WebServer {
 
   private static final Logger LOG = Logger.getLogger( WebServer.class.getName() );
   private final TemplateEngine templateEngine;
-  private final Gson gson;
+  private final JsonUtils jsonUtils;
   private final PlayerLobby playerLobby;
 
 
   /**
    * The constructor for the Web Server.
    * @param templateEngine The default {@link TemplateEngine} to render page-level HTML views.
-   * @param gson  The Google JSON parser object used to render Ajax responses.
+   * @param jsonUtils the jsonUtils object
    * @param playerLobby the player lobby
    * @throws NullPointerException If any of the parameters are {@code null}.
    */
-  public WebServer( final TemplateEngine templateEngine, final Gson gson, PlayerLobby playerLobby ) {
+  public WebServer( final TemplateEngine templateEngine, final JsonUtils jsonUtils, PlayerLobby playerLobby ) {
     // validation
     Objects.requireNonNull( templateEngine, "templateEngine must not be null" );
-    Objects.requireNonNull( gson, "gson must not be null" );
+    Objects.requireNonNull( jsonUtils, "jsonUtils must not be null" );
     Objects.requireNonNull( playerLobby, "playerLobby must not be null" );
 
     this.templateEngine = templateEngine;
-    this.gson = gson;
+    this.jsonUtils = jsonUtils;
     this.playerLobby = playerLobby;
   }
 
@@ -67,6 +69,7 @@ public class WebServer {
     post( RoutesAndKeys.SIGN_IN_URL, new PostSignInRoute( templateEngine, playerLobby ) );
     get( RoutesAndKeys.SIGN_OUT_URL, new GetSignOutRoute( playerLobby ) );
     get( RoutesAndKeys.GAME_URL, new GetGameRoute( templateEngine, playerLobby ) );
+    post( RoutesAndKeys.VALIDATE_MOVE_URL, new PostValidateMoveRoute( jsonUtils ), jsonUtils.json() );
 
     LOG.config( "WebServer is initialized." );
   }
