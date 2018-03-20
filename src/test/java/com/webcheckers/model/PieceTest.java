@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 
 
 @Tag("Model-tier")
-public class PieceTester {
+public class PieceTest {
 
 
 	private static final Piece.Color RED_COLOR = Piece.Color.RED;
