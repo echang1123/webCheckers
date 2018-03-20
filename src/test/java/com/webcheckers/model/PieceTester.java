@@ -33,10 +33,27 @@ public class PieceTester {
 	}
 
 
+	/**
+	 * Tests the getter for the type
+	 */
 	@Test
 	public void getType() {
-		final Piece CuT = new Piece( SINGLE_PIECE, RED_COLOR );
+		Piece CuT = new Piece(SINGLE_PIECE, RED_COLOR);
+		assertEquals(SINGLE_PIECE, CuT.getType());
+		CuT = new Piece(KING_PIECE, WHITE_COLOR); // try the other type
+		assertEquals(KING_PIECE, CuT.getType());
+	}
 
+
+	/**
+	 * Tests the getter for the color
+	 */
+	@Test
+	public void getColor() {
+		Piece CuT = new Piece(SINGLE_PIECE, RED_COLOR);
+		assertEquals(RED_COLOR, CuT.getColor());
+		CuT = new Piece(SINGLE_PIECE, WHITE_COLOR); // try the other color
+		assertEquals(WHITE_COLOR, CuT.getColor());
 	}
 
 
