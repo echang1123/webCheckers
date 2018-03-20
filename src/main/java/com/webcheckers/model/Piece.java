@@ -46,4 +46,15 @@ public class Piece {
     return this.color;
   }
 
+
+  /**
+   * Override the toString to return a String that is useful
+   * @return a String representation of a Piece object
+   */
+  @Override
+  public String toString() {
+    return "Piece {type: " + this.pieceType + ", color: " + this.color + "}";
+  }
+
+
 }

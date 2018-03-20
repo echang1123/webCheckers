@@ -49,6 +49,13 @@ public class TemplateEngineTester {
   }
 
   /**
+   * Assert that the View-Model object does not exist.
+   */
+  public void assertViewModelNotExists() {
+    assertNull(model, "the View-Model does not exist");
+  }
+
+  /**
    * Assert that the View-Model object exists.
    */
   public void assertViewModelIsaMap() {
