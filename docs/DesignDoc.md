@@ -3,29 +3,41 @@ geometry: margin=1in
 ---
 # PROJECT Design Documentation
 
-> The following template provides the headings for your Design Documentation.  As you edit each section make sure you remove these commentary 'blockquotes'; the lines that start with a > character.
-
 # Team Information
-* Team name: TEAMNAME
+* Team name: CrispyCantaloupes
 * Team members
-  * MEMBER1
-  * MEMBER2
-  * MEMBER3
-  * MEMBER4
+  * Hongda Lin (HL)
+  * Gaurav Pant (GP)
+  * Eugene Chang (EC)
+  * Emily Wesson (EW)
+  * Karthik Iyer (KI)
+
 
 ## Executive Summary
 
-This is a summary of the project.
+This project is a multi-player, online web application to play the game of checkers. The application’s PlayerLobby allows players to log-in and matches them with an opponent if another player selected them. Once in the game, players take turns moving pieces with the goal to capture opponent pieces and upgrade their own pieces. The game ends when a player resigns, or takes all of their opponent’s pieces.
 
 ### Purpose
-> Provide a very brief statement about the project and the most important user group and user goals.
+> This checkers application follows American rules of play, and allows the first player to choose their opponent. The most important user group is checkers enthusiasts who want to play a game online without meeting in person with an opponent.
 
 ### Glossary and Acronyms
-> Provide a table of terms and acronyms.
 
 | Term | Definition |
 |------|------------|
-| VO | Value Object |
+| HTML | Hypertext Markup Language |
+| MVP | Minimum Viable Product |
+| HTTP | Hypertext Transfer Protocol |
+| App | Application |
+| Web | World Wide Web
+
+### Modification Log
+| Version | Date | Description | Author |
+|---------|------|-------------|--------|
+| 1.0 | March 20 2018 | Initial release | KI and EW |
+
+
+
+
 
 
 ## Requirements
@@ -118,3 +130,4 @@ with the WebCheckers application.
 
 #### Dynamic models
 > Provide any dynamic model, such as state and sequence diagrams, as is relevant to a particularly significant user story.
+
