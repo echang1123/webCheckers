@@ -151,7 +151,7 @@ This tier has the internal representations of board (including row, piece, space
 The purpose of the Player Sign-in/Sign-out sub-system is to allow players to join a Checkers game and play against other players. Signing in will allow players to keep track of their game statistics, mathc records, and other data; signing out will help protect their accounts
 
 ### Static Model
-> TBD
+![Player Sign in / Sign out Static Model](player-signin-signout-static-model.png)
 
 ### Dynamic Model
 ![Player Sign in / Sign out Dynamic Model](player-signin-signout-dynamic-model.png)
