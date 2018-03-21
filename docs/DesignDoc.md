@@ -42,12 +42,18 @@ This project is a multi-player, online web application to play the game of check
 
 ## Requirements
 
-This section describes the features of the application.
+### Non Functional Requirements
+> This project requires a number of specific technologies be used in its implementation. Java 8 and Jetty are used for development, allowing access to the project at the localhost:4567 url when the server is running. Maven is used to handle the project dependencies. Spark, a web micro framework, and the FreeMarker template engine are required to route the HTTP requests and create HTML responses. The project must be extendable to include various enhancements added in to improve the user experience for players. The acceptance criteria for each part must be testable by other developers on the team, and only tested by team members. Data does not have to persist across the web app after shutdown and restart.
 
-> In this section you do not need to be exhaustive and list every story.  Focus on top-level features from the Vision document and maybe Epics and critical Stories.
+### Functional Requirements
+> * A player must be able to sign into the game with a unique username.
+> * Once signed in, the player must be able to sign out from any page.
+> * A player must be able to play a game of checkers following American rules of play using drag-and-drop actions to make their moves.
+> * A player must be able to select their opponent from the home page, making the selecting player RED/first player, and the selected player WHITE/second player.
+> * A player must be able to resign from a checkers game at any time, ending the game and forfeiting to their opponent.
 
 ### Definition of MVP
-> Provide a simple description of the Minimum Viable Product.
+> The Minimum Viable Product is the minimum features needed to make the checkers web app meet customer requirements. The MVP is defined by the Product Owner. The MVP will let two players sign in and play a game of checkers together.
 
 ### MVP Features
 > Provide a list of top-level Epics and/or Stories of the MVP.
