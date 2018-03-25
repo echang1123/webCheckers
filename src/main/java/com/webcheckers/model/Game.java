@@ -65,7 +65,6 @@ public class Game {
      */
     public boolean contains( Player player ){return playerOne.equals(player) || playerTwo.equals( player );}
 
-
 	/**
 	 * Returns the space at a given row index and cell index
 	 * @param row row index
@@ -76,5 +75,14 @@ public class Game {
     	return board.getSpace( row, cell );
 	}
 
-
+	@Override
+	public boolean equals(Object o) {
+		if( o != null ){
+			if( o instanceof Game ){
+				Game g = ( Game ) o;
+				return ( this.playerOne.equals( g.getPlayerOne() ) && this.playerTwo.equals( g.getPlayerTwo() ) );
+			}
+		}
+		return false;
+	}
 }
