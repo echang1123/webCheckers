@@ -74,15 +74,14 @@ public class Game {
 	public Space getSpaceAt( int row, int cell ) {
     	return board.getSpace( row, cell );
 	}
-
-	@Override
-	public boolean equals(Object o) {
-		if( o != null ){
-			if( o instanceof Game ){
-				Game g = ( Game ) o;
-				return ( this.playerOne.equals( g.getPlayerOne() ) && this.playerTwo.equals( g.getPlayerTwo() ) );
-			}
-		}
-		return false;
-	}
+    @Override
+    public boolean equals(Object o) {
+        if( o != null ){
+            if( o instanceof Game ){
+                Game g = ( Game ) o;
+                return ( this.playerOne.equals( g.getPlayerOne() ) && this.playerTwo.equals( g.getPlayerTwo() ) );
+            }
+        }
+        return false;
+    }
 }
