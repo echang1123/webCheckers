@@ -1,4 +1,4 @@
-/**
+/*
  * Class that represents a Checkers Game
  *
  * @author Karthik Iyer
@@ -33,14 +33,6 @@ public class Game {
 	}
 
     /**
-     * Getter for the board
-     * @return the board
-     */
-	public Board getBoard(){
-	    return board;
-    }
-
-    /**
      * Getter for player one
      * @return first player (RED)
      */
@@ -54,6 +46,16 @@ public class Game {
      */
     public Player getPlayerTwo() {
         return playerTwo;
+    }
+
+    /**
+     * Returns the space at the given position
+     * @return the space at that position
+     */
+    public Space getSpaceAt( Position position ){
+        int row = position.getRow();
+        int cell = position.getCell();
+        return board.getSpace( row, cell );
     }
 
 
