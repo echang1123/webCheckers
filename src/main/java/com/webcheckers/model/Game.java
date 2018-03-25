@@ -20,6 +20,7 @@ public class Game {
 	private Player playerTwo; // player 2
 	private MoveValidator moveValidator; // a move validator
 
+
     /**
      * Constructor for the Game class
      * @param board the board for the Game
@@ -32,11 +33,13 @@ public class Game {
 		this.playerTwo = playerTwo;
 	}
 
+
     /**
      * Getter for player one
      * @return first player (RED)
      */
     public Player getPlayerOne(){return playerOne;}
+
 
     /**
      * Getter for player two
@@ -44,11 +47,12 @@ public class Game {
      */
     public Player getPlayerTwo() {return playerTwo;}
 
+
     /**
      * Returns the space at the given position
      * @return the space at that position
      */
-    public Space getSpaceAt( Position position ){
+    public Space getSpaceAt( Position position ) {
         int row = position.getRow();
         int cell = position.getCell();
         return board.getSpace( row, cell );
@@ -60,6 +64,17 @@ public class Game {
      * @return true if player given is in this Game
      */
     public boolean contains( Player player ){return playerOne.equals(player) || playerTwo.equals( player );}
+
+
+	/**
+	 * Returns the space at a given row index and cell index
+	 * @param row row index
+	 * @param cell cell index
+	 * @return the space at that row and cell index
+	 */
+	public Space getSpaceAt( int row, int cell ) {
+    	return board.getSpace( row, cell );
+	}
 
 
 }
