@@ -20,4 +20,41 @@ public class Game {
 	private Player playerTwo; // player 2
 	private MoveValidator moveValidator; // a move validator
 
+    /**
+     * Constructor for the Game class
+     * @param board the board for the Game
+     * @param playerOne player one (RED)
+     * @param playerTwo player two (WHITE)
+     */
+	public Game( Board board, Player playerOne, Player playerTwo ){
+		this.board = board;
+		this.playerOne = playerOne;
+		this.playerTwo = playerTwo;
+	}
+
+    /**
+     * Getter for the board
+     * @return the board
+     */
+	public Board getBoard(){
+	    return board;
+    }
+
+    /**
+     * Getter for player one
+     * @return first player (RED)
+     */
+    public Player getPlayerOne(){
+	    return playerOne;
+    }
+
+    /**
+     * Getter for player two
+     * @return second player (WHITE)
+     */
+    public Player getPlayerTwo() {
+        return playerTwo;
+    }
+
+
 }
