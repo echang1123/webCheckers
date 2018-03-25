@@ -15,24 +15,13 @@ import com.webcheckers.model.Position;
 
 public class MoveValidator {
 
-    //attributes
-    private Move move;
-
-
-    /**
-     * Constructor for the MoveValidator class
-     * @param move the Move to validate
-     */
-    public MoveValidator( Move move ){
-        this.move = move;
-    }
-
 
     /**
      * Function that checks if the Move is a valid simple move
+     * @param move the Move to check
      * @return boolean whether it is a valid simple move
      */
-    public boolean isSimpleMove() {
+    public boolean isSimpleMove( Move move ) {
         Position start = move.getStart();
         Position end = move.getEnd();
 
@@ -46,11 +35,12 @@ public class MoveValidator {
 
     /**
      * The main validation function, will test the move for every possible valid move and then return the result
+     * @param move the Move to check
      * @return boolean whether the move was legal or not
      */
-    public boolean validate() {
+    public boolean validate( Move move) {
 
-        if( this.isSimpleMove() ) { // it is valid simple move
+        if( isSimpleMove( move ) ) { // it is valid simple move
             return true;
         }
 
