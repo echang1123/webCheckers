@@ -44,6 +44,10 @@ public class MoveValidator {
     }
 
 
+    /**
+     * The main validation function, will test the move for every possible valid move and then return the result
+     * @return boolean whether the move was legal or not
+     */
     public boolean validate() {
 
         if( this.isSimpleMove() ) { // it is valid simple move
