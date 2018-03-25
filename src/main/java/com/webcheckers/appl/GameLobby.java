@@ -50,7 +50,7 @@ public class GameLobby {
 	/**
 	 * Removes a game from the game lobby if it exists
 	 * @param game the game to remove
-	 * @return boolean whether the game was successfully removed from the ;pbby
+	 * @return boolean whether the game was successfully removed from the lobby
 	 */
 	public boolean removeGame( Game game ) {
 		if( this.games.contains( game ) ) {
