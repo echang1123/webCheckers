@@ -48,6 +48,20 @@ public class GameLobby {
 
 
 	/**
+	 * Removes a game from the game lobby if it exists
+	 * @param game the game to remove
+	 * @return boolean whether the game was successfully removed from the ;pbby
+	 */
+	public boolean removeGame( Game game ) {
+		if( this.games.contains( game ) ) {
+			this.games.remove(game);
+			return true;
+		}
+		return false;
+	}
+
+
+	/**
 	 * Function that goes through all the games and finds a game that the player is part of
 	 * @param player the player
 	 * @return the game that the player is in, or null if no such game exists
