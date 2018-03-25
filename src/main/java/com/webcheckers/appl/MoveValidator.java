@@ -36,6 +36,9 @@ public class MoveValidator {
         Position start = move.getStart();
         Position end = move.getEnd();
 
+        // if the end row is one greater than the start row, and
+        // the end column is adjacent to start column,
+        // it is a valid simple move
         return ( end.getRow() - start.getRow() == 1 ) &&
                 ( Math.abs( end.getCell() - start.getCell() ) == 1 );
     }
