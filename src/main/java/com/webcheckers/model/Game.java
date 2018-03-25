@@ -58,12 +58,6 @@ public class Game {
         return board.getSpace( row, cell );
     }
 
-    /**
-     * Returns a boolean for whether a given player is in the game
-     * @param player the Player to search for
-     * @return true if player given is in this Game
-     */
-    public boolean contains( Player player ){return playerOne.equals(player) || playerTwo.equals( player );}
 
 	/**
 	 * Returns the space at a given row index and cell index
@@ -84,4 +78,14 @@ public class Game {
         }
         return false;
     }
+
+
+	/**
+	 * Returns a boolean for whether a given player is in the game
+	 * @param player the Player to search for
+	 * @return true if player given is in this Game
+	 */
+	public boolean contains( Player player ) {
+		return playerOne.equals(player) || playerTwo.equals( player );
+	}
 }
