@@ -36,17 +36,13 @@ public class Game {
      * Getter for player one
      * @return first player (RED)
      */
-    public Player getPlayerOne(){
-	    return playerOne;
-    }
+    public Player getPlayerOne(){return playerOne;}
 
     /**
      * Getter for player two
      * @return second player (WHITE)
      */
-    public Player getPlayerTwo() {
-        return playerTwo;
-    }
+    public Player getPlayerTwo() {return playerTwo;}
 
     /**
      * Returns the space at the given position
@@ -57,6 +53,13 @@ public class Game {
         int cell = position.getCell();
         return board.getSpace( row, cell );
     }
+
+    /**
+     * Returns a boolean for whether a given player is in the game
+     * @param player the Player to search for
+     * @return true if player given is in this Game
+     */
+    public boolean contains( Player player ){return playerOne.equals(player) || playerTwo.equals( player );}
 
 
 }
