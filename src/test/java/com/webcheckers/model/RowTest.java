@@ -1,4 +1,4 @@
-/*
+/**
  * This class contains unit tests for the Row class
  *
  * @author Emily Wesson
