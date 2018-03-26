@@ -9,6 +9,7 @@
 
 package com.webcheckers.ui;
 
+import com.webcheckers.appl.GlobalInformation;
 import com.webcheckers.appl.PlayerLobby;
 import spark.*;
 
@@ -23,21 +24,20 @@ public class GetSignInRoute implements Route{
 
     private static final Logger LOG = Logger.getLogger( GetSignInRoute.class.getName() );
     private final TemplateEngine templateEngine;
-    private final PlayerLobby playerLobby;
+    private final GlobalInformation gi;
 
 
     /**
      * Constructor for the GetSignInRoute route handler
      * @param templateEngine the HTML template rendering engine
-     * @param playerLobby the player lobby
      */
-    public GetSignInRoute( final TemplateEngine templateEngine, final PlayerLobby playerLobby ) {
+    public GetSignInRoute( final TemplateEngine templateEngine, final GlobalInformation gi ) {
         // validation
         Objects.requireNonNull( templateEngine, "templateEngine must not be null" );
-        Objects.requireNonNull( playerLobby, "playerLobby must not be null" );
+        Objects.requireNonNull( gi, "GI must not be null" );
 
         this.templateEngine = templateEngine;
-        this.playerLobby = playerLobby;
+        this.gi = gi;
         LOG.config( "GetSignInRoute is initialized." );
     }
 

@@ -20,7 +20,6 @@ public class Game {
 	private Player playerTwo; // player 2
 	private MoveValidator moveValidator; // a move validator
 
-
     /**
      * Constructor for the Game class
      * @param board the board for the Game

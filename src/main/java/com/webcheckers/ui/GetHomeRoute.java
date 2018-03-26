@@ -17,6 +17,7 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 
+import com.webcheckers.appl.GlobalInformation;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.appl.RoutesAndKeys;
 import com.webcheckers.model.Player;
@@ -27,21 +28,20 @@ public class GetHomeRoute implements Route {
 
     private static final Logger LOG = Logger.getLogger( GetHomeRoute.class.getName() );
     private final TemplateEngine templateEngine;
-    private final PlayerLobby playerLobby;
+    private final GlobalInformation gi;
 
 
     /**
      * Constructor for the GetHomeRoute routehandler
      * @param templateEngine the HTML template rendering engine
-     * @param playerLobby the player lobby
      */
-    public GetHomeRoute( final TemplateEngine templateEngine, final PlayerLobby playerLobby ) {
+    public GetHomeRoute( final TemplateEngine templateEngine, final GlobalInformation gi ) {
         // validation
         Objects.requireNonNull( templateEngine, "templateEngine must not be null" );
-        Objects.requireNonNull( playerLobby, "playerLobby must not be null" );
+        Objects.requireNonNull( gi, "GI must not be null" );
 
         this.templateEngine = templateEngine;
-        this.playerLobby = playerLobby;
+        this.gi = gi;
         LOG.config( "GetHomeRoute is initialized." );
     }
 
@@ -62,6 +62,7 @@ public class GetHomeRoute implements Route {
 
         // first time opening
         final Session httpSession = request.session();
+        final PlayerLobby playerLobby = gi.getPlayerLobby();
 
         // player has not signed in
         if( ( httpSession.attribute( RoutesAndKeys.SIGNED_IN ) == null ) ||
