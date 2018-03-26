@@ -8,14 +8,33 @@
 package com.webcheckers.ui;
 
 
+import com.webcheckers.appl.GlobalInformation;
 import com.webcheckers.appl.JsonUtils;
 import com.webcheckers.model.Move;
 import spark.Request;
 import spark.Response;
 import spark.Route;
 
+import java.util.Objects;
+import java.util.logging.Logger;
+
 
 public class PostValidateMoveRoute implements Route {
+
+	// Attributes
+	private static final Logger LOG = Logger.getLogger( GetSignInRoute.class.getName() );
+	private GlobalInformation gi;
+
+
+	/**
+	 * Constructor for the PostValidateMoveRoute route handler
+	 * @param gi the Global Information object
+	 */
+	public PostValidateMoveRoute( final GlobalInformation gi ) {
+		// validation
+		Objects.requireNonNull( gi, "GI cannot be null" );
+		this.gi = gi;
+	}
 
 
 	/**
