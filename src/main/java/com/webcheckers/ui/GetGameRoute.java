@@ -10,6 +10,7 @@
 package com.webcheckers.ui;
 
 
+import com.webcheckers.appl.GlobalInformation;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.appl.RoutesAndKeys;
 import com.webcheckers.model.Board;
@@ -31,21 +32,19 @@ public class GetGameRoute implements Route {
 
     private static final Logger LOG = Logger.getLogger(GetSignInRoute.class.getName());
     private final TemplateEngine templateEngine;
-    private final PlayerLobby playerLobby;
-
+    private final GlobalInformation gi;
 
     /**
      * Constructor for the GetGameRoute route handler
      * @param templateEngine  the HTML template rendering engine
-     * @param playerLobby the player lobby
      */
-    public GetGameRoute( final TemplateEngine templateEngine, final PlayerLobby playerLobby ) {
+    public GetGameRoute( final TemplateEngine templateEngine, final GlobalInformation gi ) {
         // validation
         Objects.requireNonNull( templateEngine, "templateEngine must not be null" );
-        Objects.requireNonNull( playerLobby, "playerLobby must not be null" );
+        Objects.requireNonNull( gi, "GI must not be null" );
 
         this.templateEngine = templateEngine;
-        this.playerLobby = playerLobby;
+        this.gi = gi;
         LOG.config( "GetGameRoute is initialized." );
     }
 
@@ -65,6 +64,7 @@ public class GetGameRoute implements Route {
         vm.put("title", "Welcome!");
 
         final Session httpSession = request.session();
+        final PlayerLobby playerLobby = gi.getPlayerLobby();
         HashMap< String, Player > players = playerLobby.getPlayers();
 
         String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER );

@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+import com.webcheckers.appl.GlobalInformation;
 import com.webcheckers.appl.JsonUtils;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.appl.RoutesAndKeys;
@@ -29,7 +30,7 @@ public class WebServer {
 
   private static final Logger LOG = Logger.getLogger( WebServer.class.getName() );
   private final TemplateEngine templateEngine;
-  private final PlayerLobby playerLobby;
+  private final GlobalInformation gi;
 
 
   /**
@@ -38,13 +39,13 @@ public class WebServer {
    * @param playerLobby the player lobby
    * @throws NullPointerException If any of the parameters are {@code null}.
    */
-  public WebServer( final TemplateEngine templateEngine, PlayerLobby playerLobby ) {
+  public WebServer( final TemplateEngine templateEngine, GlobalInformation gi ) {
     // validation
     Objects.requireNonNull( templateEngine, "templateEngine must not be null" );
-    Objects.requireNonNull( playerLobby, "playerLobby must not be null" );
+    Objects.requireNonNull( gi, "playerLobby must not be null" );
 
     this.templateEngine = templateEngine;
-    this.playerLobby = playerLobby;
+    this.gi = gi;
   }
 
 
@@ -60,11 +61,11 @@ public class WebServer {
     staticFileLocation( "/public" );
 
     // Set up the route handlers
-    get( RoutesAndKeys.HOME_URL, new GetHomeRoute( templateEngine, playerLobby ) );
-    get( RoutesAndKeys.SIGN_IN_URL, new GetSignInRoute( templateEngine, playerLobby ) );
-    post( RoutesAndKeys.SIGN_IN_URL, new PostSignInRoute( templateEngine, playerLobby ) );
-    get( RoutesAndKeys.SIGN_OUT_URL, new GetSignOutRoute( playerLobby ) );
-    get( RoutesAndKeys.GAME_URL, new GetGameRoute( templateEngine, playerLobby ) );
+    get( RoutesAndKeys.HOME_URL, new GetHomeRoute( templateEngine, gi ) );
+    get( RoutesAndKeys.SIGN_IN_URL, new GetSignInRoute( templateEngine, gi ) );
+    post( RoutesAndKeys.SIGN_IN_URL, new PostSignInRoute( templateEngine, gi ) );
+    get( RoutesAndKeys.SIGN_OUT_URL, new GetSignOutRoute( gi ) );
+    get( RoutesAndKeys.GAME_URL, new GetGameRoute( templateEngine, gi ) );
     post( RoutesAndKeys.VALIDATE_MOVE_URL, new PostValidateMoveRoute(), JsonUtils.json() );
 
     LOG.config( "WebServer is initialized." );

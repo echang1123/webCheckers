@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 
 
 import com.google.gson.Gson;
+import com.webcheckers.appl.GlobalInformation;
 import com.webcheckers.appl.JsonUtils;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.ui.WebServer;
@@ -46,8 +47,8 @@ public final class Application {
 			System.err.println( "Could not initialize log manager because: " + e.getMessage() );
 		}
 
-		// the player lobby
-		final PlayerLobby playerLobby = new PlayerLobby();
+		// the global info
+		final GlobalInformation gi = new GlobalInformation();
 
 		// The application uses FreeMarker templates to generate the HTML
 		// responses sent back to the client. This will be the engine processing
@@ -55,7 +56,7 @@ public final class Application {
 		final TemplateEngine templateEngine = new FreeMarkerEngine();
 
 		// inject the game center and freemarker engine into web server
-		final WebServer webServer = new WebServer( templateEngine, playerLobby );
+		final WebServer webServer = new WebServer( templateEngine, gi);
 
 		// inject web server into application
 		final Application app = new Application( webServer );

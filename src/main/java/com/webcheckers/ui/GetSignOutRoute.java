@@ -10,6 +10,7 @@
 package com.webcheckers.ui;
 
 
+import com.webcheckers.appl.GlobalInformation;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.appl.RoutesAndKeys;
 import spark.*;
@@ -22,17 +23,15 @@ import java.util.logging.Logger;
 public class GetSignOutRoute implements Route{
 
     private static final Logger LOG = Logger.getLogger( GetSignInRoute.class.getName() );
-    private final PlayerLobby playerLobby;
-
+    private final GlobalInformation gi;
 
     /**
      * Constructor for the GetSignOutRoute route handler
-     * @param playerLobby the player lobby
      */
-    public GetSignOutRoute( final PlayerLobby playerLobby ) {
+    public GetSignOutRoute( final GlobalInformation gi ) {
         // validation
-        Objects.requireNonNull( playerLobby, "playerLobby must not be null" );
-        this.playerLobby = playerLobby;
+        Objects.requireNonNull( gi, "GI must not be null" );
+        this.gi = gi;
         LOG.config( "GetSignOutRoute is initialized." );
     }
 
@@ -47,6 +46,7 @@ public class GetSignOutRoute implements Route{
     public Object handle( Request request, Response response ) {
         LOG.finer( "GetSignOutRoute is invoked." );
 
+        final PlayerLobby playerLobby = gi.getPlayerLobby();
         final Session session = request.session();
         String username = session.attribute( RoutesAndKeys.CURRENT_PLAYER );
         playerLobby.removePlayer( username );
