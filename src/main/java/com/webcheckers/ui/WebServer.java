@@ -13,7 +13,6 @@ package com.webcheckers.ui;
 
 
 import static spark.Spark.*;
-import com.google.gson.Gson;
 
 
 import java.util.Objects;
@@ -21,7 +20,6 @@ import java.util.logging.Logger;
 
 import com.webcheckers.appl.GlobalInformation;
 import com.webcheckers.appl.JsonUtils;
-import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.appl.RoutesAndKeys;
 import spark.TemplateEngine;
 
@@ -36,7 +34,7 @@ public class WebServer {
   /**
    * The constructor for the Web Server.
    * @param templateEngine The default {@link TemplateEngine} to render page-level HTML views.
-   * @param playerLobby the player lobby
+   * @param gi the Global Information
    * @throws NullPointerException If any of the parameters are {@code null}.
    */
   public WebServer( final TemplateEngine templateEngine, GlobalInformation gi ) {
@@ -66,7 +64,7 @@ public class WebServer {
     post( RoutesAndKeys.SIGN_IN_URL, new PostSignInRoute( templateEngine, gi ) );
     get( RoutesAndKeys.SIGN_OUT_URL, new GetSignOutRoute( gi ) );
     get( RoutesAndKeys.GAME_URL, new GetGameRoute( templateEngine, gi ) );
-    post( RoutesAndKeys.VALIDATE_MOVE_URL, new PostValidateMoveRoute(), JsonUtils.json() );
+    post( RoutesAndKeys.VALIDATE_MOVE_URL, new PostValidateMoveRoute( gi ), JsonUtils.json() );
 
     LOG.config( "WebServer is initialized." );
   }

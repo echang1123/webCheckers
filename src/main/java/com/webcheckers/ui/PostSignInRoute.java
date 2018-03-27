@@ -32,6 +32,7 @@ public class PostSignInRoute implements Route{
     /**
      * Constructor for the PostSignInRoute route handler
      * @param templateEngine the template engine to render the HTML template
+     * @param gi the Global Information
      */
     public PostSignInRoute( TemplateEngine templateEngine, final GlobalInformation gi ) {
         // validation

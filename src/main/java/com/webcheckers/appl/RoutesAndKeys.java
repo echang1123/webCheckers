@@ -26,5 +26,7 @@ public class RoutesAndKeys {
 	public static final String CURRENT_PLAYER = "currentPlayer";
 	public static final String PLAYERS = "players";
 	public static final String PLAYER_LOBBY_KEY = "playerLobby";
+	public static final String GAME_LOBBY_KEY = "gameLobby";
+	public static final String GLOBAL_INFORMATION_KEY = "globalInformation";
 
 }

@@ -37,6 +37,7 @@ public class GetGameRoute implements Route {
     /**
      * Constructor for the GetGameRoute route handler
      * @param templateEngine  the HTML template rendering engine
+     * @param gi the Global Information
      */
     public GetGameRoute( final TemplateEngine templateEngine, final GlobalInformation gi ) {
         // validation

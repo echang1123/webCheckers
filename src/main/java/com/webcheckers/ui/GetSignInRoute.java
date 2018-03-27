@@ -10,7 +10,6 @@
 package com.webcheckers.ui;
 
 import com.webcheckers.appl.GlobalInformation;
-import com.webcheckers.appl.PlayerLobby;
 import spark.*;
 
 
@@ -30,6 +29,7 @@ public class GetSignInRoute implements Route{
     /**
      * Constructor for the GetSignInRoute route handler
      * @param templateEngine the HTML template rendering engine
+     * @param gi the Global Information
      */
     public GetSignInRoute( final TemplateEngine templateEngine, final GlobalInformation gi ) {
         // validation
