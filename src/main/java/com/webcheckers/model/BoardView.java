@@ -21,10 +21,11 @@ public class BoardView implements Iterable< Row > {
 
     /**
      * Constructor for the Board view
-     * Generates a collection of rows, each having a collection of Spaces
+     * Generates a collection of rows, each having a collection of Spaces, and assigning the rowIterator
      * @param board the Board that this BoardView needs to represent
+     * @param forFirstPlayer boolean telling us if this boardview is for the first player
      */
-    public BoardView( Board board ) {
+    public BoardView( Board board, boolean forFirstPlayer ) {
         this.rows = new ArrayList<>( 8 );
         for( int row = 0; row < 8; row++ ) {
             Row newRow = new Row( row );
@@ -33,7 +34,7 @@ public class BoardView implements Iterable< Row > {
             }
             rows.add( row, newRow );
         }
-        if(board.isOwnedByFirstPlayer()) {
+        if( forFirstPlayer ) {
             this.rowIterator = new ReverseIterator<>(this.rows);
         }
         else{
