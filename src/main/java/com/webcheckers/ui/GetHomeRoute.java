@@ -17,9 +17,11 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 
+import com.webcheckers.appl.GameLobby;
 import com.webcheckers.appl.GlobalInformation;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.appl.RoutesAndKeys;
+import com.webcheckers.model.Game;
 import com.webcheckers.model.Player;
 import spark.*;
 
@@ -65,6 +67,7 @@ public class GetHomeRoute implements Route {
         // first time opening
         final Session httpSession = request.session();
         final PlayerLobby playerLobby = gi.getPlayerLobby();
+        final GameLobby gameLobby = gi.getGameLobby();
 
         // player has not signed in
         if( ( httpSession.attribute( RoutesAndKeys.SIGNED_IN ) == null ) ||
@@ -83,11 +86,17 @@ public class GetHomeRoute implements Route {
             otherPlayers.remove( currentPlayerName ); // remove the current player, so doesn't get shown
 
             // check if you have been selected for a game
-            Player opponent = playerLobby.findOpponent( currentPlayer ); // get the opponent
+            Game game = gameLobby.findGame( currentPlayer );
+
+            if( game != null ) {
+                response.redirect( RoutesAndKeys.GAME_URL );
+            }
+
+            /*Player opponent = playerLobby.findOpponent( currentPlayer ); // get the opponent
 
             if( opponent != null ) { // someone has selected you for a game
                 response.redirect( RoutesAndKeys.GAME_URL );
-            }
+            }*/
 
             // you have not been selected for a game, display home ( populate the vm )
             vm.put( RoutesAndKeys.CURRENT_PLAYER, currentPlayerName);
