@@ -14,35 +14,42 @@ import java.util.Iterator;
 
 public class BoardView implements Iterable< Row > {
 
-  // Attributes
-  private ArrayList< Row > rows;
+    // Attributes
+    private ArrayList< Row > rows;
+    private Iterator<Row> rowIterator;
 
 
-  /**
-   * Constructor for the Board view
-   * Generates a collection of rows, each having a collection of Spaces
-   * @param board the Board that this BoardView needs to represent
-   */
-  public BoardView( Board board ) {
-    this.rows = new ArrayList<>( 8 );
-    for( int row = 0; row < 8; row++ ) {
-      Row newRow = new Row( row );
-      for( int col = 0; col < 8; col++ ) {
-        newRow.add( col, board.getSpace( row, col ) );
-      }
-      rows.add( row, newRow );
+    /**
+     * Constructor for the Board view
+     * Generates a collection of rows, each having a collection of Spaces
+     * @param board the Board that this BoardView needs to represent
+     */
+    public BoardView( Board board ) {
+        this.rows = new ArrayList<>( 8 );
+        for( int row = 0; row < 8; row++ ) {
+            Row newRow = new Row( row );
+            for( int col = 0; col < 8; col++ ) {
+                newRow.add( col, board.getSpace( row, col ) );
+            }
+            rows.add( row, newRow );
+        }
+        if(board.isOwnedByFirstPlayer()) {
+            this.rowIterator = new ReverseIterator<>(this.rows);
+        }
+        else{
+            this.rowIterator = this.rows.iterator();
+        }
     }
-  }
 
 
-  /**
-   * Override of the iterator function since we are implementing Iterable
-   * @return the iterator to iterate over the rows
-   */
-  @Override
-  public Iterator< Row > iterator() {
-    return new ReverseIterator<>( this.rows );
-  }
+    /**
+     * Override of the iterator function since we are implementing Iterable
+     * @return the iterator to iterate over the rows
+     */
+    @Override
+    public Iterator< Row > iterator() {
+        return new ReverseIterator<>( this.rows );
+    }
 
 
 }
