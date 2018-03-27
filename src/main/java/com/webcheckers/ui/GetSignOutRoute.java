@@ -27,6 +27,7 @@ public class GetSignOutRoute implements Route{
 
     /**
      * Constructor for the GetSignOutRoute route handler
+     * @param gi the Global Information
      */
     public GetSignOutRoute( final GlobalInformation gi ) {
         // validation

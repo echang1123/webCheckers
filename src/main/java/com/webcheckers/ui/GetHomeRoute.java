@@ -26,6 +26,7 @@ import spark.*;
 
 public class GetHomeRoute implements Route {
 
+    // Attributesß
     private static final Logger LOG = Logger.getLogger( GetHomeRoute.class.getName() );
     private final TemplateEngine templateEngine;
     private final GlobalInformation gi;
@@ -34,6 +35,7 @@ public class GetHomeRoute implements Route {
     /**
      * Constructor for the GetHomeRoute routehandler
      * @param templateEngine the HTML template rendering engine
+     * @param gi the Global Information
      */
     public GetHomeRoute( final TemplateEngine templateEngine, final GlobalInformation gi ) {
         // validation
