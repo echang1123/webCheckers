@@ -3,6 +3,7 @@
  *
  * @author Karthik Iyer
  * @author Hongda Lin
+ * @author Emily Wesson
  */
 
 
@@ -32,12 +33,13 @@ public class BoardView implements Iterable< Row > {
             for( int col = 0; col < 8; col++ ) {
                 newRow.add( col, board.getSpace( row, col ) );
             }
+            newRow.setSpaceIterator( forFirstPlayer ); // SET THE ITERATOR
             rows.add( row, newRow );
         }
         if( forFirstPlayer ) {
-            this.rowIterator = new ReverseIterator<>(this.rows);
+            this.rowIterator = new ReverseIterator<>( this.rows );
         }
-        else{
+        else {
             this.rowIterator = this.rows.iterator();
         }
     }
@@ -49,7 +51,7 @@ public class BoardView implements Iterable< Row > {
      */
     @Override
     public Iterator< Row > iterator() {
-        return new ReverseIterator<>( this.rows );
+        return this.rowIterator;
     }
 
 

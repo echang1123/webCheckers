@@ -15,6 +15,7 @@ public class Row implements Iterable< Space > {
   // Attributes
   private int index; // the index of the row
   private ArrayList< Space > spaces; // the spaces in the row
+  private Iterator< Space > spaceIterator;
 
 
   /**
@@ -23,7 +24,7 @@ public class Row implements Iterable< Space > {
    */
   public Row( int index ) {
     this.index = index;
-    this.spaces = new ArrayList<>( 8 );
+    this.spaces = new ArrayList<>();
   }
 
 
@@ -37,6 +38,20 @@ public class Row implements Iterable< Space > {
 
 
   /**
+   * Sets the iterator for the rows
+   * NOTE
+   * IF THIS FUNCTION IS NOT CALLED, THE ITERATOR WILL BE NULL!
+   * @param forFirstPlayer boolean whether for first player
+   */
+  public void setSpaceIterator( boolean forFirstPlayer ) {
+    if( forFirstPlayer )
+      this.spaceIterator = this.spaces.iterator();
+    else
+      this.spaceIterator = new ReverseIterator<>( this.spaces );
+  }
+
+
+  /**
    * Override of the iterator function since we are implementing Iterable
    * Returns an iterator for the spaces of the row
    * Since spaces is an ArrayList, we can just return it's iterator
@@ -44,7 +59,7 @@ public class Row implements Iterable< Space > {
    */
   @Override
   public Iterator< Space > iterator() {
-    return this.spaces.iterator();
+    return this.spaceIterator;
   }
 
 
