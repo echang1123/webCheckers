@@ -111,7 +111,6 @@ public class GetGameRoute implements Route {
             opponent = players.get( opponentName );
             game = new Game( boardModel, currentPlayer, opponent );
             gameLobby.addGame( game );
-            board = new BoardView( boardModel, isFirstPlayer );
             vm.put( "activeColor", Piece.Color.RED );
             vm.put( "redPlayer", currentPlayer );
             vm.put( "whitePlayer", opponent );
@@ -121,12 +120,12 @@ public class GetGameRoute implements Route {
             game = gameLobby.findGame( currentPlayer ); // get the game that was created by the first player
             boardModel = game.getBoard();
             opponent = game.getPlayerOne();
-            board = new BoardView( boardModel, isFirstPlayer );
             vm.put( "activeColor", Piece.Color.WHITE );
             vm.put( "redPlayer", opponent );
             vm.put( "whitePlayer", currentPlayer );
         }
 
+        board = new BoardView( boardModel, isFirstPlayer );
         vm.put( "board", board );
         vm.put( "viewMode", ViewMode.PLAY );
         vm.put( RoutesAndKeys.CURRENT_PLAYER, currentPlayer );
