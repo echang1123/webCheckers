@@ -99,8 +99,8 @@ public class GetGameRoute implements Route {
 
         // add main info
 
-        Board boardModel = new Board( );
-        BoardView board = boardModel.getBoardView();
+        Board boardModel = new Board();
+//        BoardView board = boardModel.getBoardView();
         vm.put( "board", board );
         vm.put( "viewMode", ViewMode.PLAY );
         vm.put( RoutesAndKeys.CURRENT_PLAYER, currentPlayer );
@@ -112,7 +112,7 @@ public class GetGameRoute implements Route {
 
         // set opponent, redplayer, whiteplayer
         Player opponent;
-        if( isFirstPlayer ) { // first player
+/**        if( isFirstPlayer ) { // first player
             opponent = players.get( opponentName );
             currentPlayer.addOpponent( opponent );
             vm.put( "redPlayer", currentPlayer );
@@ -124,6 +124,7 @@ public class GetGameRoute implements Route {
             vm.put( "redPlayer", opponent );
             vm.put( "whitePlayer", currentPlayer );
         }
+*/
 
         // render
         return templateEngine.render( new ModelAndView( vm, "game.ftl" ) );
