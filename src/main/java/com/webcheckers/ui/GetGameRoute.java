@@ -13,10 +13,7 @@ package com.webcheckers.ui;
 import com.webcheckers.appl.GlobalInformation;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.appl.RoutesAndKeys;
-import com.webcheckers.model.Board;
-import com.webcheckers.model.BoardView;
-import com.webcheckers.model.Piece;
-import com.webcheckers.model.Player;
+import com.webcheckers.model.*;
 import spark.*;
 
 
@@ -101,12 +98,17 @@ public class GetGameRoute implements Route {
         }
 
         // add main info
-        Board boardModel = new Board( isFirstPlayer );
+
+        Board boardModel = new Board( );
         BoardView board = boardModel.getBoardView();
         vm.put( "board", board );
         vm.put( "viewMode", ViewMode.PLAY );
         vm.put( RoutesAndKeys.CURRENT_PLAYER, currentPlayer );
         vm.put( "activeColor", Piece.Color.RED );
+
+        if( isFirstPlayer ){
+            Game game = new Game(  )
+        }
 
         // set opponent, redplayer, whiteplayer
         Player opponent;
