@@ -10,6 +10,7 @@
 package com.webcheckers.ui;
 
 
+import com.webcheckers.appl.GameLobby;
 import com.webcheckers.appl.GlobalInformation;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.appl.RoutesAndKeys;
@@ -99,32 +100,36 @@ public class GetGameRoute implements Route {
 
         // add main info
 
-        Board boardModel = new Board();
-//        BoardView board = boardModel.getBoardView();
-        vm.put( "board", board );
-        vm.put( "viewMode", ViewMode.PLAY );
-        vm.put( RoutesAndKeys.CURRENT_PLAYER, currentPlayer );
-        vm.put( "activeColor", Piece.Color.RED );
-
-        if( isFirstPlayer ){
-            Game game = new Game(  )
-        }
-
-        // set opponent, redplayer, whiteplayer
+        Board boardModel;
+        BoardView board;
+        GameLobby gameLobby = gi.getGameLobby();
         Player opponent;
-/**        if( isFirstPlayer ) { // first player
+        Game game;
+
+        if( isFirstPlayer ) {
+            boardModel = new Board();
             opponent = players.get( opponentName );
-            currentPlayer.addOpponent( opponent );
+            game = new Game( boardModel, currentPlayer, opponent );
+            gameLobby.addGame( game );
+            board = new BoardView( boardModel, isFirstPlayer );
+            vm.put( "activeColor", Piece.Color.RED );
             vm.put( "redPlayer", currentPlayer );
             vm.put( "whitePlayer", opponent );
         }
-        else { // second player
-            opponent = playerLobby.findOpponent( currentPlayer );
-            currentPlayer.addOpponent( opponent );
+
+        else { // you are the second player
+            game = gameLobby.findGame( currentPlayer ); // get the game that was created by the first player
+            boardModel = game.getBoard();
+            opponent = game.getPlayerOne();
+            board = new BoardView( boardModel, isFirstPlayer );
+            vm.put( "activeColor", Piece.Color.WHITE );
             vm.put( "redPlayer", opponent );
             vm.put( "whitePlayer", currentPlayer );
         }
-*/
+
+        vm.put( "board", board );
+        vm.put( "viewMode", ViewMode.PLAY );
+        vm.put( RoutesAndKeys.CURRENT_PLAYER, currentPlayer );
 
         // render
         return templateEngine.render( new ModelAndView( vm, "game.ftl" ) );

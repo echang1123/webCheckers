@@ -59,6 +59,15 @@ public class Game {
 
 
 	/**
+	 * Getter for the board of the game
+	 * @return the board that represents the game
+	 */
+	public Board getBoard() {
+    	return this.board;
+		}
+
+
+	/**
 	 * Returns the space at a given row index and cell index
 	 * @param row row index
 	 * @param cell cell index
