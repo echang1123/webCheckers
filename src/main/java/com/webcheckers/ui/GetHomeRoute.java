@@ -70,15 +70,15 @@ public class GetHomeRoute implements Route {
         final GameLobby gameLobby = gi.getGameLobby();
 
         // player has not signed in
-        if( ( httpSession.attribute( RoutesAndKeys.SIGNED_IN ) == null ) ||
-                ( httpSession.attribute( RoutesAndKeys.SIGNED_IN ).equals( false ) ) ) {
-            httpSession.attribute( RoutesAndKeys.SIGNED_IN, false );
-            vm.put( RoutesAndKeys.SIGNED_IN, false );
-            vm.put( RoutesAndKeys.PLAYERS, playerLobby.getPlayers() );
+        if( ( httpSession.attribute( RoutesAndKeys.SIGNED_IN_KEY ) == null ) ||
+                ( httpSession.attribute( RoutesAndKeys.SIGNED_IN_KEY ).equals( false ) ) ) {
+            httpSession.attribute( RoutesAndKeys.SIGNED_IN_KEY, false );
+            vm.put( RoutesAndKeys.SIGNED_IN_KEY, false );
+            vm.put( RoutesAndKeys.PLAYERS_KEY, playerLobby.getPlayers() );
         }
 
         else { // player is signed in
-            String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER );
+            String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER_KEY );
             HashMap< String, Player > players = playerLobby.getPlayers();
             Player currentPlayer = players.get( currentPlayerName );
 
@@ -99,9 +99,9 @@ public class GetHomeRoute implements Route {
             }*/
 
             // you have not been selected for a game, display home ( populate the vm )
-            vm.put( RoutesAndKeys.CURRENT_PLAYER, currentPlayerName);
-            vm.put( RoutesAndKeys.PLAYERS, otherPlayers );
-            vm.put( RoutesAndKeys.SIGNED_IN, true );
+            vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName);
+            vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
+            vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
 
         }
 

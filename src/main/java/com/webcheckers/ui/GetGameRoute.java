@@ -66,7 +66,7 @@ public class GetGameRoute implements Route {
         final PlayerLobby playerLobby = gi.getPlayerLobby();
         HashMap< String, Player > players = playerLobby.getPlayers();
 
-        String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER );
+        String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER_KEY );
         Player currentPlayer = players.get( currentPlayerName );
 
         // check if you are the first player
@@ -84,11 +84,11 @@ public class GetGameRoute implements Route {
                     if( players.get( opponentName ).getOpponent() != null ) { // the selected opponent is already in game
                         String message = "Player \"" + opponentName + "\" is already playing a game.";
                         vm.put( "message", message );
-                        vm.put( RoutesAndKeys.CURRENT_PLAYER, currentPlayerName );
+                        vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName );
                         Map< String, Player > otherPlayers = new HashMap<>( players );
                         otherPlayers.remove( currentPlayerName ); // remove the current player from being shown
-                        vm.put( RoutesAndKeys.PLAYERS, otherPlayers );
-                        vm.put( RoutesAndKeys.SIGNED_IN, true );
+                        vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
+                        vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
                         // render home with error message
                         return templateEngine.render( new ModelAndView( vm, "home.ftl" ) );
                     }
@@ -120,7 +120,7 @@ public class GetGameRoute implements Route {
             game = gameLobby.findGame( currentPlayer ); // get the game that was created by the first player
             boardModel = game.getBoard();
             opponent = game.getPlayerOne();
-            vm.put( "activeColor", Piece.Color.WHITE );
+            vm.put( "activeColor", Piece.Color.RED );
             vm.put( "redPlayer", opponent );
             vm.put( "whitePlayer", currentPlayer );
         }
@@ -128,7 +128,7 @@ public class GetGameRoute implements Route {
         board = new BoardView( boardModel, isFirstPlayer );
         vm.put( "board", board );
         vm.put( "viewMode", ViewMode.PLAY );
-        vm.put( RoutesAndKeys.CURRENT_PLAYER, currentPlayer );
+        vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayer );
 
         // render
         return templateEngine.render( new ModelAndView( vm, "game.ftl" ) );
