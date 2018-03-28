@@ -70,8 +70,8 @@ public class PostSignInRoute implements Route{
         else {
             Player player = new Player( userName );
             if( playerLobby.addPlayer( player, vm ) ) { // try adding the username to the hash table
-                session.attribute( RoutesAndKeys.SIGNED_IN, true );
-                session.attribute( RoutesAndKeys.CURRENT_PLAYER, userName );
+                session.attribute( RoutesAndKeys.SIGNED_IN_KEY, true );
+                session.attribute( RoutesAndKeys.CURRENT_PLAYER_KEY, userName );
                 response.redirect( RoutesAndKeys.HOME_URL );
             }
             else { // didn't work!
