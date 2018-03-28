@@ -30,6 +30,7 @@ public class Game {
 		this.board = board;
 		this.playerOne = playerOne;
 		this.playerTwo = playerTwo;
+		this.moveValidator = new MoveValidator();
 	}
 
 
