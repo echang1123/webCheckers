@@ -19,7 +19,6 @@ import java.util.logging.Logger;
 
 
 public class GameLobby {
-
 	// Attributes
 	private static final Logger LOG = Logger.getLogger( PlayerLobby.class.getName() );
 	private Set<Game> games; // the set of games

@@ -23,45 +23,45 @@ import java.util.logging.Logger;
 
 public class PostValidateMoveRoute implements Route {
 
-	// Attributes
-	private static final Logger LOG = Logger.getLogger( GetSignInRoute.class.getName() );
-	private GlobalInformation gi;
+    // Attributes
+    private static final Logger LOG = Logger.getLogger( GetSignInRoute.class.getName() );
+    private GlobalInformation gi;
 
 
-	/**
-	 * Constructor for the PostValidateMoveRoute route handler
-	 * @param gi the Global Information object
-	 */
-	public PostValidateMoveRoute( final GlobalInformation gi ) {
-		// validation
-		Objects.requireNonNull( gi, "GI cannot be null" );
-		this.gi = gi;
-	}
+    /**
+     * Constructor for the PostValidateMoveRoute route handler
+     * @param gi the Global Information object
+     */
+    public PostValidateMoveRoute( final GlobalInformation gi ) {
+        // validation
+        Objects.requireNonNull( gi, "GI cannot be null" );
+        this.gi = gi;
+    }
 
 
-	/**
-	 * Handles the POST "/validateMove" request
-	 * @param request the request
-	 * @param response the response
-	 * @return the Object containing the return data
-	 */
-	@Override
-	public Object handle( Request request, Response response ) {
+    /**
+     * Handles the POST "/validateMove" request
+     * @param request the request
+     * @param response the response
+     * @return the Object containing the return data
+     */
+    @Override
+    public Object handle( Request request, Response response ) {
 
-		Session httpSession = request.session();
-		PlayerLobby playerLobby = gi.getPlayerLobby();
-		GameLobby gameLobby = gi.getGameLobby();
+        Session httpSession = request.session();
+        PlayerLobby playerLobby = gi.getPlayerLobby();
+        GameLobby gameLobby = gi.getGameLobby();
 
-		String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER_KEY );
-		Player currentPlayer = playerLobby.getPlayer( currentPlayerName );
+        String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER_KEY );
+        Player currentPlayer = playerLobby.getPlayer( currentPlayerName );
 
-		Game game = gameLobby.findGame( currentPlayer );
-		MoveValidator moveValidator = new MoveValidator( game );
+        Game game = gameLobby.findGame( currentPlayer );
+        MoveValidator moveValidator = new MoveValidator( game );
 
-		final String dataString = request.body();
-		Move move = JsonUtils.fromJson( dataString, Move.class );
+        final String dataString = request.body();
+        Move move = JsonUtils.fromJson( dataString, Move.class );
 
-		return null;
+        return null;
 
-	}
+    }
 }

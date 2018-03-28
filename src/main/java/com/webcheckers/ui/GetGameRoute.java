@@ -23,7 +23,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
-
 public class GetGameRoute implements Route {
 
     public enum ViewMode { PLAY, SPECTATOR, REPLAY }
