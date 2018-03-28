@@ -18,7 +18,6 @@ public class Game {
 	private Board board; // the board
 	private Player playerOne; // player 1
 	private Player playerTwo; // player 2
-	private MoveValidator moveValidator; // a move validator
 
     /**
      * Constructor for the Game class
@@ -30,7 +29,6 @@ public class Game {
 		this.board = board;
 		this.playerOne = playerOne;
 		this.playerTwo = playerTwo;
-		this.moveValidator = new MoveValidator();
 	}
 
 
