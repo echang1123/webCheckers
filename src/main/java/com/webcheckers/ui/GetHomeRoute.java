@@ -17,15 +17,18 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 
+import com.webcheckers.appl.GameLobby;
 import com.webcheckers.appl.GlobalInformation;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.appl.RoutesAndKeys;
+import com.webcheckers.model.Game;
 import com.webcheckers.model.Player;
 import spark.*;
 
 
 public class GetHomeRoute implements Route {
 
+    // Attributesß
     private static final Logger LOG = Logger.getLogger( GetHomeRoute.class.getName() );
     private final TemplateEngine templateEngine;
     private final GlobalInformation gi;
@@ -34,6 +37,7 @@ public class GetHomeRoute implements Route {
     /**
      * Constructor for the GetHomeRoute routehandler
      * @param templateEngine the HTML template rendering engine
+     * @param gi the Global Information
      */
     public GetHomeRoute( final TemplateEngine templateEngine, final GlobalInformation gi ) {
         // validation
@@ -63,17 +67,18 @@ public class GetHomeRoute implements Route {
         // first time opening
         final Session httpSession = request.session();
         final PlayerLobby playerLobby = gi.getPlayerLobby();
+        final GameLobby gameLobby = gi.getGameLobby();
 
         // player has not signed in
-        if( ( httpSession.attribute( RoutesAndKeys.SIGNED_IN ) == null ) ||
-                ( httpSession.attribute( RoutesAndKeys.SIGNED_IN ).equals( false ) ) ) {
-            httpSession.attribute( RoutesAndKeys.SIGNED_IN, false );
-            vm.put( RoutesAndKeys.SIGNED_IN, false );
-            vm.put( RoutesAndKeys.PLAYERS, playerLobby.getPlayers() );
+        if( ( httpSession.attribute( RoutesAndKeys.SIGNED_IN_KEY ) == null ) ||
+                ( httpSession.attribute( RoutesAndKeys.SIGNED_IN_KEY ).equals( false ) ) ) {
+            httpSession.attribute( RoutesAndKeys.SIGNED_IN_KEY, false );
+            vm.put( RoutesAndKeys.SIGNED_IN_KEY, false );
+            vm.put( RoutesAndKeys.PLAYERS_KEY, playerLobby.getPlayers() );
         }
 
         else { // player is signed in
-            String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER );
+            String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER_KEY );
             HashMap< String, Player > players = playerLobby.getPlayers();
             Player currentPlayer = players.get( currentPlayerName );
 
@@ -81,16 +86,22 @@ public class GetHomeRoute implements Route {
             otherPlayers.remove( currentPlayerName ); // remove the current player, so doesn't get shown
 
             // check if you have been selected for a game
-            Player opponent = playerLobby.findOpponent( currentPlayer ); // get the opponent
+            Game game = gameLobby.findGame( currentPlayer );
 
-            if( opponent != null ) { // someone has selected you for a game
+            if( game != null ) {
                 response.redirect( RoutesAndKeys.GAME_URL );
             }
 
+            /*Player opponent = playerLobby.findOpponent( currentPlayer ); // get the opponent
+
+            if( opponent != null ) { // someone has selected you for a game
+                response.redirect( RoutesAndKeys.GAME_URL );
+            }*/
+
             // you have not been selected for a game, display home ( populate the vm )
-            vm.put( RoutesAndKeys.CURRENT_PLAYER, currentPlayerName);
-            vm.put( RoutesAndKeys.PLAYERS, otherPlayers );
-            vm.put( RoutesAndKeys.SIGNED_IN, true );
+            vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName);
+            vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
+            vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
 
         }
 

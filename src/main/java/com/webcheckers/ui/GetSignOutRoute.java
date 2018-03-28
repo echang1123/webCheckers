@@ -27,6 +27,7 @@ public class GetSignOutRoute implements Route{
 
     /**
      * Constructor for the GetSignOutRoute route handler
+     * @param gi the Global Information
      */
     public GetSignOutRoute( final GlobalInformation gi ) {
         // validation
@@ -48,9 +49,9 @@ public class GetSignOutRoute implements Route{
 
         final PlayerLobby playerLobby = gi.getPlayerLobby();
         final Session session = request.session();
-        String username = session.attribute( RoutesAndKeys.CURRENT_PLAYER );
+        String username = session.attribute( RoutesAndKeys.CURRENT_PLAYER_KEY );
         playerLobby.removePlayer( username );
-        session.attribute( RoutesAndKeys.SIGNED_IN,false );
+        session.attribute( RoutesAndKeys.SIGNED_IN_KEY,false );
         response.redirect( RoutesAndKeys.HOME_URL );
         return null;
     }

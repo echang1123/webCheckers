@@ -41,6 +41,16 @@ public class PlayerLobby {
 
 
     /**
+     * Function that returns the Player given the username
+     * @param playerName the username of the player
+     * @return the Player object, null if non-existent
+     */
+    public Player getPlayer( String playerName ) {
+        return this.players.get( playerName );
+    }
+
+
+    /**
      * Adds a player to the hash table
      * Ideally used ONLY for sign in
      * @param player the player to add ( sign in )

@@ -9,12 +9,24 @@
 package com.webcheckers.appl;
 
 
+import com.webcheckers.model.Game;
 import com.webcheckers.model.Move;
 import com.webcheckers.model.Position;
 
 
 public class MoveValidator {
 
+    // Attribute
+    private Game game;
+
+
+    /**
+     * Constructor for the Move Validator
+     * @param game the Game for which moves must be validated
+     */
+    public MoveValidator( Game game ) {
+        this.game = game;
+    }
 
     /**
      * Function that checks if the Move is a valid simple move
