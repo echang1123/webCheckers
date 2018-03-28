@@ -9,7 +9,6 @@
 
 package com.webcheckers.model;
 
-
 import java.util.ArrayList;
 import java.util.Iterator;
 

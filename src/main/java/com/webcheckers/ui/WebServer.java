@@ -26,47 +26,47 @@ import spark.TemplateEngine;
 
 public class WebServer {
 
-  private static final Logger LOG = Logger.getLogger( WebServer.class.getName() );
-  private final TemplateEngine templateEngine;
-  private final GlobalInformation gi;
+    private static final Logger LOG = Logger.getLogger( WebServer.class.getName() );
+    private final TemplateEngine templateEngine;
+    private final GlobalInformation gi;
 
 
-  /**
-   * The constructor for the Web Server.
-   * @param templateEngine The default {@link TemplateEngine} to render page-level HTML views.
-   * @param gi the Global Information
-   * @throws NullPointerException If any of the parameters are {@code null}.
-   */
-  public WebServer( final TemplateEngine templateEngine, GlobalInformation gi ) {
-    // validation
-    Objects.requireNonNull( templateEngine, "templateEngine must not be null" );
-    Objects.requireNonNull( gi, "playerLobby must not be null" );
+    /**
+     * The constructor for the Web Server.
+     * @param templateEngine The default {@link TemplateEngine} to render page-level HTML views.
+     * @param gi the Global Information
+     * @throws NullPointerException If any of the parameters are {@code null}.
+     */
+    public WebServer( final TemplateEngine templateEngine, GlobalInformation gi ) {
+        // validation
+        Objects.requireNonNull( templateEngine, "templateEngine must not be null" );
+        Objects.requireNonNull( gi, "playerLobby must not be null" );
 
-    this.templateEngine = templateEngine;
-    this.gi = gi;
-  }
+        this.templateEngine = templateEngine;
+        this.gi = gi;
+    }
 
 
-  /**
-   * Initialize all of the HTTP routes that make up this web application.
-   * Initialization of the web server includes defining the location for static
-   * files, and defining all routes for processing client requests. The method
-   * returns after the web server finishes its initialization.
-   */
-  public void initialize() {
+    /**
+     * Initialize all of the HTTP routes that make up this web application.
+     * Initialization of the web server includes defining the location for static
+     * files, and defining all routes for processing client requests. The method
+     * returns after the web server finishes its initialization.
+     */
+    public void initialize() {
 
-    // Configuration to serve static files
-    staticFileLocation( "/public" );
+        // Configuration to serve static files
+        staticFileLocation( "/public" );
 
-    // Set up the route handlers
-    get( RoutesAndKeys.HOME_URL, new GetHomeRoute( templateEngine, gi ) );
-    get( RoutesAndKeys.SIGN_IN_URL, new GetSignInRoute( templateEngine, gi ) );
-    post( RoutesAndKeys.SIGN_IN_URL, new PostSignInRoute( templateEngine, gi ) );
-    get( RoutesAndKeys.SIGN_OUT_URL, new GetSignOutRoute( gi ) );
-    get( RoutesAndKeys.GAME_URL, new GetGameRoute( templateEngine, gi ) );
-    post( RoutesAndKeys.VALIDATE_MOVE_URL, new PostValidateMoveRoute( gi ), JsonUtils.json() );
+        // Set up the route handlers
+        get( RoutesAndKeys.HOME_URL, new GetHomeRoute( templateEngine, gi ) );
+        get( RoutesAndKeys.SIGN_IN_URL, new GetSignInRoute( templateEngine, gi ) );
+        post( RoutesAndKeys.SIGN_IN_URL, new PostSignInRoute( templateEngine, gi ) );
+        get( RoutesAndKeys.SIGN_OUT_URL, new GetSignOutRoute( gi ) );
+        get( RoutesAndKeys.GAME_URL, new GetGameRoute( templateEngine, gi ) );
+        post( RoutesAndKeys.VALIDATE_MOVE_URL, new PostValidateMoveRoute( gi ), JsonUtils.json() );
 
-    LOG.config( "WebServer is initialized." );
-  }
+        LOG.config( "WebServer is initialized." );
+    }
 
 }

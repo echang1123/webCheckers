@@ -9,15 +9,14 @@
 
 package com.webcheckers.model;
 
-
 import com.webcheckers.appl.MoveValidator;
 
 public class Game {
 
-	// Attributes
-	private Board board; // the board
-	private Player playerOne; // player 1
-	private Player playerTwo; // player 2
+    // Attributes
+    private Board board; // the board
+    private Player playerOne; // player 1
+    private Player playerTwo; // player 2
 
     /**
      * Constructor for the Game class
@@ -25,11 +24,11 @@ public class Game {
      * @param playerOne player one (RED)
      * @param playerTwo player two (WHITE)
      */
-	public Game( Board board, Player playerOne, Player playerTwo ){
-		this.board = board;
-		this.playerOne = playerOne;
-		this.playerTwo = playerTwo;
-	}
+    public Game( Board board, Player playerOne, Player playerTwo ){
+        this.board = board;
+        this.playerOne = playerOne;
+        this.playerTwo = playerTwo;
+    }
 
 
     /**
@@ -57,24 +56,24 @@ public class Game {
     }
 
 
-	/**
-	 * Getter for the board of the game
-	 * @return the board that represents the game
-	 */
-	public Board getBoard() {
-    	return this.board;
-		}
+    /**
+     * Getter for the board of the game
+     * @return the board that represents the game
+     */
+    public Board getBoard() {
+        return this.board;
+    }
 
 
-	/**
-	 * Returns the space at a given row index and cell index
-	 * @param row row index
-	 * @param cell cell index
-	 * @return the space at that row and cell index
-	 */
-	public Space getSpaceAt( int row, int cell ) {
-    	return board.getSpace( row, cell );
-	}
+    /**
+     * Returns the space at a given row index and cell index
+     * @param row row index
+     * @param cell cell index
+     * @return the space at that row and cell index
+     */
+    public Space getSpaceAt( int row, int cell ) {
+        return board.getSpace( row, cell );
+    }
     @Override
     public boolean equals(Object o) {
         if( o != null ){
@@ -87,12 +86,12 @@ public class Game {
     }
 
 
-	/**
-	 * Returns a boolean for whether a given player is in the game
-	 * @param player the Player to search for
-	 * @return true if player given is in this Game
-	 */
-	public boolean contains( Player player ) {
-		return playerOne.equals(player) || playerTwo.equals( player );
-	}
+    /**
+     * Returns a boolean for whether a given player is in the game
+     * @param player the Player to search for
+     * @return true if player given is in this Game
+     */
+    public boolean contains( Player player ) {
+        return playerOne.equals(player) || playerTwo.equals( player );
+    }
 }
