@@ -17,7 +17,7 @@ public class Game {
     private Board board; // the board
     private Player playerOne; // player 1
     private Player playerTwo; // player 2
-    private int whoseTurn;
+    private int whoseTurn; // 0 is for player1 and 1 is for player2
 
     /**
      * Constructor for the Game class
@@ -32,6 +32,11 @@ public class Game {
         this.whoseTurn = 0; // 0 is for player1 and 1 is for player2
     }
 
+    /**
+     * Getter for whoseTurn
+     * @return int representing current player: 0 for player1 and 1 for player2
+     */
+    public int getWhoseTurn(){ return this.whoseTurn; }
 
     /**
      * Function that switches which player's turn it is
