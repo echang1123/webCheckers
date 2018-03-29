@@ -37,6 +37,8 @@ public class MoveValidator {
         Position start = move.getStart();
         Position end = move.getEnd();
 
+        //TODO add logic to work from either side of the board (reverse logic if/else cases)
+
         // if the end row is one greater than the start row, and
         // the end column is adjacent to start column,
         // it is a valid simple move
@@ -44,20 +46,38 @@ public class MoveValidator {
                 ( Math.abs( end.getCell() - start.getCell() ) == 1 );
     }
 
+    /**
+     *
+     * @return
+     */
+    public boolean jumpMoveAvailable(){
 
+       return false;
+    }
+
+    public boolean isJumpMove( Move move ){
+        
+
+        return false;
+    }
     /**
      * The main validation function, will test the move for every possible valid move and then return the result
      * @param move the Move to check
      * @return boolean whether the move was legal or not
      */
     public boolean validate( Move move) {
+        if( jumpMoveAvailable() ){
+            if( !isJumpMove( move )){
+                return false;
+            }
+        }
         //first check if any jump moves available
         //check the move for the piece color, then check all of the dark squares
         //and see if any of those pieces have jump moves available
         //If even one jump move is available, then the move parameter must be a
         //jump more or it's invalid
 
-        
+
 
         //if no jump moves available, then check if isSimpleMove or isKingMove
         if( isSimpleMove( move ) ) { // it is valid simple move
