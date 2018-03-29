@@ -9,11 +9,7 @@
 package com.webcheckers.appl;
 
 
-import com.webcheckers.model.Game;
-import com.webcheckers.model.Move;
-import com.webcheckers.model.Piece;
-import com.webcheckers.model.Position;
-import com.webcheckers.model.Space;
+import com.webcheckers.model.*;
 
 
 public class MoveValidator {
@@ -89,6 +85,31 @@ public class MoveValidator {
     }
 
     /**
+     *
+     * @param row
+     * @param col
+     * @return
+     */
+    public boolean singlePieceJumpAvailable( int row, int col ){
+        //pass in the players color so you check the correct direction?
+        return false;
+    }
+
+    /**
+     *
+     * @param row
+     * @param col
+     * @return
+     */
+    public boolean kingPieceJumpAvailable( int row, int col){
+        return false;
+
+    }
+
+    private Piece.Color currentPlayer(){
+        return Piece.Color.RED;
+    }
+    /**
      *Function that checks if the Move is a valid simple move
      * @return true is a jump move is available for that player
      */
@@ -104,10 +125,28 @@ public class MoveValidator {
         else{
             currentPlayerColor = Piece.Color.WHITE;
         }
+        Board board = game.getBoard();
+        //iterate through all spaces on the board and check if the space has a piece
+        for (int row = 0; row < 8; row ++){
+            for( int col = 0; col < 8; col++){
+                Space s = board.getSpace( row, col );
+                if( s.isValid() && s.getPiece() != null ){
 
+                    //s has a piece with same color as current player
+                    if( s.getPiece().getColor() == currentPlayerColor ){
+                            //check if that piece can make a jump move
+                        if( s.getPiece().getType() == Piece.PieceType.SINGLE && singlePieceJumpAvailable( row, col) ){
+                            return true;
+                        }
+                        if( s.getPiece().getType() == Piece.PieceType.KING && kingPieceJumpAvailable( row, col) ){
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
         //for every valid space, if the piece color matches the current player's color, check if a jump move is available
         //if yes, break and return true
-        //
 
         return false;
     }

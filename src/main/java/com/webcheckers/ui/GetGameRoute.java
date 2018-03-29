@@ -106,8 +106,8 @@ public class GetGameRoute implements Route {
         Game game;
 
         // Player is not in game, that means we are opening this board for the first time
-        if( ( httpSession.attribute( RoutesAndKeys.IN_GAME_KEY ).equals( false ) )
-            || ( httpSession.attribute( RoutesAndKeys.IN_GAME_KEY ) == null ) ) {
+        if( ( httpSession.attribute( RoutesAndKeys.IN_GAME_KEY ) == null )
+            || ( httpSession.attribute( RoutesAndKeys.IN_GAME_KEY ).equals( false ) ) ) {
             if( isFirstPlayer ) {
                 boardModel = new Board();
                 opponent = players.get( opponentName );
