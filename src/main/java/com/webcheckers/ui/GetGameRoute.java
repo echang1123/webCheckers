@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+
 public class GetGameRoute implements Route {
 
     public enum ViewMode { PLAY, SPECTATOR, REPLAY }
@@ -79,7 +80,6 @@ public class GetGameRoute implements Route {
         vm.put( "viewMode", ViewMode.PLAY );
 
 
-        //
         // Player is not in game, that means we are opening this board for the first time
         // We have to determine if the current player is the first player
         // If it is the first player:
@@ -92,7 +92,6 @@ public class GetGameRoute implements Route {
         // - Retrieve the Game from the GameLobby
         // - Generate a BoardView for the second player
         // - Render game.ftl
-        //
         if( ( httpSession.attribute( RoutesAndKeys.IN_GAME_KEY ).equals( false ) )
             || ( httpSession.attribute( RoutesAndKeys.IN_GAME_KEY ) == null ) ) {
 
@@ -149,13 +148,11 @@ public class GetGameRoute implements Route {
         }
 
 
-        //
         // Player is already in game, that means we need to get the up to date version of the existing board:
         // - Retrieve the Game from the GameLobby using currentPlayer as a key for searching
         // - Based on the information in Game, set the vm attributes
         // - Determine if currentPlayer is playerOne or playerTwo, and accordingly generate a BoardView
         // - Render game.ftl
-        //
         else {
             game = gameLobby.findGame( currentPlayer ); // get the game that the player is in
             boardModel = game.getBoard(); // get the board that has been updated with all moves made
