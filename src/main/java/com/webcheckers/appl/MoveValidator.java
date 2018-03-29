@@ -13,6 +13,7 @@ import com.webcheckers.model.Game;
 import com.webcheckers.model.Move;
 import com.webcheckers.model.Piece;
 import com.webcheckers.model.Position;
+import com.webcheckers.model.Space;
 
 
 public class MoveValidator {
@@ -62,7 +63,14 @@ public class MoveValidator {
      */
     public boolean isKingMove( Move move ){
         //check if the piece is a King
-
+        Position start = move.getStart();
+        Position end = move.getEnd();
+        Space s = game.getBoard().getSpace(start.getRow(), start.getCell());
+        //if the space has a king piece
+        if( s.getPiece().getType().equals(Piece.PieceType.KING) ) {
+            return ( Math.abs( end.getRow() - start.getRow() ) == 1 ) &&
+                    ( Math.abs( end.getCell() - start.getCell() ) == 1 );
+        }
         return false;
     }
 
