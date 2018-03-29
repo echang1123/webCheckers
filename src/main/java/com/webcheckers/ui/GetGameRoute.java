@@ -105,6 +105,8 @@ public class GetGameRoute implements Route {
         Player opponent;
         Game game;
 
+        vm.put( "viewMode", ViewMode.PLAY );
+
         // Player is not in game, that means we are opening this board for the first time
         if( ( httpSession.attribute( RoutesAndKeys.IN_GAME_KEY ).equals( false ) )
             || ( httpSession.attribute( RoutesAndKeys.IN_GAME_KEY ) == null ) ) {
@@ -127,14 +129,30 @@ public class GetGameRoute implements Route {
 
             board = new BoardView( boardModel, isFirstPlayer );
             vm.put( "board", board );
-            vm.put( "viewMode", ViewMode.PLAY );
             vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayer );
             httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, true );
         }
 
         // Player is already in game, that means we need to get the up to date version of the existing board
+        // it doesn't matter whether it is the first or the second player
         else {
+            game = gameLobby.findGame( currentPlayer ); // get the game that the player is in
+            boardModel = game.getBoard(); // get the board that has been updated with all moves made
+            Player playerOne = game.getPlayerOne();
+            Player playerTwo = game.getPlayerTwo();
+            vm.put( "redPlayer", playerOne );
+            vm.put( "whitePlayer", playerTwo );
 
+            int whoseTurn = game.getWhoseTurn();
+            if( whoseTurn == 0 ) { // it is player one's turn (red)
+                vm.put( "activeColor", Piece.Color.RED );
+            } else {
+                vm.put( "activeColor", Piece.Color.WHITE );
+            }
+
+            // currentPlayer will be the first player if it is the same as playerOne
+            board = new BoardView( boardModel, currentPlayer.equals( playerOne ) );
+            vm.put( "board", board );
         }
 
         // render
