@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+
 public class GetGameRoute implements Route {
 
     public enum ViewMode { PLAY, SPECTATOR, REPLAY }
@@ -68,35 +69,6 @@ public class GetGameRoute implements Route {
         String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER_KEY );
         Player currentPlayer = players.get( currentPlayerName );
 
-        // check if you are the first player
-        Boolean isFirstPlayer = false;
-        String opponentName = ""; // initialize the opponent name with an empty string
-        for( String playerName : players.keySet() ) { // iterate through all the players
-            if( playerName.equals( currentPlayerName ) ) // skip if we run into the current player
-                continue;
-            else { // otherwise, for other players...
-                String playerButton = request.queryParams( playerName ); // get the button
-                if( playerButton == null ) // not pressed
-                    continue;
-                else { // has been pressed
-                    opponentName = playerName; // get the opponent's name
-                    if( players.get( opponentName ).getOpponent() != null ) { // the selected opponent is already in game
-                        String message = "Player \"" + opponentName + "\" is already playing a game.";
-                        vm.put( "message", message );
-                        vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName );
-                        Map< String, Player > otherPlayers = new HashMap<>( players );
-                        otherPlayers.remove( currentPlayerName ); // remove the current player from being shown
-                        vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
-                        vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
-                        // render home with error message
-                        return templateEngine.render( new ModelAndView( vm, "home.ftl" ) );
-                    }
-                    isFirstPlayer = true;
-                    break;
-                }
-            }
-        }
-
         // add main info
 
         Board boardModel;
@@ -105,9 +77,53 @@ public class GetGameRoute implements Route {
         Player opponent;
         Game game;
 
+        vm.put( "viewMode", ViewMode.PLAY );
+
+
         // Player is not in game, that means we are opening this board for the first time
+        // We have to determine if the current player is the first player
+        // If it is the first player:
+        // - Create a new Game with a new Board
+        // - Add the Game to the GameLobby
+        // - Generate a BoardView for the first player
+        // - Render game.ftl
+        //
+        // If it is the second player:
+        // - Retrieve the Game from the GameLobby
+        // - Generate a BoardView for the second player
+        // - Render game.ftl
         if( ( httpSession.attribute( RoutesAndKeys.IN_GAME_KEY ).equals( false ) )
             || ( httpSession.attribute( RoutesAndKeys.IN_GAME_KEY ) == null ) ) {
+
+            // check if you are the first player
+            Boolean isFirstPlayer = false;
+            String opponentName = ""; // initialize the opponent name with an empty string
+            for( String playerName : players.keySet() ) { // iterate through all the players
+                if( playerName.equals( currentPlayerName ) ) // skip if we run into the current player
+                    continue;
+                else { // otherwise, for other players...
+                    String playerButton = request.queryParams( playerName ); // get the button
+                    if( playerButton == null ) // not pressed
+                        continue;
+                    else { // has been pressed
+                        opponentName = playerName; // get the opponent's name
+                        if( players.get( opponentName ).getOpponent() != null ) { // the selected opponent is already in game
+                            String message = "Player \"" + opponentName + "\" is already playing a game.";
+                            vm.put( "message", message );
+                            vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName );
+                            Map< String, Player > otherPlayers = new HashMap<>( players );
+                            otherPlayers.remove( currentPlayerName ); // remove the current player from being shown
+                            vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
+                            vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
+                            // render home with error message
+                            return templateEngine.render( new ModelAndView( vm, "home.ftl" ) );
+                        }
+                        isFirstPlayer = true;
+                        break;
+                    }
+                }
+            }
+
             if( isFirstPlayer ) {
                 boardModel = new Board();
                 opponent = players.get( opponentName );
@@ -127,14 +143,34 @@ public class GetGameRoute implements Route {
 
             board = new BoardView( boardModel, isFirstPlayer );
             vm.put( "board", board );
-            vm.put( "viewMode", ViewMode.PLAY );
             vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayer );
             httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, true );
         }
 
-        // Player is already in game, that means we need to get the up to date version of the existing board
-        else {
 
+        // Player is already in game, that means we need to get the up to date version of the existing board:
+        // - Retrieve the Game from the GameLobby using currentPlayer as a key for searching
+        // - Based on the information in Game, set the vm attributes
+        // - Determine if currentPlayer is playerOne or playerTwo, and accordingly generate a BoardView
+        // - Render game.ftl
+        else {
+            game = gameLobby.findGame( currentPlayer ); // get the game that the player is in
+            boardModel = game.getBoard(); // get the board that has been updated with all moves made
+            Player playerOne = game.getPlayerOne();
+            Player playerTwo = game.getPlayerTwo();
+            vm.put( "redPlayer", playerOne );
+            vm.put( "whitePlayer", playerTwo );
+
+            int whoseTurn = game.getWhoseTurn();
+            if( whoseTurn == 0 ) { // it is player one's turn (red)
+                vm.put( "activeColor", Piece.Color.RED );
+            } else {
+                vm.put( "activeColor", Piece.Color.WHITE );
+            }
+
+            // currentPlayer will be the first player if it is the same as playerOne
+            board = new BoardView( boardModel, currentPlayer.equals( playerOne ) );
+            vm.put( "board", board );
         }
 
         // render
