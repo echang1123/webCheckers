@@ -18,6 +18,8 @@ public class MoveValidator {
     private Game game;
 
 
+    //TODO make methods private that can be!
+
     /**
      * Constructor for the Move Validator
      * @param game the Game for which moves must be validated
@@ -81,6 +83,8 @@ public class MoveValidator {
 
         //jumping to the left
 
+        //if king piece- opposite directions ok too
+
         return false;
     }
 
@@ -106,26 +110,27 @@ public class MoveValidator {
 
     }
 
-    private Piece.Color currentPlayer(){
-        return Piece.Color.RED;
+    /**
+     * Gets the color of the current Player
+     * @return color of the current Player
+     */
+    private Piece.Color getCurrentPlayerColor(){
+        if( game.getWhoseTurn() == 0 ){
+            return Piece.Color.RED;
+        }
+        else{
+            return Piece.Color.WHITE;
+        }
     }
+
     /**
      *Function that checks if the Move is a valid simple move
      * @return true is a jump move is available for that player
      */
     public boolean jumpMoveAvailable(){
-        //check the move for the piece color, then check all of the dark squares
-        // and see if any of those pieces have jump moves available
-
-        //get the color of the current player
-        Piece.Color currentPlayerColor;
-        if( game.getWhoseTurn() == 0 ){
-            currentPlayerColor = Piece.Color.RED;
-        }
-        else{
-            currentPlayerColor = Piece.Color.WHITE;
-        }
+        Piece.Color currentPlayerColor = getCurrentPlayerColor();
         Board board = game.getBoard();
+
         //iterate through all spaces on the board and check if the space has a piece
         for (int row = 0; row < 8; row ++){
             for( int col = 0; col < 8; col++){
@@ -134,7 +139,7 @@ public class MoveValidator {
 
                     //s has a piece with same color as current player
                     if( s.getPiece().getColor() == currentPlayerColor ){
-                            //check if that piece can make a jump move
+                        //check if that piece is able to make a jump move
                         if( s.getPiece().getType() == Piece.PieceType.SINGLE && singlePieceJumpAvailable( row, col) ){
                             return true;
                         }
@@ -145,9 +150,6 @@ public class MoveValidator {
                 }
             }
         }
-        //for every valid space, if the piece color matches the current player's color, check if a jump move is available
-        //if yes, break and return true
-
         return false;
     }
 
