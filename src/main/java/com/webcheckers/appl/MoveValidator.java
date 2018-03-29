@@ -11,6 +11,7 @@ package com.webcheckers.appl;
 
 import com.webcheckers.model.Game;
 import com.webcheckers.model.Move;
+import com.webcheckers.model.Piece;
 import com.webcheckers.model.Position;
 
 
@@ -87,6 +88,18 @@ public class MoveValidator {
         //check the move for the piece color, then check all of the dark squares
         // and see if any of those pieces have jump moves available
 
+        //get the color of the current player
+        Piece.Color currentPlayerColor;
+        if( game.getWhoseTurn() == 0 ){
+            currentPlayerColor = Piece.Color.RED;
+        }
+        else{
+            currentPlayerColor = Piece.Color.WHITE;
+        }
+
+        //for every valid space, if the piece color matches the current player's color, check if a jump move is available
+        //if yes, break and return true
+        //
 
         return false;
     }
