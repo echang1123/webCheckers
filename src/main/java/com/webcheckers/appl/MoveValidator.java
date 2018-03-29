@@ -37,11 +37,14 @@ public class MoveValidator {
         Position start = move.getStart();
         Position end = move.getEnd();
 
-        if (game.getWhoseTurn() == 0) { //first player's turn
+        //first player's turn
+        if (game.getWhoseTurn() == 0) {
             return ( end.getRow() - start.getRow() == 1 ) &&
                     ( Math.abs( end.getCell() - start.getCell() ) == 1 );
         }
-        else{ //second player's turn
+
+        //second player's turn
+        else{
             return ( start.getRow() - end.getRow() == 1 ) &&
                     ( Math.abs( end.getCell() - start.getCell() ) == 1 );
         }
@@ -69,6 +72,10 @@ public class MoveValidator {
      */
     public boolean isJumpMove( Move move ){
 
+        //jumping to the right
+
+        //jumping to the left
+
         return false;
     }
 
@@ -90,20 +97,21 @@ public class MoveValidator {
      * @return boolean whether the move was legal or not
      */
     public boolean validate( Move move) {
-        if( jumpMoveAvailable() ){ //if one or move jump move(s) available, player must select one
+
+        //if one or move jump move(s) available, player must select one
+        if( jumpMoveAvailable() ){
+            //player must submit a jump move if one is available
             if( !isJumpMove( move )){
                 return false;
             }
-            else{ //player did submit a jump move
+            //player submitted a jump move
+            else{
                 return true;
             }
         }
-        //first check if any jump moves available
-        //If even one jump move is available, then the move parameter must be a
-        //jump more or it's invalid
 
         //if no jump moves available, then check if isSimpleMove or isKingMove
-        if( isSimpleMove( move ) || isKingMove( move )) { // it is valid simple move
+        if( isSimpleMove( move ) || isKingMove( move )) { // it is valid simple or valid king move
             return true;
         }
         return false;
