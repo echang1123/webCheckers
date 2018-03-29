@@ -105,30 +105,37 @@ public class GetGameRoute implements Route {
         Player opponent;
         Game game;
 
-        if( isFirstPlayer ) {
-            boardModel = new Board();
-            opponent = players.get( opponentName );
-            game = new Game( boardModel, currentPlayer, opponent );
-            gameLobby.addGame( game );
-            vm.put( "activeColor", Piece.Color.RED );
-            vm.put( "redPlayer", currentPlayer );
-            vm.put( "whitePlayer", opponent );
+        // Player is not in game, that means we are opening this board for the first time
+        if( ( httpSession.attribute( RoutesAndKeys.IN_GAME_KEY ).equals( false ) )
+            || ( httpSession.attribute( RoutesAndKeys.IN_GAME_KEY ) == null ) ) {
+            if( isFirstPlayer ) {
+                boardModel = new Board();
+                opponent = players.get( opponentName );
+                game = new Game( boardModel, currentPlayer, opponent );
+                gameLobby.addGame( game );
+                vm.put( "activeColor", Piece.Color.RED );
+                vm.put( "redPlayer", currentPlayer );
+                vm.put( "whitePlayer", opponent );
+            } else { // you are the second player
+                game = gameLobby.findGame( currentPlayer ); // get the game that was created by the first player
+                boardModel = game.getBoard();
+                opponent = game.getPlayerOne();
+                vm.put( "activeColor", Piece.Color.RED );
+                vm.put( "redPlayer", opponent );
+                vm.put( "whitePlayer", currentPlayer );
+            }
+
+            board = new BoardView( boardModel, isFirstPlayer );
+            vm.put( "board", board );
+            vm.put( "viewMode", ViewMode.PLAY );
+            vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayer );
+            httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, true );
         }
 
-        else { // you are the second player
-            game = gameLobby.findGame( currentPlayer ); // get the game that was created by the first player
-            boardModel = game.getBoard();
-            opponent = game.getPlayerOne();
-            vm.put( "activeColor", Piece.Color.RED );
-            vm.put( "redPlayer", opponent );
-            vm.put( "whitePlayer", currentPlayer );
-        }
+        // Player is already in game, that means we need to get the up to date version of the existing board
+        else {
 
-        board = new BoardView( boardModel, isFirstPlayer );
-        vm.put( "board", board );
-        vm.put( "viewMode", ViewMode.PLAY );
-        vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayer );
-        httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, true );
+        }
 
         // render
         return templateEngine.render( new ModelAndView( vm, "game.ftl" ) );
