@@ -31,7 +31,7 @@ public class MoveValidator {
     /**
      * Function that checks if the Move is a valid simple move
      * @param move the Move to check
-     * @return boolean whether it is a valid simple move
+     * @return true if the move is a valid simple move, false otherwise
      */
     public boolean isSimpleMove( Move move ) {
         Position start = move.getStart();
@@ -52,23 +52,36 @@ public class MoveValidator {
     }
 
     /**
-     *
-     * @param move current player's move
-     * @return true if the move is a jump move
+     * Function that checks if the Move is a valid King move (moving backwards, no jumping involved)
+     * @param move the Move to check
+     * @return true if the move is a valid King move, false otherwise
      */
-    public boolean isJumpMove( Move move ){
-
+    public boolean isKingMove( Move move ){
+        //check if the piece is a King
 
         return false;
     }
 
     /**
-     *
+     * Function that checks if the Move is a valid single jump move
+     * @param move the Move to check
+     * @return true if the move is a valid jump move, false otherwise
+     */
+    public boolean isJumpMove( Move move ){
+
+        return false;
+    }
+
+    /**
+     *Function that checks if the Move is a valid simple move
      * @return true is a jump move is available for that player
      */
     public boolean jumpMoveAvailable(){
+        //check the move for the piece color, then check all of the dark squares
+        // and see if any of those pieces have jump moves available
 
-       return false;
+
+        return false;
     }
 
     /**
@@ -82,25 +95,17 @@ public class MoveValidator {
                 return false;
             }
             else{ //player did submit a jump move
-
-                //if the jump move submitted coul
-
+                return true;
             }
-
         }
         //first check if any jump moves available
-        //check the move for the piece color, then check all of the dark squares
-        //and see if any of those pieces have jump moves available
         //If even one jump move is available, then the move parameter must be a
         //jump more or it's invalid
 
-
-
         //if no jump moves available, then check if isSimpleMove or isKingMove
-        if( isSimpleMove( move ) ) { // it is valid simple move
+        if( isSimpleMove( move ) || isKingMove( move )) { // it is valid simple move
             return true;
         }
-
         return false;
     }
 
