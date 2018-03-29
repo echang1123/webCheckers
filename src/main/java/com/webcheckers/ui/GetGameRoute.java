@@ -128,6 +128,7 @@ public class GetGameRoute implements Route {
         vm.put( "board", board );
         vm.put( "viewMode", ViewMode.PLAY );
         vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayer );
+        httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, true );
 
         // render
         return templateEngine.render( new ModelAndView( vm, "game.ftl" ) );
