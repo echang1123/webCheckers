@@ -56,7 +56,7 @@ public class PlayerLobby {
      * @param player the player to add ( sign in )
      */
     public boolean addPlayer( Player player, Map< String, Object > vm ) {
-        char quotes = '"'; // to be used for checking username
+        char quotes = '\"'; // to be used for checking username
         if( player.getName().indexOf( quotes ) != -1 ) { // contains the quotes
             vm.put( "message", "Username cannot contain quotes" );
             return false;
