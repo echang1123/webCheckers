@@ -24,7 +24,7 @@ import java.util.logging.Logger;
 public class PostValidateMoveRoute implements Route {
 
     // Attributes
-    private static final Logger LOG = Logger.getLogger( GetSignInRoute.class.getName() );
+    private static final Logger LOG = Logger.getLogger( PostValidateMoveRoute.class.getName() );
     private GlobalInformation gi;
 
 
