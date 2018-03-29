@@ -62,12 +62,12 @@ public class MoveValidator {
      * @return true if the move is a valid King move, false otherwise
      */
     public boolean isKingMove( Move move ){
-        //check if the piece is a King
         Position start = move.getStart();
         Position end = move.getEnd();
         Space s = game.getBoard().getSpace(start.getRow(), start.getCell());
         //if the space has a king piece
-        if( s.getPiece().getType().equals(Piece.PieceType.KING) ) {
+        Piece.PieceType type = s.getPiece().getType();
+        if( type.equals(Piece.PieceType.KING) ) {
             return ( Math.abs( end.getRow() - start.getRow() ) == 1 ) &&
                     ( Math.abs( end.getCell() - start.getCell() ) == 1 );
         }
