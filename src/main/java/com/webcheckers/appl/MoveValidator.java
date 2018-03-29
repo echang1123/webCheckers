@@ -9,12 +9,24 @@
 package com.webcheckers.appl;
 
 
+import com.webcheckers.model.Game;
 import com.webcheckers.model.Move;
 import com.webcheckers.model.Position;
 
 
 public class MoveValidator {
 
+    // Attribute
+    private Game game;
+
+
+    /**
+     * Constructor for the Move Validator
+     * @param game the Game for which moves must be validated
+     */
+    public MoveValidator( Game game ) {
+        this.game = game;
+    }
 
     /**
      * Function that checks if the Move is a valid simple move
@@ -39,7 +51,15 @@ public class MoveValidator {
      * @return boolean whether the move was legal or not
      */
     public boolean validate( Move move) {
+        //first check if any jump moves available
+        //check the move for the piece color, then check all of the dark squares
+        //and see if any of those pieces have jump moves available
+        //If even one jump move is available, then the move parameter must be a
+        //jump more or it's invalid
 
+        
+
+        //if no jump moves available, then check if isSimpleMove or isKingMove
         if( isSimpleMove( move ) ) { // it is valid simple move
             return true;
         }

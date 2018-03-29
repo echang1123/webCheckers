@@ -10,13 +10,11 @@
 package com.webcheckers.ui;
 
 
+import com.webcheckers.appl.GameLobby;
 import com.webcheckers.appl.GlobalInformation;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.appl.RoutesAndKeys;
-import com.webcheckers.model.Board;
-import com.webcheckers.model.BoardView;
-import com.webcheckers.model.Piece;
-import com.webcheckers.model.Player;
+import com.webcheckers.model.*;
 import spark.*;
 
 
@@ -24,7 +22,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
-
 
 public class GetGameRoute implements Route {
 
@@ -37,6 +34,7 @@ public class GetGameRoute implements Route {
     /**
      * Constructor for the GetGameRoute route handler
      * @param templateEngine  the HTML template rendering engine
+     * @param gi the Global Information
      */
     public GetGameRoute( final TemplateEngine templateEngine, final GlobalInformation gi ) {
         // validation
@@ -67,7 +65,7 @@ public class GetGameRoute implements Route {
         final PlayerLobby playerLobby = gi.getPlayerLobby();
         HashMap< String, Player > players = playerLobby.getPlayers();
 
-        String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER );
+        String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER_KEY );
         Player currentPlayer = players.get( currentPlayerName );
 
         // check if you are the first player
@@ -85,11 +83,11 @@ public class GetGameRoute implements Route {
                     if( players.get( opponentName ).getOpponent() != null ) { // the selected opponent is already in game
                         String message = "Player \"" + opponentName + "\" is already playing a game.";
                         vm.put( "message", message );
-                        vm.put( RoutesAndKeys.CURRENT_PLAYER, currentPlayerName );
+                        vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName );
                         Map< String, Player > otherPlayers = new HashMap<>( players );
                         otherPlayers.remove( currentPlayerName ); // remove the current player from being shown
-                        vm.put( RoutesAndKeys.PLAYERS, otherPlayers );
-                        vm.put( RoutesAndKeys.SIGNED_IN, true );
+                        vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
+                        vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
                         // render home with error message
                         return templateEngine.render( new ModelAndView( vm, "home.ftl" ) );
                     }
@@ -100,27 +98,36 @@ public class GetGameRoute implements Route {
         }
 
         // add main info
-        Board boardModel = new Board( isFirstPlayer );
-        BoardView board = boardModel.getBoardView();
-        vm.put( "board", board );
-        vm.put( "viewMode", ViewMode.PLAY );
-        vm.put( RoutesAndKeys.CURRENT_PLAYER, currentPlayer );
-        vm.put( "activeColor", Piece.Color.RED );
 
-        // set opponent, redplayer, whiteplayer
+        Board boardModel;
+        BoardView board;
+        GameLobby gameLobby = gi.getGameLobby();
         Player opponent;
-        if( isFirstPlayer ) { // first player
+        Game game;
+
+        if( isFirstPlayer ) {
+            boardModel = new Board();
             opponent = players.get( opponentName );
-            currentPlayer.addOpponent( opponent );
+            game = new Game( boardModel, currentPlayer, opponent );
+            gameLobby.addGame( game );
+            vm.put( "activeColor", Piece.Color.RED );
             vm.put( "redPlayer", currentPlayer );
             vm.put( "whitePlayer", opponent );
         }
-        else { // second player
-            opponent = playerLobby.findOpponent( currentPlayer );
-            currentPlayer.addOpponent( opponent );
+
+        else { // you are the second player
+            game = gameLobby.findGame( currentPlayer ); // get the game that was created by the first player
+            boardModel = game.getBoard();
+            opponent = game.getPlayerOne();
+            vm.put( "activeColor", Piece.Color.RED );
             vm.put( "redPlayer", opponent );
             vm.put( "whitePlayer", currentPlayer );
         }
+
+        board = new BoardView( boardModel, isFirstPlayer );
+        vm.put( "board", board );
+        vm.put( "viewMode", ViewMode.PLAY );
+        vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayer );
 
         // render
         return templateEngine.render( new ModelAndView( vm, "game.ftl" ) );
