@@ -134,12 +134,31 @@ public class MoveValidator {
      * @return
      */
     public boolean kingPieceJumpAvailable( int row, int col, Board board){
-        if( singlePieceJumpAvailable( row, col, board ) ){
-            return true;
+        Piece.Color currentPlayerColor = getCurrentPlayerColor();
+
+        //if you are White and a diagonally adjacent space has a red piece
+        if( currentPlayerColor == Piece.Color.WHITE ){
+            if ( hasOpponentPiece( row + 1, col-1, Piece.Color.RED ) ){
+                Space destination = board.getSpace( row + 2, col -2);
+                return destination.getPiece() == null;
+            }
+            if ( hasOpponentPiece( row + 1, col + 1, Piece.Color.RED )){
+                Space destination = board.getSpace( row + 2, col + 2);
+                return destination.getPiece() == null;
+            }
         }
-
+        //currentPlayer is red, check if diagonally adj. spaces have a white piece, and next diag space is empty
+        else if( currentPlayerColor == Piece.Color.RED ){
+            if( hasOpponentPiece( row - 1, col-1, Piece.Color.WHITE )){
+                Space destination = board.getSpace( row - 2, col - 2);
+                return destination.getPiece() == null;
+            }
+            if ( hasOpponentPiece( row - 1, col +1 , Piece.Color.WHITE ) ){
+                Space destination = board.getSpace( row - 2, col + 2);
+                return destination.getPiece() == null;
+            }
+        }
         return false;
-
     }
 
 
@@ -174,7 +193,7 @@ public class MoveValidator {
                     //s has a piece with same color as current player
                     if( s.getPiece().getColor() == currentPlayerColor ){
                         //check if that piece is able to make a jump move
-                        if( s.getPiece().getType() == Piece.PieceType.SINGLE && singlePieceJumpAvailable( row, col, board ) ){
+                        if( singlePieceJumpAvailable( row, col, board ) ){
                             return true;
                         }
                         if( s.getPiece().getType() == Piece.PieceType.KING && kingPieceJumpAvailable( row, col, board) ){
