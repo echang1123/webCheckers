@@ -287,7 +287,7 @@ public class MoveValidator {
      */
     public boolean validate( Move move) {
         int pieceRow = move.getStart().getRow();
-        int pieceColumn = move.getEnd().getCell();
+        int pieceColumn = move.getStart().getCell();
         Board board = game.getBoard();
         Piece piece = board.getSpace( pieceRow, pieceColumn ).getPiece();
 
