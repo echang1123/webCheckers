@@ -18,7 +18,7 @@ public class MoveValidator {
     private Game game;
 
 
-    //TODO make methods private that can be!
+    //TODO make methods that can be private private!
 
     /**
      * Constructor for the Move Validator
@@ -89,20 +89,24 @@ public class MoveValidator {
     }
 
     /**
-     *
-     * @param row
-     * @param col
-     * @return
+     * Method to determine if the piece at (row,col) can make a single forward jump move, checks both the case of a RED
+     * or a WHITE piece
+     * @param row row of piece that may be able to make a jump
+     * @param col column of piece that may be able to make a jump
+     * @param board board of the game
+     * @return boolean if the piece at (row,col) can make a single forward jump
      */
     public boolean singlePieceJumpAvailable( int row, int col, Board board ){
         Piece.Color currentPlayerColor = getCurrentPlayerColor();
 
         //if you are Red and a diagonally adjacent space has a white piece
         if( currentPlayerColor == Piece.Color.RED ){
+            //check if you can jump left
             if ( hasOpponentPiece( row + 1, col-1, Piece.Color.WHITE ) ){
                 Space destination = board.getSpace( row + 2, col -2);
                 return destination.getPiece() == null;
             }
+            //check if you can jump right
             if ( hasOpponentPiece( row + 1, col + 1, Piece.Color.WHITE )){
                 Space destination = board.getSpace( row + 2, col + 2);
                 return destination.getPiece() == null;
@@ -110,38 +114,52 @@ public class MoveValidator {
         }
         //currentPlayer is WHITE, check if diagonally adj. spaces have a red piece, and next diag space is empty
         else if( currentPlayerColor == Piece.Color.WHITE ){
+            //check if you can jump left
             if( hasOpponentPiece( row - 1, col-1, Piece.Color.RED )){
                 Space destination = board.getSpace( row - 2, col - 2);
                 return destination.getPiece() == null;
             }
+            //check if you can jump right
             if ( hasOpponentPiece( row - 1, col +1 , Piece.Color.RED ) ){
                 Space destination = board.getSpace( row - 2, col + 2);
                 return destination.getPiece() == null;
             }
         }
+        //no jump available for piece at (row, col)
         return false;
     }
 
-    private boolean hasOpponentPiece( int row, int col, Piece.Color color ){
+    /**
+     * Helper method to determine if a (row,col) position on the board has an opponent's piece on it
+     * @param row row to check
+     * @param col column to check
+     * @param opponentColor the opponent's color, RED or WHITE
+     * @return boolean, true if opponent has a piece at that position
+     */
+    private boolean hasOpponentPiece( int row, int col, Piece.Color opponentColor ){
         Board board = game.getBoard();
-        return board.getSpace( row, col ).getPiece().getColor() == color;
+        return board.getSpace( row, col ).getPiece().getColor() == opponentColor;
     }
 
     /**
-     *
-     * @param row
-     * @param col
-     * @return
+     * Method to determine if the piece at (row,col) can make a single backward (KING)  jump move, checks both the
+     * case of a RED or a WHITE piece, opposite movement on the board of singlePieceJumpAvailable
+     * @param row row of piece that may be able to make a jump
+     * @param col column of piece that may be able to make a jump
+     * @param board board of the game
+     * @return boolean if the piece at (row,col) can make a single backward (king) jump
      */
     public boolean kingPieceJumpAvailable( int row, int col, Board board){
         Piece.Color currentPlayerColor = getCurrentPlayerColor();
 
         //if you are White and a diagonally adjacent space has a red piece
         if( currentPlayerColor == Piece.Color.WHITE ){
+            //check if you can jump left
             if ( hasOpponentPiece( row + 1, col-1, Piece.Color.RED ) ){
                 Space destination = board.getSpace( row + 2, col -2);
                 return destination.getPiece() == null;
             }
+            //check if you can jump right
             if ( hasOpponentPiece( row + 1, col + 1, Piece.Color.RED )){
                 Space destination = board.getSpace( row + 2, col + 2);
                 return destination.getPiece() == null;
@@ -149,18 +167,20 @@ public class MoveValidator {
         }
         //currentPlayer is red, check if diagonally adj. spaces have a white piece, and next diag space is empty
         else if( currentPlayerColor == Piece.Color.RED ){
+            //check if you can jump left
             if( hasOpponentPiece( row - 1, col-1, Piece.Color.WHITE )){
                 Space destination = board.getSpace( row - 2, col - 2);
                 return destination.getPiece() == null;
             }
+            //check if you can jump right
             if ( hasOpponentPiece( row - 1, col +1 , Piece.Color.WHITE ) ){
                 Space destination = board.getSpace( row - 2, col + 2);
                 return destination.getPiece() == null;
             }
         }
+        //no jump available for piece at (row, col)
         return false;
     }
-
 
 
     /**
