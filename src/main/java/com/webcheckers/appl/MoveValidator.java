@@ -72,19 +72,73 @@ public class MoveValidator {
         return false;
     }
 
+    private boolean isUpJumpMove( int rowStart, int rowEnd, int columnStart, int columnEnd ){
+        //left jump
+        if( ( rowEnd == rowStart + 2 ) && ( columnEnd == columnStart - 2 ) ){
+            return true;
+        }
+        //right jump
+        if( ( rowEnd == rowStart + 2 ) && ( columnEnd == columnStart + 2)){
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isDownJumpMove( int rowStart, int rowEnd, int columnStart, int columnEnd ){
+        //left jump
+        if( (rowEnd == rowStart - 2 ) && ( columnEnd == columnStart - 2) ){
+            return true;
+        }
+        //right jump
+        if( (rowEnd == rowStart - 2 ) && ( columnEnd == columnStart + 2) ){
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Function that checks if the Move is a valid single jump move
      * @param move the Move to check
      * @return true if the move is a valid jump move, false otherwise
      */
-    public boolean isJumpMove( Move move ){
+    public boolean isSimpleJumpMove( Move move ){
+        Piece.Color currentPlayerColor = getCurrentPlayerColor();
+        int rowStart = move.getStart().getRow();
+        int rowEnd = move.getEnd().getRow();
+        int columnStart = move.getStart().getCell();
+        int columnEnd = move.getEnd().getCell();
 
-        //jumping to the right
+        if( currentPlayerColor == Piece.Color.RED  && isUpJumpMove( rowStart, rowEnd, columnStart, columnEnd ) ){
+            //jumping forward on the board is "up" for RED (from row # perspective)
+            return true;
+        }
+        if( currentPlayerColor == Piece.Color.WHITE && isDownJumpMove( rowStart, rowEnd, columnStart, columnEnd ) ){
+            //jumping forward on the board is "down" for WHITE (from row # perspective)
+            return true;
+        }
+        return false;
+    }
 
-        //jumping to the left
+    /**
+     *
+     * @param move
+     * @return
+     */
+    public boolean isKingJumpMove( Move move ){
+        Piece.Color currentPlayerColor = getCurrentPlayerColor();
+        int rowStart = move.getStart().getRow();
+        int rowEnd = move.getEnd().getRow();
+        int columnStart = move.getStart().getCell();
+        int columnEnd = move.getEnd().getCell();
 
-        //if king piece- opposite directions ok too
-
+        if( currentPlayerColor == Piece.Color.WHITE && isUpJumpMove( rowStart, rowEnd, columnStart, columnEnd ) ){
+            //jumping backward on the board is "up" for white kings (from row # perspective)
+            return true;
+        }
+        if( currentPlayerColor == Piece.Color.RED && isDownJumpMove( rowStart, rowEnd, columnStart, columnEnd ) ){
+            //jumping backward on the board is "down" for red kings (from row # perspective)
+            return true;
+        }
         return false;
     }
 
@@ -232,11 +286,19 @@ public class MoveValidator {
      * @return boolean whether the move was legal or not
      */
     public boolean validate( Move move) {
+        int pieceRow = move.getStart().getRow();
+        int pieceColumn = move.getEnd().getCell();
+        Board board = game.getBoard();
+        Piece piece = board.getSpace( pieceRow, pieceColumn ).getPiece();
 
         //if one or move jump move(s) available, player must select one
         if( jumpMoveAvailable() ){
             //player must submit a jump move if one is available
-            if( !isJumpMove( move )){
+            if( !isSimpleJumpMove( move ) ){
+                if( piece.getType() == Piece.PieceType.KING && !isKingJumpMove( move )) {
+                    return false;
+                }
+                //if it is a king piece and it is not a king jump move
                 return false;
             }
             //player submitted a jump move
