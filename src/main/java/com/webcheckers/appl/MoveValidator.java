@@ -157,26 +157,34 @@ public class MoveValidator {
         if( currentPlayerColor == Piece.Color.RED ){
             //check if you can jump left
             if ( hasOpponentPiece( row + 1, col-1, Piece.Color.WHITE ) ){
-                Space destination = board.getSpace( row + 2, col -2);
-                return destination.getPiece() == null;
+                if( ( row + 2 <= 7 ) && ( col - 2 >= 0 ) ){
+                    Space destination = board.getSpace( row + 2, col -2);
+                    return destination.getPiece() == null;
+                }
             }
             //check if you can jump right
             if ( hasOpponentPiece( row + 1, col + 1, Piece.Color.WHITE )){
-                Space destination = board.getSpace( row + 2, col + 2);
-                return destination.getPiece() == null;
+                if( ( row + 2 <= 7 ) && ( col + 2 <= 7 ) ) {
+                    Space destination = board.getSpace(row + 2, col + 2);
+                    return destination.getPiece() == null;
+                }
            }
         }
         //currentPlayer is WHITE, check if diagonally adj. spaces have a red piece, and next diag space is empty
         else if( currentPlayerColor == Piece.Color.WHITE ){
             //check if you can jump left
             if( hasOpponentPiece( row - 1, col-1, Piece.Color.RED )){
-                Space destination = board.getSpace( row - 2, col - 2);
-                return destination.getPiece() == null;
+                if( ( row - 2 >= 0 ) && ( col - 2 >= 0 ) ) {
+                    Space destination = board.getSpace(row - 2, col - 2);
+                    return destination.getPiece() == null;
+                }
             }
             //check if you can jump right
             if ( hasOpponentPiece( row - 1, col +1 , Piece.Color.RED ) ){
-                Space destination = board.getSpace( row - 2, col + 2);
-                return destination.getPiece() == null;
+                if( ( row - 2 >= 0 ) && ( col + 2 <= 7 ) ) {
+                    Space destination = board.getSpace(row - 2, col + 2);
+                    return destination.getPiece() == null;
+                }
             }
         }
         //no jump available for piece at (row, col)
@@ -210,26 +218,34 @@ public class MoveValidator {
         if( currentPlayerColor == Piece.Color.WHITE ){
             //check if you can jump left
             if ( hasOpponentPiece( row + 1, col-1, Piece.Color.RED ) ){
-                Space destination = board.getSpace( row + 2, col -2);
-                return destination.getPiece() == null;
+                if( ( row + 2 <= 7 ) && ( col - 2 >= 0 ) ) {
+                    Space destination = board.getSpace(row + 2, col - 2);
+                    return destination.getPiece() == null;
+                }
             }
             //check if you can jump right
             if ( hasOpponentPiece( row + 1, col + 1, Piece.Color.RED )){
-                Space destination = board.getSpace( row + 2, col + 2);
-                return destination.getPiece() == null;
+                if( ( row + 2 <= 7 ) && ( col + 2 <= 7 ) ) {
+                    Space destination = board.getSpace(row + 2, col + 2);
+                    return destination.getPiece() == null;
+                }
             }
         }
         //currentPlayer is red, check if diagonally adj. spaces have a white piece, and next diag space is empty
         else if( currentPlayerColor == Piece.Color.RED ){
             //check if you can jump left
             if( hasOpponentPiece( row - 1, col-1, Piece.Color.WHITE )){
-                Space destination = board.getSpace( row - 2, col - 2);
-                return destination.getPiece() == null;
+                if( ( row - 2 >= 0 ) && ( col - 2 >= 0 ) ) {
+                    Space destination = board.getSpace(row - 2, col - 2);
+                    return destination.getPiece() == null;
+                }
             }
             //check if you can jump right
             if ( hasOpponentPiece( row - 1, col +1 , Piece.Color.WHITE ) ){
-                Space destination = board.getSpace( row - 2, col + 2);
-                return destination.getPiece() == null;
+                if( ( row - 2 >= 0 ) && ( col + 2 <= 7 ) ) {
+                    Space destination = board.getSpace(row - 2, col + 2);
+                    return destination.getPiece() == null;
+                }
             }
         }
         //no jump available for piece at (row, col)
