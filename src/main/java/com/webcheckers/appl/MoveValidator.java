@@ -1,6 +1,7 @@
 /*
  * Class that will validate a given Move
  *
+ * @author Emily Wesson
  * @author Eugene Chang
  * @author Karthik Iyer
  */
@@ -18,8 +19,6 @@ public class MoveValidator {
     private Game game;
 
 
-    //TODO make methods that can be private private!
-
     /**
      * Constructor for the Move Validator
      * @param game the Game for which moves must be validated
@@ -33,7 +32,7 @@ public class MoveValidator {
      * @param move the Move to check
      * @return true if the move is a valid simple move, false otherwise
      */
-    public boolean isSimpleMove( Move move ) {
+    private boolean isSimpleMove( Move move ) {
         Position start = move.getStart();
         Position end = move.getEnd();
 
@@ -59,7 +58,7 @@ public class MoveValidator {
      * @param move the Move to check
      * @return true if the move is a valid King move, false otherwise
      */
-    public boolean isKingMove( Move move ){
+    private boolean isKingMove( Move move ){
         Position start = move.getStart();
         Position end = move.getEnd();
         Space s = game.getBoard().getSpace(start.getRow(), start.getCell());
@@ -101,7 +100,7 @@ public class MoveValidator {
      * @param move the Move to check
      * @return true if the move is a valid jump move, false otherwise
      */
-    public boolean isSimpleJumpMove( Move move ){
+    private boolean isSimpleJumpMove( Move move ){
         Piece.Color currentPlayerColor = getCurrentPlayerColor();
         int rowStart = move.getStart().getRow();
         int rowEnd = move.getEnd().getRow();
@@ -124,7 +123,7 @@ public class MoveValidator {
      * @param move
      * @return
      */
-    public boolean isKingJumpMove( Move move ){
+    private boolean isKingJumpMove( Move move ){
         Piece.Color currentPlayerColor = getCurrentPlayerColor();
         int rowStart = move.getStart().getRow();
         int rowEnd = move.getEnd().getRow();
@@ -150,7 +149,7 @@ public class MoveValidator {
      * @param board board of the game
      * @return boolean if the piece at (row,col) can make a single forward jump
      */
-    public boolean singlePieceJumpAvailable( int row, int col, Board board ){
+    private boolean singlePieceJumpAvailable( int row, int col, Board board ){
         Piece.Color currentPlayerColor = getCurrentPlayerColor();
 
         //if you are Red and a diagonally adjacent space has a white piece
@@ -211,7 +210,7 @@ public class MoveValidator {
      * @param board board of the game
      * @return boolean if the piece at (row,col) can make a single backward (king) jump
      */
-    public boolean kingPieceJumpAvailable( int row, int col, Board board){
+    private boolean kingPieceJumpAvailable( int row, int col, Board board){
         Piece.Color currentPlayerColor = getCurrentPlayerColor();
 
         //if you are White and a diagonally adjacent space has a red piece
@@ -270,7 +269,7 @@ public class MoveValidator {
      *Function that checks if the Move is a valid simple move
      * @return true is a jump move is available for that player
      */
-    public boolean jumpMoveAvailable(){
+    private boolean jumpMoveAvailable(){
         Piece.Color currentPlayerColor = getCurrentPlayerColor();
         Board board = game.getBoard();
 
@@ -295,6 +294,7 @@ public class MoveValidator {
         }
         return false;
     }
+
 
     /**
      * The main validation function, will test the move for every possible valid move and then return the result
