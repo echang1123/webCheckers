@@ -2,7 +2,8 @@
  * Test class for PostSignInRoute
  *
  * @author Karthik Iyer
- */
+ *//*
+
 
 
 package com.webcheckers.ui;
@@ -43,9 +44,11 @@ public class PostSignInRouteTest {
 	private TemplateEngine templateEngine;
 
 
-	/**
+	*/
+/**
 	 * Create all the mock objects before running the tests
-	 */
+	 *//*
+
 	@BeforeEach
 	public void setup() {
 		request = mock(Request.class);
@@ -58,9 +61,11 @@ public class PostSignInRouteTest {
 	}
 
 
-	/**
+	*/
+/**
 	 * Test empty username sign-in attempt
-	 */
+	 *//*
+
 	@Test
 	public void empty_username() {
 		// setup
@@ -80,9 +85,11 @@ public class PostSignInRouteTest {
 	}
 
 
-	/**
+	*/
+/**
 	 * Test quotes username sign-in attempt
-	 */
+	 *//*
+
 	@Test
 	public void quotes_username() {
 		// setup
@@ -102,9 +109,11 @@ public class PostSignInRouteTest {
 	}
 
 
-	/**
+	*/
+/**
 	 * Tests when a sign-in with a valid username is tried
-	 */
+	 *//*
+
 	@Test
 	public void valid_username() {
 		// setup
@@ -118,9 +127,11 @@ public class PostSignInRouteTest {
 	}
 
 
-	/**
+	*/
+/**
 	 * Tests sign-in attempt with a username that is taken
-	 */
+	 *//*
+
 	@Test
 	public void same_username() {
 		// setup
@@ -142,3 +153,4 @@ public class PostSignInRouteTest {
 
 	}
 }
+*/

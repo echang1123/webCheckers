@@ -10,6 +10,7 @@ package com.webcheckers.ui;
 
 import com.webcheckers.appl.*;
 import com.webcheckers.model.Game;
+import com.webcheckers.model.Message;
 import com.webcheckers.model.Move;
 import com.webcheckers.model.Player;
 import spark.Request;
@@ -47,6 +48,7 @@ public class PostValidateMoveRoute implements Route {
      */
     @Override
     public Object handle( Request request, Response response ) {
+        LOG.finer( "PostValidateMoveRoute is invoked." );
 
         Session httpSession = request.session();
         PlayerLobby playerLobby = gi.getPlayerLobby();
@@ -61,7 +63,19 @@ public class PostValidateMoveRoute implements Route {
         final String dataString = request.body();
         Move move = JsonUtils.fromJson( dataString, Move.class );
 
-        return null;
+        boolean isValidMove = moveValidator.validate( move );
+
+        // if the move is valid, add it to the validatedMoves array list and
+        // return a message of type INFO
+        if( isValidMove ) {
+            game.addValidatedMove( move );
+            return new Message( "", Message.MessageType.INFO );
+        }
+
+        // if the move is not valid, return a message of type ERROR
+        else {
+            return new Message( "", Message.MessageType.ERROR );
+        }
 
     }
 }

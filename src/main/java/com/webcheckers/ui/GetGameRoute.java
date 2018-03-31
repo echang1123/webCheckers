@@ -81,6 +81,8 @@ public class GetGameRoute implements Route {
 
 
         // Player is not in game, that means we are opening this board for the first time
+        if( ( httpSession.attribute( RoutesAndKeys.IN_GAME_KEY ) == null )
+            || ( httpSession.attribute( RoutesAndKeys.IN_GAME_KEY ).equals( false ) ) ) {
         // We have to determine if the current player is the first player
         // If it is the first player:
         // - Create a new Game with a new Board
@@ -92,8 +94,6 @@ public class GetGameRoute implements Route {
         // - Retrieve the Game from the GameLobby
         // - Generate a BoardView for the second player
         // - Render game.ftl
-        if( ( httpSession.attribute( RoutesAndKeys.IN_GAME_KEY ).equals( false ) )
-            || ( httpSession.attribute( RoutesAndKeys.IN_GAME_KEY ) == null ) ) {
 
             // check if you are the first player
             Boolean isFirstPlayer = false;
@@ -123,7 +123,6 @@ public class GetGameRoute implements Route {
                     }
                 }
             }
-
             if( isFirstPlayer ) {
                 boardModel = new Board();
                 opponent = players.get( opponentName );
