@@ -16,7 +16,7 @@ import java.io.Serializable;
 public class Message implements Serializable {
 
     // Enums
-    private enum MessageType { INFO, ERROR } // the type of the message
+    public enum MessageType { INFO, ERROR } // the type of the message
 
     // Attributes
     private String text; // the text of the message

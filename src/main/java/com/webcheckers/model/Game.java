@@ -9,7 +9,9 @@
 
 package com.webcheckers.model;
 
-import com.webcheckers.appl.MoveValidator;
+
+import java.util.ArrayList;
+
 
 public class Game {
 
@@ -18,6 +20,7 @@ public class Game {
     private Player playerOne; // player 1
     private Player playerTwo; // player 2
     private int whoseTurn; // 0 is for player1 and 1 is for player2
+    private ArrayList< Move > validatedMoves; // keeps track of moves that have been validated
 
     /**
      * Constructor for the Game class
@@ -30,6 +33,7 @@ public class Game {
         this.playerOne = playerOne;
         this.playerTwo = playerTwo;
         this.whoseTurn = 0; // 0 is for player1 and 1 is for player2
+        this.validatedMoves = new ArrayList<>();
     }
 
     /**
@@ -109,4 +113,24 @@ public class Game {
     public boolean contains( Player player ) {
         return playerOne.equals(player) || playerTwo.equals( player );
     }
+
+
+    /**
+     * Method that adds a validated move to the validatedMoves array list
+     * does not check if the move is validated; (move validity is a pre-condition)
+     * @param move the validated move to add
+      */
+    public void addValidatedMove( Move move ) {
+        this.validatedMoves.add( move );
+    }
+
+
+    /**
+     * Method that removes the most recently added validated move from the validatedMoves array list
+     * @return the move that was removed
+     */
+    public Move backupValidatedMove() {
+        return this.validatedMoves.remove( this.validatedMoves.size() - 1 );
+    }
+
 }
