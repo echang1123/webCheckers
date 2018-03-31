@@ -79,6 +79,7 @@ public class PostSubmitTurnRoute implements Route {
 
         // all validated moves were submitted successfully
         else {
+            game.switchTurn();
             return new Message( "", Message.MessageType.INFO );
         }
     }
