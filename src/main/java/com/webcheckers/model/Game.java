@@ -135,4 +135,13 @@ public class Game {
         return this.validatedMoves.remove( this.validatedMoves.size() - 1 );
     }
 
+
+    /**
+     * Getter for the validated moves
+     * @return the array list of validated moves
+     */
+    public ArrayList< Move > getValidatedMoves() {
+        return this.validatedMoves;
+    }
+
 }
