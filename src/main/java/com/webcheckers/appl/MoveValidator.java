@@ -386,12 +386,14 @@ public class MoveValidator {
             }
             // player submitted a jump move
             else {
+                move.setMoveType( Move.MoveType.JUMP );
                 return true;
             }
         }
 
         // if no jump moves available, then check if it is a simple move or a king simple move
         if( isSimpleMove( move ) || isKingSimpleMove( move ) ) { // it is valid simple or valid king move
+            move.setMoveType( Move.MoveType.SIMPLE );
             return true;
         }
 

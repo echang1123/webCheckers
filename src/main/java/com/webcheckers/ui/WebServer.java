@@ -67,6 +67,7 @@ public class WebServer {
         get( RoutesAndKeys.GAME_URL, new GetGameRoute( templateEngine, gi ) );
         post( RoutesAndKeys.VALIDATE_MOVE_URL, new PostValidateMoveRoute( gi ), JsonUtils.json() );
         post( RoutesAndKeys.CHECK_TURN_URL, new PostCheckTurnRoute( gi ) );
+        post( RoutesAndKeys.SUBMIT_TURN_URL, new PostSubmitTurnRoute( gi ) );
 
         LOG.config( "WebServer is initialized." );
     }

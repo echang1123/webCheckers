@@ -56,4 +56,40 @@ public class Board {
 	}
 
 
+    /**
+     * Overloaded the getSpace function to work with position objects as well
+     * @param position the position on the board
+     * @return the space at the specified position
+     */
+	public Space getSpace( Position position ) {
+	    return this.getSpace( position.getRow(), position.getCell() );
+    }
+
+
+    /**
+     * Function that updates the board to reflect a move that has been done (submitted)
+     * @param move the move to 'do'
+     */
+	public void doMove( Move move ) {
+
+        Position start = move.getStart();
+        Position end = move.getEnd();
+
+        // no matter the move type we need to do the following
+        // 1. transfer (copy) the piece from start to end
+        // 2. remove the piece from the start position
+        Piece oldPiece = this.getSpace( start ).getPiece();
+        Piece newPiece = new Piece( oldPiece.getType(), oldPiece.getColor() );
+        this.getSpace( end ).setPiece( newPiece );
+        this.getSpace( start ).removePiece();
+
+        // if it is a jump move, remove the piece in the middle (the captured piece)
+        if( move.getMoveType() == Move.MoveType.JUMP ) {
+            int middleRow = ( start.getRow() + end.getRow() ) / 2;
+            int middleCol = ( start.getCell() + end.getCell() ) / 2;
+            this.getSpace( middleRow, middleCol ).removePiece();
+        }
+    }
+
+
 }
