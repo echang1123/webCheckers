@@ -64,4 +64,12 @@ public class Space {
     }
 
 
+    /**
+     * Removes the piece from this space
+     */
+    public void removePiece() {
+        this.piece = null;
+    }
+
+
 }
