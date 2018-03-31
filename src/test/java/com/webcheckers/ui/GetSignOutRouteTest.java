@@ -7,6 +7,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.webcheckers.appl.GlobalInformation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -38,7 +39,7 @@ public class GetSignOutRouteTest {
     private GetSignOutRoute CuT;
 
     // friendly objects
-    private PlayerLobby playerLobby;
+    private GlobalInformation playerLobby;
 
     // mock objects
     private Request request;
@@ -58,7 +59,7 @@ public class GetSignOutRouteTest {
         engine = mock(TemplateEngine.class);;
 
         // create a unique CuT for each test
-        playerLobby = new PlayerLobby();
+        playerLobby = new GlobalInformation();
         CuT = new GetSignOutRoute(playerLobby);
     }
     /**
