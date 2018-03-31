@@ -25,18 +25,18 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 
-public class PostCheckTurn implements Route {
+public class PostCheckTurnRoute implements Route {
 
     // Attributes
-    private static final Logger LOG = Logger.getLogger( PostCheckTurn.class.getName() );
+    private static final Logger LOG = Logger.getLogger( PostCheckTurnRoute.class.getName() );
     private GlobalInformation gi;
 
 
     /**
-     * Constructor for the PostCheckTurn class
+     * Constructor for the PostCheckTurnRoute class
      * @param gi the Global Information object
      */
-    public PostCheckTurn( GlobalInformation gi ) {
+    public PostCheckTurnRoute( GlobalInformation gi ) {
         // Validation
         Objects.requireNonNull( LOG, "LOG cannot be null" );
         Objects.requireNonNull( gi, "gi cannot be null" );
@@ -46,7 +46,7 @@ public class PostCheckTurn implements Route {
 
 
     /**
-     * Handler function for PostCheckTurn
+     * Handler function for PostCheckTurnRoute
      * The function retrieves the current player from the player lobby, and the game that the current player is in
      * from the game lobby. It determines if the current player is player one or two, and then checks whose turn it
      * is in the game. If it is the current player's turn, then it returns a message saying "true", otherwise it
