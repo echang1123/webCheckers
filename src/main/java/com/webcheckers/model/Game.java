@@ -144,4 +144,23 @@ public class Game {
         return this.validatedMoves;
     }
 
+
+    /**
+     * Helper function that serves as a boolean flag for whether we're out of validated moves
+     * @return boolean whether it is empty or not
+     */
+    public boolean outOfValidatedMoves() {
+        return this.validatedMoves.isEmpty();
+    }
+
+
+    /**
+     * Helper function that returns the first move in validatedMoves
+     * used in PostSubmitTurnRoute to get the moves in the right order
+     * @return the first move
+     */
+    public Move getFirstValidatedMove() {
+        return this.validatedMoves.remove( 0 );
+    }
+
 }
