@@ -54,9 +54,8 @@ public class PostBackupMoveRoute implements Route {
 
         Game game = gameLobby.findGame( currentPlayer );
 
-        // if validatedMoves array list has at least one move, remove it and
-        // return a message of type INFO
-        if( game.getValidatedMoves().size() != 0 ) {
+        // if validatedMoves array list has at least one move, remove it and return a message of type INFO
+        if( !game.outOfValidatedMoves() ) {
             game.backupValidatedMove( );
             return new Message( "", Message.MessageType.INFO );
         }
