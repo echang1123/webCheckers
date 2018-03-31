@@ -48,6 +48,7 @@ public class PostValidateMoveRoute implements Route {
      */
     @Override
     public Object handle( Request request, Response response ) {
+        LOG.finer( "PostValidateMoveRoute is invoked." );
 
         Session httpSession = request.session();
         PlayerLobby playerLobby = gi.getPlayerLobby();
