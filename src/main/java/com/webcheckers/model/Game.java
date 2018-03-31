@@ -53,6 +53,22 @@ public class Game {
 
 
     /**
+     * Helper function to remove player one (when resigned)
+     */
+    public void removePlayerOne() {
+        this.playerOne = null;
+    }
+
+
+    /**
+     * Helper function to remove player two (when resigned)
+     */
+    public void removePlayerTwo() {
+        this.playerTwo = null;
+    }
+
+
+    /**
      * Getter for player one
      * @return first player (RED)
      */

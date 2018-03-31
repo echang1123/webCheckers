@@ -58,9 +58,19 @@ public class PostSubmitTurnRoute implements Route {
         GameLobby gameLobby = gi.getGameLobby();
 
         String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER_KEY );
+        if( currentPlayerName == null ) {
+            return new Message( "", Message.MessageType.ERROR );
+        }
         Player currentPlayer = playerLobby.getPlayer( currentPlayerName );
+        if( currentPlayer == null ) {
+            return new Message( "", Message.MessageType.ERROR );
+        }
 
         Game game = gameLobby.findGame( currentPlayer );
+        if( game == null ) {
+            return new Message( "", Message.MessageType.ERROR );
+        }
+
         Board board = game.getBoard();
         int numberOfMovesSubmitted = 0;
 
