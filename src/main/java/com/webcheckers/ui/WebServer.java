@@ -18,6 +18,7 @@ import static spark.Spark.*;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+
 import com.webcheckers.appl.GlobalInformation;
 import com.webcheckers.appl.JsonUtils;
 import com.webcheckers.appl.RoutesAndKeys;
@@ -65,6 +66,7 @@ public class WebServer {
         get( RoutesAndKeys.SIGN_OUT_URL, new GetSignOutRoute( gi ) );
         get( RoutesAndKeys.GAME_URL, new GetGameRoute( templateEngine, gi ) );
         post( RoutesAndKeys.VALIDATE_MOVE_URL, new PostValidateMoveRoute( gi ), JsonUtils.json() );
+        post( RoutesAndKeys.CHECK_TURN_URL, new PostCheckTurn( gi ) );
 
         LOG.config( "WebServer is initialized." );
     }

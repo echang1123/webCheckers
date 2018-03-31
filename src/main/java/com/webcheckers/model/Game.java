@@ -40,7 +40,9 @@ public class Game {
      * Getter for whoseTurn
      * @return int representing current player: 0 for player1 and 1 for player2
      */
-    public int getWhoseTurn(){ return this.whoseTurn; }
+    public int getWhoseTurn() {
+        return this.whoseTurn;
+    }
 
     /**
      * Function that switches which player's turn it is
