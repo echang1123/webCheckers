@@ -66,6 +66,12 @@ public class PostCheckTurnRoute implements Route {
         Player currentPlayer = playerLobby.getPlayer( currentPlayerName );
 
         Game game = gameLobby.findGame( currentPlayer );
+
+        //if currentPlayer's opponent is null( opponent resigned )
+        if( currentPlayer.getOpponent() == null ){
+            return new Message( "true", Message.MessageType.INFO );
+        }
+
         if( currentPlayer.equals( game.getPlayerOne() ) ) {
             if( game.getWhoseTurn() == 0 )
                 return new Message( "true", Message.MessageType.INFO );
