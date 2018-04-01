@@ -170,7 +170,7 @@ public class GetGameRoute implements Route {
                 gameLobby.removeGame( game );
                 httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
 
-                Message message = new Message( "Player 2 resigned.", Message.MessageType.INFO );
+                Message message = new Message( "Player 2 resigned.", Message.MessageType.info );
                 vm.put( RoutesAndKeys.MESSAGE_KEY, message );
                 vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName);
                 vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
@@ -185,7 +185,7 @@ public class GetGameRoute implements Route {
                 gameLobby.removeGame( game );
                 httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
 
-                Message message = new Message( "Player 1 resigned.", Message.MessageType.INFO );
+                Message message = new Message( "Player 1 resigned.", Message.MessageType.info );
                 vm.put( RoutesAndKeys.MESSAGE_KEY, message );
                 vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName);
                 vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );

@@ -62,16 +62,16 @@ public class PostSubmitTurnRoute implements Route {
 
         String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER_KEY );
         if( currentPlayerName == null ) {
-            return new Message( "", Message.MessageType.ERROR );
+            return new Message( "", Message.MessageType.error );
         }
         Player currentPlayer = playerLobby.getPlayer( currentPlayerName );
         if( currentPlayer == null ) {
-            return new Message( "", Message.MessageType.ERROR );
+            return new Message( "", Message.MessageType.error );
         }
 
         Game game = gameLobby.findGame( currentPlayer );
         if( game == null ) {
-            return new Message( "", Message.MessageType.ERROR );
+            return new Message( "", Message.MessageType.error );
         }
 
         Board board = game.getBoard();
@@ -87,7 +87,7 @@ public class PostSubmitTurnRoute implements Route {
         // there were no validated moves
         // return an error message
         if( numberOfMovesSubmitted == 0 ) {
-            return new Message( "", Message.MessageType.ERROR );
+            return new Message( "", Message.MessageType.error );
         }
 
 
@@ -104,7 +104,7 @@ public class PostSubmitTurnRoute implements Route {
             currentPlayer.removeOpponent();
          //   gameLobby.removeGame( game ); when they find out they lost, the opponent will do this in checkTurnRoute
             httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
-            Message message = new Message( "You are victorious!", Message.MessageType.INFO );
+            Message message = new Message( "You are victorious!", Message.MessageType.info );
 
             vm.put( RoutesAndKeys.MESSAGE_KEY, message );
             vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName);
@@ -119,7 +119,7 @@ public class PostSubmitTurnRoute implements Route {
 
             currentPlayer.removeOpponent();
             httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
-            Message message = new Message( "You are victorious!", Message.MessageType.INFO );
+            Message message = new Message( "You are victorious!", Message.MessageType.info );
 
             vm.put( RoutesAndKeys.MESSAGE_KEY, message );
             vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName);
@@ -138,7 +138,7 @@ public class PostSubmitTurnRoute implements Route {
         // all validated moves were submitted successfully
         else {
             game.switchTurn();
-            return new Message( "", Message.MessageType.INFO );
+            return new Message( "", Message.MessageType.info );
         }
     }
 

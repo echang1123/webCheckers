@@ -68,17 +68,17 @@ public class PostCheckTurnRoute implements Route {
 
         String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER_KEY );
         if( currentPlayerName == null ) {
-            return new Message( "", Message.MessageType.ERROR );
+            return new Message( "", Message.MessageType.error );
         }
 
         Player currentPlayer = playerLobby.getPlayer( currentPlayerName );
         if( currentPlayer == null ) {
-            return new Message( "", Message.MessageType.ERROR );
+            return new Message( "", Message.MessageType.error );
         }
 
         Game game = gameLobby.findGame( currentPlayer );
         if( game == null ) {
-            return new Message( "", Message.MessageType.ERROR );
+            return new Message( "", Message.MessageType.error );
         }
 
         Board board = game.getBoard();
@@ -94,7 +94,7 @@ public class PostCheckTurnRoute implements Route {
                 currentPlayer.removeOpponent();
                 gameLobby.removeGame( game );
                 httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
-                Message message = new Message( "You lost...", Message.MessageType.INFO );
+                Message message = new Message( "You lost...", Message.MessageType.info );
 
                 vm.put( RoutesAndKeys.MESSAGE_KEY, message );
                 vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName);
@@ -108,7 +108,7 @@ public class PostCheckTurnRoute implements Route {
                 currentPlayer.removeOpponent();
                 httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
                 otherPlayers.remove( currentPlayerName ); // remove the current player from being shown
-                Message message = new Message( "Player 2 resigned.", Message.MessageType.INFO );
+                Message message = new Message( "Player 2 resigned.", Message.MessageType.info );
                 vm.put( RoutesAndKeys.MESSAGE_KEY, message );
                 vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName);
                 vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
@@ -117,9 +117,9 @@ public class PostCheckTurnRoute implements Route {
             }
 
             if( game.getWhoseTurn() == 0 )
-                return new Message( "true", Message.MessageType.INFO );
+                return new Message( "true", Message.MessageType.info );
             else
-                return new Message( "false", Message.MessageType.INFO );
+                return new Message( "false", Message.MessageType.info );
         }
         else {
             //you are WHITE and you lost
@@ -127,7 +127,7 @@ public class PostCheckTurnRoute implements Route {
                 currentPlayer.removeOpponent();
                 gameLobby.removeGame( game );
                 httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
-                Message message = new Message( "You lost...", Message.MessageType.INFO );
+                Message message = new Message( "You lost...", Message.MessageType.info );
 
                 vm.put( RoutesAndKeys.MESSAGE_KEY, message );
                 vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName);
@@ -141,7 +141,7 @@ public class PostCheckTurnRoute implements Route {
                 currentPlayer.removeOpponent();
                 httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
                 otherPlayers.remove( currentPlayerName ); // remove the current player from being shown
-                Message message = new Message( "Player 1 resigned.", Message.MessageType.INFO );
+                Message message = new Message( "Player 1 resigned.", Message.MessageType.info );
                 vm.put( RoutesAndKeys.MESSAGE_KEY, message );
                 vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName);
                 vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
@@ -150,9 +150,9 @@ public class PostCheckTurnRoute implements Route {
             }
 
             if( game.getWhoseTurn() == 0 )
-                return new Message( "false", Message.MessageType.INFO );
+                return new Message( "false", Message.MessageType.info );
             else
-                return new Message( "true", Message.MessageType.INFO );
+                return new Message( "true", Message.MessageType.info );
         }
     }
 }
