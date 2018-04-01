@@ -162,7 +162,14 @@ public class GetGameRoute implements Route {
             vm.put( "redPlayer", playerOne );
             vm.put( "whitePlayer", playerTwo );
 
+            //if your opponent is null, they resigned so: remove your opponent, remove the game from the lobby
+            //set inGame to false, create message that your opponent resigned, populate vm and render home
             if( currentPlayer.equals( playerOne ) && playerTwo == null ){
+                currentPlayer.removeOpponent();
+
+                gameLobby.removeGame( game );
+                httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
+
                 Message message = new Message( "Player 2 resigned.", Message.MessageType.INFO );
                 vm.put( RoutesAndKeys.MESSAGE_KEY, message );
                 vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName);
@@ -173,6 +180,11 @@ public class GetGameRoute implements Route {
             }
 
             if( currentPlayer.equals( playerTwo ) && playerOne == null ){
+                currentPlayer.removeOpponent();
+
+                gameLobby.removeGame( game );
+                httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
+
                 Message message = new Message( "Player 1 resigned.", Message.MessageType.INFO );
                 vm.put( RoutesAndKeys.MESSAGE_KEY, message );
                 vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName);
