@@ -90,7 +90,7 @@ public class PostCheckTurnRoute implements Route {
 
         if( currentPlayer.equals( game.getPlayerOne() ) ) {
             //you are RED and you lost
-            if( board.getRedPiecesInPlay() <= 0 ){ //OR NO MOVES ARE AVAILABLE
+            if( board.getRedPiecesInPlay() <= 0 || game.noMovesAvailableForPlayerOne() ){ //OR NO MOVES ARE AVAILABLE
                 currentPlayer.removeOpponent();
                 gameLobby.removeGame( game );
                 httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
@@ -123,7 +123,7 @@ public class PostCheckTurnRoute implements Route {
         }
         else {
             //you are WHITE and you lost
-            if( board.getWhitePiecesInPlay() <= 0 ){ //OR NO MOVES ARE AVAILABLE
+            if( board.getWhitePiecesInPlay() <= 0 || game.noMovesAvailableForPlayerTwo() ){ //OR NO MOVES ARE AVAILABLE
                 currentPlayer.removeOpponent();
                 gameLobby.removeGame( game );
                 httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
