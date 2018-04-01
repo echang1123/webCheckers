@@ -76,7 +76,8 @@ public class PlayerLobby {
      * @param playerName the player to remove ( sign out )
      */
     public void removePlayer( String playerName ){
-        players.remove( playerName );
+        if( players.containsKey( playerName ) )
+            players.remove( playerName );
     }
 
 

@@ -36,8 +36,9 @@ public class GetHomeRoute implements Route {
 
     /**
      * Constructor for the GetHomeRoute routehandler
+     *
      * @param templateEngine the HTML template rendering engine
-     * @param gi the Global Information
+     * @param gi             the Global Information
      */
     public GetHomeRoute( final TemplateEngine templateEngine, final GlobalInformation gi ) {
         // validation
@@ -52,13 +53,14 @@ public class GetHomeRoute implements Route {
 
     /**
      * Render the WebCheckers Home page.
-     * @param request the HTTP request
+     *
+     * @param request  the HTTP request
      * @param response the HTTP response
      * @return the rendered HTML for the Home page
      */
     @Override
     public Object handle( Request request, Response response ) {
-        LOG.finer( "GetHomeRoute is invoked.") ;
+        LOG.finer( "GetHomeRoute is invoked." );
 
         // Create the view model
         Map< String, Object > vm = new HashMap<>();
@@ -71,13 +73,11 @@ public class GetHomeRoute implements Route {
 
         // player has not signed in
         if( ( httpSession.attribute( RoutesAndKeys.SIGNED_IN_KEY ) == null ) ||
-                ( httpSession.attribute( RoutesAndKeys.SIGNED_IN_KEY ).equals( false ) ) ) {
+            ( httpSession.attribute( RoutesAndKeys.SIGNED_IN_KEY ).equals( false ) ) ) {
             httpSession.attribute( RoutesAndKeys.SIGNED_IN_KEY, false );
             vm.put( RoutesAndKeys.SIGNED_IN_KEY, false );
             vm.put( RoutesAndKeys.PLAYERS_KEY, playerLobby.getPlayers() );
-        }
-
-        else { // player is signed in
+        } else { // player is signed in
             String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER_KEY );
             HashMap< String, Player > players = playerLobby.getPlayers();
             Player currentPlayer = players.get( currentPlayerName );
@@ -92,14 +92,8 @@ public class GetHomeRoute implements Route {
                 response.redirect( RoutesAndKeys.GAME_URL );
             }
 
-            /*Player opponent = playerLobby.findOpponent( currentPlayer ); // get the opponent
-
-            if( opponent != null ) { // someone has selected you for a game
-                response.redirect( RoutesAndKeys.GAME_URL );
-            }*/
-
             // you have not been selected for a game, display home ( populate the vm )
-            vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName);
+            vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName );
             vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
             vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
 
