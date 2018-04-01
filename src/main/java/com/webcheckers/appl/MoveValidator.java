@@ -278,14 +278,14 @@ public class MoveValidator {
             }
             return false;
         } else if( currentPlayerColor == Piece.Color.RED ) {
-            if( isWithinBounds( row + 1, col - 1 ) ) {
-                Space left = board.getSpace( row + 1, col - 1 );
+            if( isWithinBounds( row - 1, col - 1 ) ) {
+                Space left = board.getSpace( row - 1, col - 1 );
                 if( left.getPiece() == null ) {
                     return true;
                 }
             }
-            if( isWithinBounds( row + 1, col + 1 ) ) {
-                Space right = board.getSpace( row + 1, col + 1 );
+            if( isWithinBounds( row - 1, col + 1 ) ) {
+                Space right = board.getSpace( row - 1, col + 1 );
                 if( right.getPiece() == null ) {
                     return true;
                 }
