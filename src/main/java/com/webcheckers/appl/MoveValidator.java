@@ -198,6 +198,13 @@ public class MoveValidator {
     }
 
 
+    /**
+     *
+     * @param row
+     * @param col
+     * @param board
+     * @return
+     */
     public boolean isNormalMoveAvailable( int row, int col, Board board ) {
         Piece.Color currentPlayerColor = getCurrentPlayerColor();
         if( currentPlayerColor == Piece.Color.RED ) {
@@ -232,8 +239,29 @@ public class MoveValidator {
         return false;
     }
 
+    /**
+     * Helper function to determine if a space has a king piece
+     * @param space The space whose piece you are checking
+     * @return boolean whether the piece is a KING type or not
+     */
+    private boolean isKingPiece( Space space ){
+        Piece piece = space.getPiece();
+        return piece.getType() == Piece.PieceType.KING;
+    }
 
+    /**
+     *
+     * @param row
+     * @param col
+     * @param board
+     * @return
+     */
     public boolean isKingMoveAvailable( int row, int col, Board board ) {
+        Space space = board.getSpace( row, col );
+        //if not a King piece, no King move available
+        if ( !isKingPiece( space )){
+            return false;
+        }
         Piece.Color currentPlayerColor = getCurrentPlayerColor();
         if( currentPlayerColor == Piece.Color.WHITE ) {
             if( isWithinBounds( row + 1, col - 1 ) ) {
@@ -364,6 +392,12 @@ public class MoveValidator {
      * @return boolean if the piece at (row,col) can make a single backward (king) jump
      */
     public boolean kingJumpAvailable( int row, int col, Board board ) {
+        Space space = board.getSpace( row, col );
+        //if not a King piece, no King jump available
+        if ( !isKingPiece( space )){
+            return false;
+        }
+
         Piece.Color currentPlayerColor = getCurrentPlayerColor();
 
         // if it is a white piece, check if there is a red piece diagonally adjacent to it
@@ -458,17 +492,17 @@ public class MoveValidator {
 
                     // the space has a piece with the same color as the current player
                     if( space.getPiece().getColor() == currentPlayerColor ) {
-                        // check if that piece is able to make a jump move
-                        if( singleJumpAvailable( row, col, board ) ) {
+                        // check if that piece is able to make any jump move
+                        if( singleJumpAvailable( row, col, board ) || kingJumpAvailable( row, col, board )) {
                             return true;
                         }
 
-                        // a jump move was not possible, check if the piece is a king piece and check
+                        // REDUNDANT NOW? check and make sure
                         // if a king jump move is possible
-                        if( ( space.getPiece().getType() == Piece.PieceType.KING )
-                            && ( kingJumpAvailable( row, col, board ) ) ) {
-                            return true;
-                        }
+                        //if( ( space.getPiece().getType() == Piece.PieceType.KING )
+                        //    && ( kingJumpAvailable( row, col, board ) ) ) {
+                        //    return true;
+                       // }
                     }
                 }
             }
