@@ -29,6 +29,18 @@ public class MoveValidator {
 
 
     /**
+     * Simple helper function that returns whether a given (row, col) is within bounds
+     *
+     * @param row the row index
+     * @param col the column index
+     * @return whether it is in bounds
+     */
+    public boolean isWithinBounds( int row, int col ) {
+        return ( ( row <= 7 ) && ( row >= 0 ) && ( col <= 7 ) && ( col >= 0 ) );
+    }
+
+
+    /**
      * Function that checks if the move is a valid simple move
      * @param move the move to check
      * @return true if the move is a valid simple move, false otherwise
