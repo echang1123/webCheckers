@@ -68,6 +68,7 @@ public class GetGameRoute implements Route {
 
         String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER_KEY );
         Player currentPlayer = players.get( currentPlayerName );
+        System.out.println( currentPlayer.getName() );
 
         //create map with all players, and remove the current player from it
         Map< String, Player > otherPlayers = new HashMap<>( players );
@@ -114,7 +115,7 @@ public class GetGameRoute implements Route {
                         if( players.get( opponentName ).getOpponent() != null ) { // the selected opponent is already in game
                             String message = "Player \"" + opponentName + "\" is already playing a game.";
                             vm.put( "message", message );
-                            vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName );
+                            vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayer );
                             vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
                             vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
                             // render home with error message
@@ -172,7 +173,7 @@ public class GetGameRoute implements Route {
 
                 Message message = new Message( "Player 2 resigned.", Message.MessageType.info );
                 vm.put( RoutesAndKeys.MESSAGE_KEY, message );
-                vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName);
+                vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayer );
                 vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
                 vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
 
@@ -187,7 +188,7 @@ public class GetGameRoute implements Route {
 
                 Message message = new Message( "Player 1 resigned.", Message.MessageType.info );
                 vm.put( RoutesAndKeys.MESSAGE_KEY, message );
-                vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName);
+                vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayer );
                 vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
                 vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
 
@@ -204,6 +205,7 @@ public class GetGameRoute implements Route {
 
             // currentPlayer will be the first player if it is the same as playerOne
             board = new BoardView( boardModel, currentPlayer.equals( playerOne ) );
+            vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayer );
             vm.put( "board", board );
         }
 
