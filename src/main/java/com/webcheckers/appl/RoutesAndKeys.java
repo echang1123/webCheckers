@@ -30,5 +30,5 @@ public class RoutesAndKeys {
     public static final String GAME_LOBBY_KEY = "gameLobby";
     public static final String GLOBAL_INFORMATION_KEY = "globalInformation";
     public static final String IN_GAME_KEY = "inGame";
-
+    public static final String MESSAGE_KEY = "message";
 }
