@@ -89,6 +89,14 @@ public class Board {
             int middleCol = ( start.getCell() + end.getCell() ) / 2;
             this.getSpace( middleRow, middleCol ).removePiece();
         }
+
+        //check the color and end row, if RED ends at row 7 or WHITE ends at row 0, upgrade the piece to a KING
+        if( newPiece.getColor() == Piece.Color.RED && end.getRow() == 7){
+            newPiece.pieceType = Piece.PieceType.KING;
+        }
+        if( newPiece.getColor() == Piece.Color.WHITE && end.getRow() == 0){
+            newPiece.pieceType = Piece.PieceType.KING;
+        }
     }
 
 
