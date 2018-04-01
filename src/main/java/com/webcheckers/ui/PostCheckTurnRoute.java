@@ -15,12 +15,11 @@ import com.webcheckers.appl.RoutesAndKeys;
 import com.webcheckers.model.Game;
 import com.webcheckers.model.Message;
 import com.webcheckers.model.Player;
-import spark.Request;
-import spark.Response;
-import spark.Route;
-import spark.Session;
+import spark.*;
 
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
@@ -30,17 +29,20 @@ public class PostCheckTurnRoute implements Route {
     // Attributes
     private static final Logger LOG = Logger.getLogger( PostCheckTurnRoute.class.getName() );
     private GlobalInformation gi;
+    private final TemplateEngine templateEngine;
 
 
     /**
      * Constructor for the PostCheckTurnRoute class
      * @param gi the Global Information object
      */
-    public PostCheckTurnRoute( GlobalInformation gi ) {
+    public PostCheckTurnRoute( final TemplateEngine templateEngine, GlobalInformation gi ) {
         // Validation
         Objects.requireNonNull( LOG, "LOG cannot be null" );
         Objects.requireNonNull( gi, "gi cannot be null" );
+        Objects.requireNonNull( templateEngine, "templateEngine cannot be null" );
 
+        this.templateEngine = templateEngine;
         this.gi = gi;
     }
 
@@ -75,27 +77,52 @@ public class PostCheckTurnRoute implements Route {
         Game game = gameLobby.findGame( currentPlayer );
         if( game == null ) {
             return new Message( "", Message.MessageType.ERROR );
-
-        //if currentPlayer's opponent is null( opponent resigned )
-        if( currentPlayer.getOpponent() == null ){
-            return new Message( "true", Message.MessageType.INFO );
         }
 
         if( currentPlayer.equals( game.getPlayerOne() ) ) {
+            // your opponent resigned
+            if( game.getPlayerTwo() == null ) {
+                currentPlayer.removeOpponent();
+                httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
+                Map< String, Object > vm = new HashMap<>();
+                HashMap< String, Player > players = playerLobby.getPlayers();
+                Map< String, Player > otherPlayers = new HashMap<>( players );
+                otherPlayers.remove( currentPlayerName ); // remove the current player from being shown
+                Message message = new Message( "Player 2 resigned.", Message.MessageType.INFO );
+                vm.put( RoutesAndKeys.MESSAGE_KEY, message );
+                vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName);
+                vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
+                vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
+                return templateEngine.render( new ModelAndView( vm, "home.ftl" ) );
+            }
+
             if( game.getWhoseTurn() == 0 )
                 return new Message( "true", Message.MessageType.INFO );
             else
                 return new Message( "false", Message.MessageType.INFO );
         }
         else {
+            // your opponent resigned
+            if( game.getPlayerOne() == null ) {
+                currentPlayer.removeOpponent();
+                httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
+                Map< String, Object > vm = new HashMap<>();
+                HashMap< String, Player > players = playerLobby.getPlayers();
+                Map< String, Player > otherPlayers = new HashMap<>( players );
+                otherPlayers.remove( currentPlayerName ); // remove the current player from being shown
+                Message message = new Message( "Player 1 resigned.", Message.MessageType.INFO );
+                vm.put( RoutesAndKeys.MESSAGE_KEY, message );
+                vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName);
+                vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
+                vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
+                return templateEngine.render( new ModelAndView( vm, "home.ftl" ) );
+            }
+
             if( game.getWhoseTurn() == 0 )
                 return new Message( "false", Message.MessageType.INFO );
             else
                 return new Message( "true", Message.MessageType.INFO );
         }
-
     }
-
-
 }
 

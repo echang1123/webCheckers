@@ -13,7 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-@Tag("model-tier")
+@Tag("Model-tier")
 public class RowTest {
 
     private static final int index = 0;

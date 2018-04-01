@@ -24,7 +24,7 @@ public class PlayerTest {
     @Test
     public void ctor_withArg() {
         final Player CuT = new Player(name);
-        assertEquals("Player{name " + name + "}", CuT.toString());
+        assertEquals(name, CuT.getName());
     }
 
     /**
@@ -41,8 +41,9 @@ public class PlayerTest {
      */
     @Test
     public  void getOpponentTest(){
-        Player CuT = new Player(opponent);
-        assertEquals(opponent, CuT.getOpponent());
+        Player CuT = new Player(name);
+        CuT.addOpponent(new Player(opponent));
+        assertEquals(opponent, CuT.getOpponent().getName());
     }
     @Test
     public  void  addOpponentTest(){

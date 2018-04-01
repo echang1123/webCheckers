@@ -25,6 +25,7 @@ public class Row implements Iterable< Space > {
     public Row( int index ) {
         this.index = index;
         this.spaces = new ArrayList<>();
+        this.spaceIterator = null;
     }
 
 
