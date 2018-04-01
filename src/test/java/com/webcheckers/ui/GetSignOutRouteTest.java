@@ -79,11 +79,6 @@ public class GetSignOutRouteTest {
 
         // Analyze the results:
         //   * model is a non-null Map
-        testHelper.assertViewModelExists();
-        testHelper.assertViewModelIsaMap();
-        //   * model contains all necessary View-Model data
-        testHelper.assertViewModelAttribute("title","Sing Out");
-        // assert view name
-        testHelper.assertViewName("home.ftl");
+        testHelper.assertViewModelNotExists();
     }
 }
