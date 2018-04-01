@@ -19,8 +19,6 @@ public class Game {
     private Board board; // the board
     private Player playerOne; // player 1
     private Player playerTwo; // player 2
-    private int redPiecesInPlay;
-    private int whitePiecesInPlay;
     private int whoseTurn; // 0 is for player1 and 1 is for player2
     private ArrayList< Move > validatedMoves; // keeps track of moves that have been validated
 
@@ -34,8 +32,6 @@ public class Game {
         this.board = board;
         this.playerOne = playerOne;
         this.playerTwo = playerTwo;
-        this.redPiecesInPlay = 12;
-        this.whitePiecesInPlay = 12;
         this.whoseTurn = 0; // 0 is for player1 and 1 is for player2
         this.validatedMoves = new ArrayList<>();
     }
@@ -104,7 +100,6 @@ public class Game {
     public Board getBoard() {
         return this.board;
     }
-
 
     /**
      * Returns the space at a given row index and cell index
