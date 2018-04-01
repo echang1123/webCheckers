@@ -88,12 +88,16 @@ public class MoveValidator {
      */
     private boolean isUpJumpMove( int rowStart, int rowEnd, int columnStart, int columnEnd ) {
         // left jump
-        if( ( rowEnd == rowStart + 2 ) && ( columnEnd == columnStart - 2 ) ){
-            return true;
+        if( ( rowStart + 2 <= 7 ) && ( columnStart - 2 >= 0 ) ) {
+            if ((rowEnd == rowStart + 2) && (columnEnd == columnStart - 2)) {
+                return true;
+            }
         }
         // right jump
-        if( ( rowEnd == rowStart + 2 ) && ( columnEnd == columnStart + 2)){
-            return true;
+        if( ( rowStart + 2 <= 7 ) && ( columnStart + 2 <= 7 ) ) {
+            if ((rowEnd == rowStart + 2) && (columnEnd == columnStart + 2)) {
+                return true;
+            }
         }
         return false;
     }
@@ -110,12 +114,16 @@ public class MoveValidator {
      */
     private boolean isDownJumpMove( int rowStart, int rowEnd, int columnStart, int columnEnd ){
         // left jump
-        if( ( rowEnd == rowStart - 2 ) && ( columnEnd == columnStart - 2 ) ) {
-            return true;
+        if( ( rowStart - 2 >= 0 ) && ( columnStart - 2 >= 0 ) ) {
+            if ((rowEnd == rowStart - 2) && (columnEnd == columnStart - 2)) {
+                return true;
+            }
         }
         // right jump
-        if( ( rowEnd == rowStart - 2 ) && ( columnEnd == columnStart + 2 ) ) {
-            return true;
+        if( ( rowStart - 2 >= 0 ) && ( columnStart + 2 <= 7 ) ) {
+            if ((rowEnd == rowStart - 2) && (columnEnd == columnStart + 2)) {
+                return true;
+            }
         }
         return false;
     }
@@ -254,43 +262,52 @@ public class MoveValidator {
         // if it is a red piece, check if there is a white piece diagonally adjacent to it
         if( currentPlayerColor == Piece.Color.RED ) {
             // check if you can jump left
-            if ( hasOpponentPiece( row + 1, col - 1, Piece.Color.WHITE ) ) {
-                // make sure that the index is within bounds
-                if( ( row + 2 <= 7 ) && ( col - 2 >= 0 ) ) {
-                    Space destination = board.getSpace( row + 2, col - 2 );
-                    // if the landing space is empty, return true
-                    return destination.getPiece() == null;
+//            System.out.println( row + ", " + col );
+            if( ( row + 1 <= 7 ) && ( col - 1 >= 0 ) ){
+                if ( hasOpponentPiece( row + 1, col - 1, Piece.Color.WHITE ) ) {
+                    // make sure that the index is within bounds
+                    if( ( row + 2 <= 7 ) && ( col - 2 >= 0 ) ) {
+                        Space destination = board.getSpace( row + 2, col - 2 );
+                        // if the landing space is empty, return true
+                        return destination.getPiece() == null;
+                    }
                 }
             }
             // check if you can jump right
-            if ( hasOpponentPiece( row + 1, col + 1, Piece.Color.WHITE ) ) {
-                // make sure that the index is within bounds
-                if( ( row + 2 <= 7 ) && ( col + 2 <= 7 ) ) {
-                    Space destination = board.getSpace(row + 2, col + 2 );
-                    // if the landing space is empty, return true
-                    return destination.getPiece() == null;
+            if( ( row + 1 <= 7 ) && ( col + 1 <= 7 ) ){
+                if ( hasOpponentPiece( row + 1, col + 1, Piece.Color.WHITE ) ) {
+                    // make sure that the index is within bounds
+                    if( ( row + 2 <= 7 ) && ( col + 2 <= 7 ) ) {
+                        Space destination = board.getSpace(row + 2, col + 2 );
+                        // if the landing space is empty, return true
+                        return destination.getPiece() == null;
+                    }
                 }
-           }
+            }
         }
 
         // if it is a white piece, check if there is a red piece diagonally adjacent to it
         else if( currentPlayerColor == Piece.Color.WHITE ){
             // check if you can jump left
-            if( hasOpponentPiece( row - 1, col - 1, Piece.Color.RED ) ) {
-                // make sure that the index is within bounds
-                if( ( row - 2 >= 0 ) && ( col - 2 >= 0 ) ) {
-                    Space destination = board.getSpace(row - 2, col - 2 );
-                    // if the landing space is empty, return true
-                    return destination.getPiece() == null;
+            if( ( row - 1 >= 0 ) && ( col - 1 >= 0 ) ) {
+                if (hasOpponentPiece(row - 1, col - 1, Piece.Color.RED)) {
+                    // make sure that the index is within bounds
+                    if ((row - 2 >= 0) && (col - 2 >= 0)) {
+                        Space destination = board.getSpace(row - 2, col - 2);
+                        // if the landing space is empty, return true
+                        return destination.getPiece() == null;
+                    }
                 }
             }
             // check if you can jump right
-            if ( hasOpponentPiece( row - 1, col + 1 , Piece.Color.RED ) ) {
-                // make sure that the index is within bounds
-                if( ( row - 2 >= 0 ) && ( col + 2 <= 7 ) ) {
-                    Space destination = board.getSpace(row - 2, col + 2 );
-                    // if the landing space is empty, return true
-                    return destination.getPiece() == null;
+            if( ( row - 1 >= 0 ) && ( col + 1 <= 7 ) ) {
+                if (hasOpponentPiece(row - 1, col + 1, Piece.Color.RED)) {
+                    // make sure that the index is within bounds
+                    if ((row - 2 >= 0) && (col + 2 <= 7)) {
+                        Space destination = board.getSpace(row - 2, col + 2);
+                        // if the landing space is empty, return true
+                        return destination.getPiece() == null;
+                    }
                 }
             }
         }
@@ -329,21 +346,25 @@ public class MoveValidator {
         // if it is a white piece, check if there is a red piece diagonally adjacent to it
         if( currentPlayerColor == Piece.Color.WHITE ) {
             // check if you can jump left
-            if ( hasOpponentPiece( row + 1, col - 1, Piece.Color.RED ) ) {
-                // make sure that the index is within bounds
-                if( ( row + 2 <= 7 ) && ( col - 2 >= 0 ) ) {
-                    Space destination = board.getSpace(row + 2, col - 2 );
-                    // if the landing space is empty, return true
-                    return destination.getPiece() == null;
+            if( ( row + 1 <= 7 ) && ( col - 1 >= 0 ) ) {
+                if (hasOpponentPiece(row + 1, col - 1, Piece.Color.RED)) {
+                    // make sure that the index is within bounds
+                    if ((row + 2 <= 7) && (col - 2 >= 0)) {
+                        Space destination = board.getSpace(row + 2, col - 2);
+                        // if the landing space is empty, return true
+                        return destination.getPiece() == null;
+                    }
                 }
             }
             // check if you can jump right
-            if ( hasOpponentPiece( row + 1, col + 1, Piece.Color.RED ) ) {
-                // make sure that the index is within bounds
-                if( ( row + 2 <= 7 ) && ( col + 2 <= 7 ) ) {
-                    Space destination = board.getSpace(row + 2, col + 2 );
-                    // if the landing space is empty, return true
-                    return destination.getPiece() == null;
+            if( ( row + 1 <= 7 ) && ( col + 1 <= 7 ) ) {
+                if (hasOpponentPiece(row + 1, col + 1, Piece.Color.RED)) {
+                    // make sure that the index is within bounds
+                    if ((row + 2 <= 7) && (col + 2 <= 7)) {
+                        Space destination = board.getSpace(row + 2, col + 2);
+                        // if the landing space is empty, return true
+                        return destination.getPiece() == null;
+                    }
                 }
             }
         }
@@ -351,21 +372,25 @@ public class MoveValidator {
         // if it is a red piece, check if there is a white piece diagonally adjacent to it
         else if( currentPlayerColor == Piece.Color.RED ){
             //check if you can jump left
-            if( hasOpponentPiece( row - 1, col - 1, Piece.Color.WHITE ) ) {
-                // make sure that the index is within bounds
-                if( ( row - 2 >= 0 ) && ( col - 2 >= 0 ) ) {
-                    Space destination = board.getSpace(row - 2, col - 2 );
-                    // if the landing space is empty, return true
-                    return destination.getPiece() == null;
+            if( ( row - 1 >= 0 ) && ( col - 1 >= 0 ) ) {
+                if (hasOpponentPiece(row - 1, col - 1, Piece.Color.WHITE)) {
+                    // make sure that the index is within bounds
+                    if ((row - 2 >= 0) && (col - 2 >= 0)) {
+                        Space destination = board.getSpace(row - 2, col - 2);
+                        // if the landing space is empty, return true
+                        return destination.getPiece() == null;
+                    }
                 }
             }
             //check if you can jump right
-            if ( hasOpponentPiece( row - 1, col +1 , Piece.Color.WHITE ) ){
-                // make sure that the index is within bounds
-                if( ( row - 2 >= 0 ) && ( col + 2 <= 7 ) ) {
-                    Space destination = board.getSpace(row - 2, col + 2 );
-                    // if the landing space is empty, return true
-                    return destination.getPiece() == null;
+            if( ( row - 1 >= 0 ) && ( col + 1 <= 7 ) ) {
+                if (hasOpponentPiece(row - 1, col + 1, Piece.Color.WHITE)) {
+                    // make sure that the index is within bounds
+                    if ((row - 2 >= 0) && (col + 2 <= 7)) {
+                        Space destination = board.getSpace(row - 2, col + 2);
+                        // if the landing space is empty, return true
+                        return destination.getPiece() == null;
+                    }
                 }
             }
         }
