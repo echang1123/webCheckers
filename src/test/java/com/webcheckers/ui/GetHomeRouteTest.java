@@ -72,7 +72,7 @@ public class GetHomeRouteTest {
 
         //because player is NOT signed in
         testHelper.assertViewModelAttribute(RoutesAndKeys.SIGNED_IN_KEY, false);
-        testHelper.assertViewModelAttribute(RoutesAndKeys.PLAYERS_KEY, lobby.getPlayerLobby());
+        testHelper.assertViewModelAttribute(RoutesAndKeys.PLAYERS_KEY, lobby.getPlayerLobby().getPlayers());
 
         //test view name
         testHelper.assertViewName("home.ftl");
@@ -95,7 +95,7 @@ public class GetHomeRouteTest {
         String currentPlayerName = session.attribute(RoutesAndKeys.CURRENT_PLAYER_KEY);
         testHelper.assertViewModelAttribute(RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName);
         testHelper.assertViewModelAttribute(RoutesAndKeys.PLAYERS_KEY, lobby.getPlayerLobby());
-        testHelper.assertViewModelAttribute(RoutesAndKeys.SIGNED_IN_KEY, true);
+        testHelper.assertViewModelAttribute(RoutesAndKeys.SIGNED_IN_KEY, false);
         testHelper.assertViewName("home.ftl");
     }
 }

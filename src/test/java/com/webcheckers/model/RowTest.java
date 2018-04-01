@@ -1,4 +1,4 @@
-/**
+/*
  * This class contains unit tests for the Row class
  *
  * @author Emily Wesson
@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 @Tag("model-tier")
 public class RowTest {
 
-    private int index = 0;
+    private static final int index = 0;
     private Row row;
 
     @BeforeEach
