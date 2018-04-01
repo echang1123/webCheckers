@@ -15,17 +15,12 @@ import com.webcheckers.model.*;
 
 public class MoveValidator {
 
-    // Attribute
-    private Game game;
-
 
     /**
      * Constructor for the Move Validator
      *
-     * @param game the Game for which moves must be validated
      */
-    public MoveValidator( Game game ) {
-        this.game = game;
+    public MoveValidator( ) {
     }
 
 
@@ -36,7 +31,7 @@ public class MoveValidator {
      * @param col the column index
      * @return whether it is in bounds
      */
-    public boolean isWithinBounds( int row, int col ) {
+    private boolean isWithinBounds( int row, int col ) {
         return ( ( row <= 7 ) && ( row >= 0 ) && ( col <= 7 ) && ( col >= 0 ) );
     }
 
@@ -44,10 +39,11 @@ public class MoveValidator {
     /**
      * Function that checks if the move is a valid simple move
      *
+     * @param game the current game
      * @param move the move to check
      * @return true if the move is a valid simple move, false otherwise
      */
-    private boolean isSimpleMove( Move move ) {
+    private boolean isSimpleMove( Game game, Move move ) {
         Position start = move.getStart();
         Position end = move.getEnd();
 
@@ -75,16 +71,16 @@ public class MoveValidator {
     /**
      * Function that checks if the move is a valid king move (moving backwards, no jumping involved)
      *
+     * @param game the current game
      * @param move the Move to check
      * @return true if the move is a valid King move, false otherwise
      */
-    private boolean isKingSimpleMove( Move move ) {
+    private boolean isKingSimpleMove( Game game, Move move ) {
         Position start = move.getStart();
         Position end = move.getEnd();
         Space space = game.getBoard().getSpace( start.getRow(), start.getCell() );
         // if the space has a king piece
-        Piece.PieceType type = space.getPiece().getType();
-        if( type.equals( Piece.PieceType.KING ) ) {
+        if( isKingPiece( space ) ) {
             return ( Math.abs( end.getRow() - start.getRow() ) == 1 ) &&
                 ( Math.abs( end.getCell() - start.getCell() ) == 1 );
         }
@@ -148,13 +144,13 @@ public class MoveValidator {
 
     /**
      * Function that checks if the move is a valid jump move
-     *
+     * @param game the current game
      * @param move the move to check
      * @return boolean whether the move is a valid jump move, false otherwise
      */
-    private boolean isSingleJumpMove( Move move ) {
+    private boolean isSingleJumpMove( Game game, Move move ) {
 
-        Piece.Color currentPlayerColor = getCurrentPlayerColor();
+        Piece.Color currentPlayerColor = getCurrentPlayerColor( game );
         int rowStart = move.getStart().getRow();
         int rowEnd = move.getEnd().getRow();
         int columnStart = move.getStart().getCell();
@@ -175,12 +171,12 @@ public class MoveValidator {
     /**
      * Helper function that determines if a given move is a king jump move
      * it determines the color of the player making the move, and accordingly verifies the move
-     *
+     * @param game the current game
      * @param move the move to check
      * @return boolean whether it is a valid king jump move
      */
-    private boolean isKingJumpMove( Move move ) {
-        Piece.Color currentPlayerColor = getCurrentPlayerColor();
+    private boolean isKingJumpMove( Game game, Move move ) {
+        Piece.Color currentPlayerColor = getCurrentPlayerColor( game );
         int rowStart = move.getStart().getRow();
         int rowEnd = move.getEnd().getRow();
         int columnStart = move.getStart().getCell();
@@ -199,14 +195,16 @@ public class MoveValidator {
 
 
     /**
+     * Function to determine if a piece (single or king) can make a simple, diagonal forward move
      *
-     * @param row
-     * @param col
-     * @param board
-     * @return
+     * @param game the current game
+     * @param row the row index
+     * @param col the column index
+     * @param board the board
+     * @return boolean for if the piece at row/col can make a normal forward move
      */
-    public boolean isNormalMoveAvailable( int row, int col, Board board ) {
-        Piece.Color currentPlayerColor = getCurrentPlayerColor();
+    public boolean isNormalMoveAvailable( Game game, int row, int col, Board board ) {
+        Piece.Color currentPlayerColor = getCurrentPlayerColor( game );
         if( currentPlayerColor == Piece.Color.RED ) {
             if( isWithinBounds( row + 1, col - 1 ) ) {
                 Space left = board.getSpace( row + 1, col - 1 );
@@ -250,19 +248,21 @@ public class MoveValidator {
     }
 
     /**
+     * Function to check if a piece can make a king move (simple diagonal backward move)
      *
-     * @param row
-     * @param col
-     * @param board
-     * @return
+     * @param game the current game
+     * @param row the row index
+     * @param col the column index
+     * @param board the board
+     * @return boolean if the piece at row/col can make a King move
      */
-    public boolean isKingMoveAvailable( int row, int col, Board board ) {
+    public boolean isKingMoveAvailable( Game game, int row, int col, Board board ) {
         Space space = board.getSpace( row, col );
         //if not a King piece, no King move available
         if ( !isKingPiece( space )){
             return false;
         }
-        Piece.Color currentPlayerColor = getCurrentPlayerColor();
+        Piece.Color currentPlayerColor = getCurrentPlayerColor( game );
         if( currentPlayerColor == Piece.Color.WHITE ) {
             if( isWithinBounds( row + 1, col - 1 ) ) {
                 Space left = board.getSpace( row + 1, col - 1 );
@@ -299,21 +299,21 @@ public class MoveValidator {
     /**
      * Method to determine if the piece at (row, col) can make a jump move, checks both the case of a RED
      * or a WHITE piece
-     *
+     * @param game the current game
      * @param row   row of the piece that may be able to make a jump move
      * @param col   column of the piece that may be able to make a jump move
      * @param board board of the game
      * @return boolean whether the piece at (row, col) can make a jump move
      */
-    public boolean singleJumpAvailable( int row, int col, Board board ) {
-        Piece.Color currentPlayerColor = getCurrentPlayerColor();
+    public boolean singleJumpAvailable( Game game, int row, int col, Board board ) {
+        Piece.Color currentPlayerColor = getCurrentPlayerColor( game );
 
         // if it is a red piece, check if there is a white piece diagonally adjacent to it
         if( currentPlayerColor == Piece.Color.RED ) {
             // check if you can jump left
 //            System.out.println( row + ", " + col );
             if( isWithinBounds( row + 1, col - 1 ) ) {
-                if( hasOpponentPiece( row + 1, col - 1, Piece.Color.WHITE ) ) {
+                if( hasOpponentPiece( game, row + 1, col - 1, Piece.Color.WHITE ) ) {
                     // make sure that the index is within bounds
                     if( isWithinBounds( row + 2, col - 2 ) ) {
                         Space destination = board.getSpace( row + 2, col - 2 );
@@ -324,7 +324,7 @@ public class MoveValidator {
             }
             // check if you can jump right
             if( isWithinBounds( row + 1, col + 1 ) ) {
-                if( hasOpponentPiece( row + 1, col + 1, Piece.Color.WHITE ) ) {
+                if( hasOpponentPiece( game, row + 1, col + 1, Piece.Color.WHITE ) ) {
                     // make sure that the index is within bounds
                     if( isWithinBounds( row + 2, col + 2 ) ) {
                         Space destination = board.getSpace( row + 2, col + 2 );
@@ -339,7 +339,7 @@ public class MoveValidator {
         else if( currentPlayerColor == Piece.Color.WHITE ) {
             // check if you can jump left
             if( isWithinBounds( row - 1, col - 1 ) ) {
-                if( hasOpponentPiece( row - 1, col - 1, Piece.Color.RED ) ) {
+                if( hasOpponentPiece( game, row - 1, col - 1, Piece.Color.RED ) ) {
                     // make sure that the index is within bounds
                     if( isWithinBounds( row - 2, col - 2 ) ) {
                         Space destination = board.getSpace( row - 2, col - 2 );
@@ -350,7 +350,7 @@ public class MoveValidator {
             }
             // check if you can jump right
             if( isWithinBounds( row - 1, col + 1 ) ) {
-                if( hasOpponentPiece( row - 1, col + 1, Piece.Color.RED ) ) {
+                if( hasOpponentPiece( game, row - 1, col + 1, Piece.Color.RED ) ) {
                     // make sure that the index is within bounds
                     if( isWithinBounds( row - 2, col + 2 ) ) {
                         Space destination = board.getSpace( row - 2, col + 2 );
@@ -368,13 +368,13 @@ public class MoveValidator {
 
     /**
      * Helper method to determine if a (row, col) position on the board has an opponent's piece on it
-     *
+     * @param game the current game
      * @param row           row to check
      * @param col           column to check
      * @param opponentColor the opponent's color, RED or WHITE
      * @return boolean whether opponent has a piece at that position
      */
-    private boolean hasOpponentPiece( int row, int col, Piece.Color opponentColor ) {
+    private boolean hasOpponentPiece( Game game, int row, int col, Piece.Color opponentColor ) {
         Board board = game.getBoard();
         Piece piece = board.getSpace( row, col ).getPiece();
         // check that there is a piece, and that it is of the same color as the opponent
@@ -385,26 +385,26 @@ public class MoveValidator {
     /**
      * Method to determine if the piece at (row, col) can make a backward (KING) jump move, checks both the
      * case of a RED or a WHITE piece, opposite movement on the board of singlePieceJumpAvailable
-     *
+     * @param game the current game
      * @param row   row of piece that may be able to make a jump
      * @param col   column of piece that may be able to make a jump
      * @param board board of the game
      * @return boolean if the piece at (row,col) can make a single backward (king) jump
      */
-    public boolean kingJumpAvailable( int row, int col, Board board ) {
+    public boolean kingJumpAvailable( Game game, int row, int col, Board board ) {
         Space space = board.getSpace( row, col );
         //if not a King piece, no King jump available
         if ( !isKingPiece( space )){
             return false;
         }
 
-        Piece.Color currentPlayerColor = getCurrentPlayerColor();
+        Piece.Color currentPlayerColor = getCurrentPlayerColor( game );
 
         // if it is a white piece, check if there is a red piece diagonally adjacent to it
         if( currentPlayerColor == Piece.Color.WHITE ) {
             // check if you can jump left
             if( isWithinBounds( row + 1, col - 1 ) ) {
-                if( hasOpponentPiece( row + 1, col - 1, Piece.Color.RED ) ) {
+                if( hasOpponentPiece( game, row + 1, col - 1, Piece.Color.RED ) ) {
                     // make sure that the index is within bounds
                     if( isWithinBounds( row + 2, col - 2 ) ) {
                         Space destination = board.getSpace( row + 2, col - 2 );
@@ -415,7 +415,7 @@ public class MoveValidator {
             }
             // check if you can jump right
             if( isWithinBounds( row + 1, col + 1 ) ) {
-                if( hasOpponentPiece( row + 1, col + 1, Piece.Color.RED ) ) {
+                if( hasOpponentPiece( game, row + 1, col + 1, Piece.Color.RED ) ) {
                     // make sure that the index is within bounds
                     if( isWithinBounds( row + 2, col + 2 ) ) {
                         Space destination = board.getSpace( row + 2, col + 2 );
@@ -430,7 +430,7 @@ public class MoveValidator {
         else if( currentPlayerColor == Piece.Color.RED ) {
             // check if you can jump left
             if( isWithinBounds( row - 1, col - 1 ) ) {
-                if( hasOpponentPiece( row - 1, col - 1, Piece.Color.WHITE ) ) {
+                if( hasOpponentPiece( game, row - 1, col - 1, Piece.Color.WHITE ) ) {
                     // make sure that the index is within bounds
                     if( isWithinBounds( row - 2, col - 2 ) ) {
                         Space destination = board.getSpace( row - 2, col - 2 );
@@ -441,7 +441,7 @@ public class MoveValidator {
             }
             // check if you can jump right
             if( isWithinBounds( row - 1, col + 1 ) ) {
-                if( hasOpponentPiece( row - 1, col + 1, Piece.Color.WHITE ) ) {
+                if( hasOpponentPiece( game, row - 1, col + 1, Piece.Color.WHITE ) ) {
                     // make sure that the index is within bounds
                     if( isWithinBounds( row - 2, col + 2 ) ) {
                         Space destination = board.getSpace( row - 2, col + 2 );
@@ -459,10 +459,10 @@ public class MoveValidator {
 
     /**
      * A helper function that gets the color of the current player
-     *
+     * @param game the current game
      * @return the color of the current player
      */
-    private Piece.Color getCurrentPlayerColor() {
+    private Piece.Color getCurrentPlayerColor( Game game ) {
         if( game.getWhoseTurn() == 0 ) {
             return Piece.Color.RED;
         } else {
@@ -475,12 +475,12 @@ public class MoveValidator {
      * Function that goes through the pieces on the board and checks if a valid jump move is possible for any of them
      * It finds the pieces that are the same color as the player whose turn it is, it then checks if either a simple
      * jump move is possible or a king jump move is possible (given that the piece is a king piece)
-     *
+     * @param game the current game
      * @return boolean whether a jump move is available for that player
      */
-    private boolean jumpMoveAvailable() {
+    private boolean jumpMoveAvailable( Game game ) {
 
-        Piece.Color currentPlayerColor = getCurrentPlayerColor();
+        Piece.Color currentPlayerColor = getCurrentPlayerColor( game );
         Board board = game.getBoard();
 
         // iterate through all spaces on the board and check if the space has a piece
@@ -493,16 +493,9 @@ public class MoveValidator {
                     // the space has a piece with the same color as the current player
                     if( space.getPiece().getColor() == currentPlayerColor ) {
                         // check if that piece is able to make any jump move
-                        if( singleJumpAvailable( row, col, board ) || kingJumpAvailable( row, col, board )) {
+                        if( singleJumpAvailable( game, row, col, board ) || kingJumpAvailable( game, row, col, board )) {
                             return true;
                         }
-
-                        // REDUNDANT NOW? check and make sure
-                        // if a king jump move is possible
-                        //if( ( space.getPiece().getType() == Piece.PieceType.KING )
-                        //    && ( kingJumpAvailable( row, col, board ) ) ) {
-                        //    return true;
-                       // }
                     }
                 }
             }
@@ -520,18 +513,18 @@ public class MoveValidator {
      * @param move the Move to check
      * @return boolean whether the move was legal or not
      */
-    public boolean validate( Move move ) {
+    public boolean validate( Game game, Move move ) {
 
         // get the piece at the starting position
         Piece piece = game.getSpaceAt( move.getStart() ).getPiece();
 
         // if one or move jump move(s) available, player must select one
-        if( jumpMoveAvailable() ) {
+        if( jumpMoveAvailable( game ) ) {
             // player must submit a jump move if one is available
-            if( !isSingleJumpMove( move ) ) {
+            if( !isSingleJumpMove( game, move ) ) {
                 // the submitted move was not a simple jump move, check if it was a king jump move
                 if( ( piece.getType() == Piece.PieceType.KING ) &&
-                    !isKingJumpMove( move ) ) {
+                    !isKingJumpMove( game, move ) ) {
                     return false;
                 }
                 // if it is a king piece and it is not a king jump move
@@ -545,7 +538,7 @@ public class MoveValidator {
         }
 
         // if no jump moves available, then check if it is a simple move or a king simple move
-        if( isSimpleMove( move ) || isKingSimpleMove( move ) ) { // it is valid simple or valid king move
+        if( isSimpleMove( game, move ) || isKingSimpleMove( game, move ) ) { // it is valid simple or valid king move
             move.setMoveType( Move.MoveType.SIMPLE );
             return true;
         }
