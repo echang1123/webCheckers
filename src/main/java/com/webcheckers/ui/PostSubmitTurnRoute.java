@@ -33,6 +33,7 @@ public class PostSubmitTurnRoute implements Route {
 
     /**
      * Constructor for the PostSubmitTurnRoute Handler
+     *
      * @param gi the global information
      */
     public PostSubmitTurnRoute( TemplateEngine templateEngine, GlobalInformation gi ) {
@@ -48,7 +49,8 @@ public class PostSubmitTurnRoute implements Route {
 
     /**
      * Handler for the http request
-     * @param request the http request
+     *
+     * @param request  the http request
      * @param response the response
      * @return a Message that is either of type info (if successful) or error (if unsuccessful)
      */
@@ -91,39 +93,33 @@ public class PostSubmitTurnRoute implements Route {
         }
 
 
-        //get all of the players, remove the current player from that Map
+        // get all of the players, remove the current player from that Map
         HashMap< String, Player > players = playerLobby.getPlayers();
         Map< String, Player > otherPlayers = new HashMap<>( players );
         otherPlayers.remove( currentPlayerName ); // remove the current player from being shown
 
         Map< String, Object > vm = new HashMap<>();
 
-        //if you are RED and either your opponent is out of pieces or they can't move, you won
+        boolean wonGame = false;
+        // if you are RED and either your opponent is out of pieces or they can't move, you won
         if( currentPlayer.equals( game.getPlayerOne() ) &&
-                ( board.getWhitePiecesInPlay() <= 0 || game.noMovesAvailableForPlayerTwo() ) ){
-
-            currentPlayer.removeOpponent();
-            httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
-            Message message = new Message( "You are victorious!", Message.MessageType.info );
-
-            vm.put( RoutesAndKeys.MESSAGE_KEY, message );
-            vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName);
-            vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
-            vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
-            game.switchTurn();
-            return templateEngine.render( new ModelAndView( vm, "home.ftl" ) );
+            ( board.getWhitePiecesInPlay() <= 0 || game.noMovesAvailableForPlayerTwo() ) ) {
+            wonGame = true;
         }
 
-        //if you are WHITE and either your opponent is out of pieces or has no moves available, you won
+        // if you are WHITE and either your opponent is out of pieces or has no moves available, you won
         if( currentPlayer.equals( game.getPlayerTwo() ) &&
-                ( board.getRedPiecesInPlay() <= 0 || game.noMovesAvailableForPlayerOne() ) ){
+            ( board.getRedPiecesInPlay() <= 0 || game.noMovesAvailableForPlayerOne() ) ) {
+            wonGame = true;
+        }
 
+        if( wonGame ) {
             currentPlayer.removeOpponent();
             httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
             Message message = new Message( "You are victorious!", Message.MessageType.info );
 
             vm.put( RoutesAndKeys.MESSAGE_KEY, message );
-            vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName);
+            vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName );
             vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
             vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
             game.switchTurn();
