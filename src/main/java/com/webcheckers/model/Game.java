@@ -23,7 +23,7 @@ public class Game {
     private Player playerTwo; // player 2
     private int whoseTurn; // 0 is for player1 and 1 is for player2
     private ArrayList< Move > validatedMoves; // keeps track of moves that have been validated
-    private final MoveValidator mv = new MoveValidator( this );
+    private final MoveValidator mv = new MoveValidator();
 
     /**
      * Constructor for the Game class
@@ -56,7 +56,7 @@ public class Game {
 
 
     /**
-     * Helper function to remove player one (when resigned)
+     * Helper function to remove player one (when resigned or game over)
      */
     public void removePlayerOne() {
         this.playerOne = null;
@@ -64,7 +64,7 @@ public class Game {
 
 
     /**
-     * Helper function to remove player two (when resigned)
+     * Helper function to remove player two (when resigned or game over)
      */
     public void removePlayerTwo() {
         this.playerTwo = null;
@@ -181,14 +181,18 @@ public class Game {
         return this.validatedMoves.remove( 0 );
     }
 
-
+    /**
+     * Function to determine if playerOne (RED) has any more moves available
+     * checks each space for red pieces, then if any type of move is available for that piece
+     * @return
+     */
     public boolean noMovesAvailableForPlayerOne() {
         for( int r = 0; r < 8; r++ ){
             for ( int c = 0; c < 8; c++ ) {
                 if( ( board.getSpace( r, c ).getPiece() != null ) &&
                         ( board.getSpace( r, c ).getPiece().getColor() == Piece.Color.RED ) ) {
-                    if( mv.isNormalMoveAvailable( r, c, board ) || mv.isKingMoveAvailable( r, c, board )
-                            || mv.singleJumpAvailable( r, c, board ) || mv.kingJumpAvailable( r, c, board ) ){
+                    if( mv.isNormalMoveAvailable( this, r, c, board ) || mv.isKingMoveAvailable( this, r, c, board )
+                            || mv.singleJumpAvailable( this, r, c, board ) || mv.kingJumpAvailable( this, r, c, board ) ){
                         return false;
                     }
                 }
@@ -203,8 +207,8 @@ public class Game {
             for ( int c = 0; c < 8; c++ ) {
                 if( ( board.getSpace( r, c ).getPiece() != null ) &&
                         ( board.getSpace( r, c ).getPiece().getColor() != Piece.Color.WHITE ) ) {
-                    if( mv.isNormalMoveAvailable( r, c, board ) || mv.isKingMoveAvailable( r, c, board )
-                            || mv.singleJumpAvailable( r, c, board ) || mv.kingJumpAvailable( r, c, board ) ){
+                    if( mv.isNormalMoveAvailable( this, r, c, board ) || mv.isKingMoveAvailable( this, r, c, board )
+                            || mv.singleJumpAvailable( this, r, c, board ) || mv.kingJumpAvailable( this, r, c, board ) ){
                         return false;
                     }
                 }
