@@ -87,10 +87,14 @@ public class PostSubmitTurnRoute implements Route {
             return new Message( "", Message.MessageType.ERROR );
         }
 
+//        if( currentPlayer.equals(game.getPlayerOne()) ){
+
+//        }
+
         //after your moves are submitted but before you switch turns,
         //check if your opponent has 0 pieces, if so you won
         //check if your opponent has 0 valid moves, if so you won
-        
+
         // all validated moves were submitted successfully
         else {
             game.switchTurn();
