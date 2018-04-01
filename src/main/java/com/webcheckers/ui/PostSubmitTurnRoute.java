@@ -98,24 +98,9 @@ public class PostSubmitTurnRoute implements Route {
 
         Map< String, Object > vm = new HashMap<>();
 
-        //if you are RED and your opponent is out of pieces, you won
-        if( currentPlayer.equals(game.getPlayerOne()) && board.getWhitePiecesInPlay() <= 0){
-
-            currentPlayer.removeOpponent();
-         //   gameLobby.removeGame( game ); when they find out they lost, the opponent will do this in checkTurnRoute
-            httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
-            Message message = new Message( "You are victorious!", Message.MessageType.info );
-
-            vm.put( RoutesAndKeys.MESSAGE_KEY, message );
-            vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName);
-            vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
-            vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
-            game.switchTurn();
-            return templateEngine.render( new ModelAndView( vm, "home.ftl" ) );
-        }
-
-        //if you are WHITE and your opponent is out of pieces, you won
-        if( currentPlayer.equals( game.getPlayerTwo() ) && board.getRedPiecesInPlay() <= 0 ){
+        //if you are RED and either your opponent is out of pieces or they can't move, you won
+        if( currentPlayer.equals( game.getPlayerOne() ) &&
+                ( board.getWhitePiecesInPlay() <= 0 || game.noMovesAvailableForPlayerTwo() ) ){
 
             currentPlayer.removeOpponent();
             httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
@@ -129,11 +114,21 @@ public class PostSubmitTurnRoute implements Route {
             return templateEngine.render( new ModelAndView( vm, "home.ftl" ) );
         }
 
-        //check if opponent has 0 moves available
-        //if you are red, check all white pieces for available jump or single moves, both pawn and king pieces
+        //if you are WHITE and either your opponent is out of pieces or has no moves available, you won
+        if( currentPlayer.equals( game.getPlayerTwo() ) &&
+                ( board.getRedPiecesInPlay() <= 0 || game.noMovesAvailableForPlayerOne() ) ){
 
-        //if you are white, check all red pieces
+            currentPlayer.removeOpponent();
+            httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
+            Message message = new Message( "You are victorious!", Message.MessageType.info );
 
+            vm.put( RoutesAndKeys.MESSAGE_KEY, message );
+            vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName);
+            vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
+            vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
+            game.switchTurn();
+            return templateEngine.render( new ModelAndView( vm, "home.ftl" ) );
+        }
 
         // all validated moves were submitted successfully
         else {
