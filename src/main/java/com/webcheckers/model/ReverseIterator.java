@@ -22,6 +22,7 @@ public class ReverseIterator< E > implements Iterator< E > {
 
     /**
      * Constructor for the generic reverse iterator
+     *
      * @param list the list
      */
     public ReverseIterator( ArrayList< E > list ) {
@@ -32,6 +33,7 @@ public class ReverseIterator< E > implements Iterator< E > {
 
     /**
      * Whether the list has a next element
+     *
      * @return true / false
      */
     public boolean hasNext() {
@@ -41,6 +43,7 @@ public class ReverseIterator< E > implements Iterator< E > {
 
     /**
      * Return current element and go to next
+     *
      * @return the current element
      */
     public E next() {

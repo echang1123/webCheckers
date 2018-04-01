@@ -11,6 +11,7 @@ package com.webcheckers.appl;
 
 
 import com.webcheckers.model.Player;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -33,6 +34,7 @@ public class PlayerLobby {
 
     /**
      * Getter for the hash map of player usernames
+     *
      * @return the hash map of player usernames
      */
     public HashMap< String, Player > getPlayers() {
@@ -42,6 +44,7 @@ public class PlayerLobby {
 
     /**
      * Function that returns the Player given the username
+     *
      * @param playerName the username of the player
      * @return the Player object, null if non-existent
      */
@@ -53,6 +56,7 @@ public class PlayerLobby {
     /**
      * Adds a player to the hash table
      * Ideally used ONLY for sign in
+     *
      * @param player the player to add ( sign in )
      */
     public boolean addPlayer( Player player, Map< String, Object > vm ) {
@@ -73,9 +77,10 @@ public class PlayerLobby {
     /**
      * Function that removes a player from the hash table
      * Ideally to be used ONLY for sign out
+     *
      * @param playerName the player to remove ( sign out )
      */
-    public void removePlayer( String playerName ){
+    public void removePlayer( String playerName ) {
         if( players.containsKey( playerName ) )
             players.remove( playerName );
     }
@@ -83,8 +88,8 @@ public class PlayerLobby {
 
     /**
      * Get a player's opponent if exists
+     *
      * @param player the player whose opponent we ae looking for
-     * @return the opponent Player, if exists.
      * @return null otherwise
      */
     public Player findOpponent( Player player ) {
@@ -92,11 +97,9 @@ public class PlayerLobby {
             Player currPlayerBeingViewed = this.players.get( key ); // current player: one of the signed in players
             if( key.equals( player.getName() ) ) { // self
                 continue;
-            }
-            else if( currPlayerBeingViewed.getOpponent() == null ) { // no opponent
+            } else if( currPlayerBeingViewed.getOpponent() == null ) { // no opponent
                 continue;
-            }
-            else if( currPlayerBeingViewed.getOpponent().equals( player ) ) { // found it
+            } else if( currPlayerBeingViewed.getOpponent().equals( player ) ) { // found it
                 return currPlayerBeingViewed; // returns
             }
         }

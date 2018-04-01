@@ -27,11 +27,12 @@ public class Game {
 
     /**
      * Constructor for the Game class
-     * @param board the board for the Game
+     *
+     * @param board     the board for the Game
      * @param playerOne player one (RED)
      * @param playerTwo player two (WHITE)
      */
-    public Game( Board board, Player playerOne, Player playerTwo ){
+    public Game( Board board, Player playerOne, Player playerTwo ) {
         this.board = board;
         this.playerOne = playerOne;
         this.playerTwo = playerTwo;
@@ -41,6 +42,7 @@ public class Game {
 
     /**
      * Getter for whoseTurn
+     *
      * @return int representing current player: 0 for player1 and 1 for player2
      */
     public int getWhoseTurn() {
@@ -49,6 +51,7 @@ public class Game {
 
     /**
      * Getter for moveValidator
+     *
      * @return moveValidator object
      */
     public MoveValidator getMoveValidator() {
@@ -81,20 +84,27 @@ public class Game {
 
     /**
      * Getter for player one
+     *
      * @return first player (RED)
      */
-    public Player getPlayerOne(){return playerOne;}
+    public Player getPlayerOne() {
+        return playerOne;
+    }
 
 
     /**
      * Getter for player two
+     *
      * @return second player (WHITE)
      */
-    public Player getPlayerTwo() {return playerTwo;}
+    public Player getPlayerTwo() {
+        return playerTwo;
+    }
 
 
     /**
      * Returns the space at the given position
+     *
      * @return the space at that position
      */
     public Space getSpaceAt( Position position ) {
@@ -106,6 +116,7 @@ public class Game {
 
     /**
      * Getter for the board of the game
+     *
      * @return the board that represents the game
      */
     public Board getBoard() {
@@ -114,17 +125,19 @@ public class Game {
 
     /**
      * Returns the space at a given row index and cell index
-     * @param row row index
+     *
+     * @param row  row index
      * @param cell cell index
      * @return the space at that row and cell index
      */
     public Space getSpaceAt( int row, int cell ) {
         return board.getSpace( row, cell );
     }
+
     @Override
-    public boolean equals(Object o) {
-        if( o != null ){
-            if( o instanceof Game ){
+    public boolean equals( Object o ) {
+        if( o != null ) {
+            if( o instanceof Game ) {
                 Game g = ( Game ) o;
                 return ( this.playerOne.equals( g.getPlayerOne() ) && this.playerTwo.equals( g.getPlayerTwo() ) );
             }
@@ -135,19 +148,21 @@ public class Game {
 
     /**
      * Returns a boolean for whether a given player is in the game
+     *
      * @param player the Player to search for
      * @return true if player given is in this Game
      */
     public boolean contains( Player player ) {
-        return playerOne.equals(player) || playerTwo.equals( player );
+        return playerOne.equals( player ) || playerTwo.equals( player );
     }
 
 
     /**
      * Method that adds a validated move to the validatedMoves array list
      * does not check if the move is validated; (move validity is a pre-condition)
+     *
      * @param move the validated move to add
-      */
+     */
     public void addValidatedMove( Move move ) {
         this.validatedMoves.add( move );
     }
@@ -155,6 +170,7 @@ public class Game {
 
     /**
      * Method that removes the most recently added validated move from the validatedMoves array list
+     *
      * @return the move that was removed
      */
     public Move backupValidatedMove() {
@@ -164,6 +180,7 @@ public class Game {
 
     /**
      * Getter for the validated moves
+     *
      * @return the array list of validated moves
      */
     public ArrayList< Move > getValidatedMoves() {
@@ -173,6 +190,7 @@ public class Game {
 
     /**
      * Helper function that serves as a boolean flag for whether we're out of validated moves
+     *
      * @return boolean whether it is empty or not
      */
     public boolean outOfValidatedMoves() {
@@ -183,6 +201,7 @@ public class Game {
     /**
      * Helper function that returns the first move in validatedMoves
      * used in PostSubmitTurnRoute to get the moves in the right order
+     *
      * @return the first move
      */
     public Move getFirstValidatedMove() {
@@ -192,15 +211,16 @@ public class Game {
     /**
      * Function to determine if playerOne (RED) has any more moves available
      * checks each space for red pieces, then if any type of move is available for that piece
+     *
      * @return
      */
     public boolean noMovesAvailableForPlayerOne() {
-        for( int r = 0; r < 8; r++ ){
-            for ( int c = 0; c < 8; c++ ) {
+        for( int r = 0; r < 8; r++ ) {
+            for( int c = 0; c < 8; c++ ) {
                 if( ( board.getSpace( r, c ).getPiece() != null ) &&
-                        ( board.getSpace( r, c ).getPiece().getColor() == Piece.Color.RED ) ) {
+                    ( board.getSpace( r, c ).getPiece().getColor() == Piece.Color.RED ) ) {
                     if( mv.isNormalMoveAvailable( this, r, c, board ) || mv.isKingMoveAvailable( this, r, c, board )
-                            || mv.singleJumpAvailable( this, r, c, board ) || mv.kingJumpAvailable( this, r, c, board ) ){
+                        || mv.singleJumpAvailable( this, r, c, board ) || mv.kingJumpAvailable( this, r, c, board ) ) {
                         return false;
                     }
                 }
@@ -211,12 +231,12 @@ public class Game {
 
 
     public boolean noMovesAvailableForPlayerTwo() {
-        for( int r = 0; r < 8; r++ ){
-            for ( int c = 0; c < 8; c++ ) {
+        for( int r = 0; r < 8; r++ ) {
+            for( int c = 0; c < 8; c++ ) {
                 if( ( board.getSpace( r, c ).getPiece() != null ) &&
-                        ( board.getSpace( r, c ).getPiece().getColor() != Piece.Color.WHITE ) ) {
+                    ( board.getSpace( r, c ).getPiece().getColor() != Piece.Color.WHITE ) ) {
                     if( mv.isNormalMoveAvailable( this, r, c, board ) || mv.isKingMoveAvailable( this, r, c, board )
-                            || mv.singleJumpAvailable( this, r, c, board ) || mv.kingJumpAvailable( this, r, c, board ) ){
+                        || mv.singleJumpAvailable( this, r, c, board ) || mv.kingJumpAvailable( this, r, c, board ) ) {
                         return false;
                     }
                 }
