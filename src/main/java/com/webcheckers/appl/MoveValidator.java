@@ -170,7 +170,7 @@ public class MoveValidator {
         return false;
     }
 
-    private boolean isNormalMoveAvailable(int row, int col, Board board){
+    public boolean isNormalMoveAvailable(int row, int col, Board board){
         Piece.Color currentPlayerColor = getCurrentPlayerColor();
         if( currentPlayerColor == Piece.Color.RED ){
             if( ( row + 1 <= 7 ) && ( col - 1 >= 0 )) {
@@ -205,7 +205,7 @@ public class MoveValidator {
         return false;
     }
 
-    private boolean isKingMoveAvailable(int row, int col, Board board){
+    public boolean isKingMoveAvailable(int row, int col, Board board){
         Piece.Color currentPlayerColor = getCurrentPlayerColor();
         if( currentPlayerColor == Piece.Color.WHITE ){
             if( ( row + 1 <= 7 ) && ( col - 1 >= 0 )) {
@@ -248,7 +248,7 @@ public class MoveValidator {
      * @param board board of the game
      * @return boolean whether the piece at (row, col) can make a jump move
      */
-    private boolean singleJumpAvailable( int row, int col, Board board ) {
+    public boolean singleJumpAvailable( int row, int col, Board board ) {
         Piece.Color currentPlayerColor = getCurrentPlayerColor();
 
         // if it is a red piece, check if there is a white piece diagonally adjacent to it
@@ -323,7 +323,7 @@ public class MoveValidator {
      * @param board board of the game
      * @return boolean if the piece at (row,col) can make a single backward (king) jump
      */
-    private boolean kingJumpAvailable( int row, int col, Board board){
+    public boolean kingJumpAvailable( int row, int col, Board board){
         Piece.Color currentPlayerColor = getCurrentPlayerColor();
 
         // if it is a white piece, check if there is a red piece diagonally adjacent to it
