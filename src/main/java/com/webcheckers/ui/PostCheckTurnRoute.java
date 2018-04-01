@@ -89,7 +89,7 @@ public class PostCheckTurnRoute implements Route {
         Map< String, Object > vm = new HashMap<>();
 
         if( currentPlayer.equals( game.getPlayerOne() ) ) {
-            //you are RED and you lost
+            // you are RED and you lost
             if( board.getRedPiecesInPlay() <= 0 || game.noMovesAvailableForPlayerOne() ){ //OR NO MOVES ARE AVAILABLE
                 currentPlayer.removeOpponent();
                 gameLobby.removeGame( game );
