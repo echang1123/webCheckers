@@ -16,7 +16,7 @@ import java.util.Set;
  *
  * @author Hongda Lin
  */
-
+@Tag("Appl-tier")
 public class GlobalInformationTest {
     //Attributes
     private PlayerLobby playerLobby = new PlayerLobby();

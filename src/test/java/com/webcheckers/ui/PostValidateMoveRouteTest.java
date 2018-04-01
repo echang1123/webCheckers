@@ -24,7 +24,7 @@ import spark.TemplateEngine;
  *
  * @author Hongda Lin
  */
-
+@Tag("UI-tier")
 public class PostValidateMoveRouteTest {
     // Component under test
     private PostValidateMoveRoute CuT;

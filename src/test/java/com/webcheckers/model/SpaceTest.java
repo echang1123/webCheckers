@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Created by Eugene on 3/15/2018.
  */
-@Tag("Model-Tier")
+@Tag("Model-tier")
 public class SpaceTest {
     private Space s = new Space(0,null,false);
 
@@ -24,7 +24,7 @@ public class SpaceTest {
 
     @Test
     public void test_isValid(){
-        assertFalse(s.isValid(),"Is Valid works correctly");
+        assertFalse(s.isValid().booleanValue(),"Is Valid works correctly");
     }
 
 }
