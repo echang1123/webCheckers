@@ -1,5 +1,5 @@
 /*
- * POST "/checkTurn" handler
+ * POST "/resignGame" handler
  *
  * @author Karthik Iyer
  */
@@ -25,38 +25,33 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 
-public class PostCheckTurnRoute implements Route {
+public class PostResignGameRoute implements Route {
 
     // Attributes
-    private static final Logger LOG = Logger.getLogger( PostCheckTurnRoute.class.getName() );
+    private static final Logger LOG = Logger.getLogger( PostResignGameRoute.class.getName() );
     private GlobalInformation gi;
 
 
     /**
-     * Constructor for the PostCheckTurnRoute class
-     * @param gi the Global Information object
+     * Constructor for the PostResignGameRoute handler
+     * @param gi the global information
      */
-    public PostCheckTurnRoute( GlobalInformation gi ) {
-        // Validation
-        Objects.requireNonNull( LOG, "LOG cannot be null" );
+    public PostResignGameRoute( GlobalInformation gi ) {
+        Objects.requireNonNull( LOG, "Log cannot be null" );
         Objects.requireNonNull( gi, "gi cannot be null" );
-
         this.gi = gi;
     }
 
 
     /**
-     * Handler function for PostCheckTurnRoute
-     * The function retrieves the current player from the player lobby, and the game that the current player is in
-     * from the game lobby. It determines if the current player is player one or two, and then checks whose turn it
-     * is in the game. If it is the current player's turn, then it returns a message saying "true", otherwise it
-     * returns a message saying "false".
-     * @param request the http request
+     * Handler function
+     * @param request the http session request
      * @param response the response
-     * @return a Message with 'true' or 'false'
+     * @return a message of either info type or error type
      */
     @Override
     public Object handle( Request request, Response response ) {
+        LOG.finer( "PostResignGameRoute invoked" );
 
         Session httpSession = request.session();
         PlayerLobby playerLobby = gi.getPlayerLobby();
@@ -75,27 +70,32 @@ public class PostCheckTurnRoute implements Route {
         Game game = gameLobby.findGame( currentPlayer );
         if( game == null ) {
             return new Message( "", Message.MessageType.ERROR );
-
-        //if currentPlayer's opponent is null( opponent resigned )
-        if( currentPlayer.getOpponent() == null ){
-            return new Message( "true", Message.MessageType.INFO );
         }
 
-        if( currentPlayer.equals( game.getPlayerOne() ) ) {
+        currentPlayer.removeOpponent();
+
+        // you are the first player
+        if( game.getPlayerOne().equals( currentPlayer ) ) {
+            httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
+            game.removePlayerOne();
             if( game.getWhoseTurn() == 0 )
-                return new Message( "true", Message.MessageType.INFO );
-            else
-                return new Message( "false", Message.MessageType.INFO );
+                game.switchTurn();
+            return new Message( "", Message.MessageType.INFO );
         }
+
+        // you are the second player
+        else if( game.getPlayerTwo().equals( currentPlayer ) ) {
+            httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
+            game.removePlayerTwo();
+            if( game.getWhoseTurn() == 1 )
+                game.switchTurn();
+            return new Message( "", Message.MessageType.INFO );
+        }
+
+        // error
         else {
-            if( game.getWhoseTurn() == 0 )
-                return new Message( "false", Message.MessageType.INFO );
-            else
-                return new Message( "true", Message.MessageType.INFO );
+            return new Message( "", Message.MessageType.ERROR );
         }
-
     }
 
-
 }
-

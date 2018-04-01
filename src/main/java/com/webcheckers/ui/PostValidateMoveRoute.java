@@ -55,13 +55,27 @@ public class PostValidateMoveRoute implements Route {
         GameLobby gameLobby = gi.getGameLobby();
 
         String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER_KEY );
+        if( currentPlayerName == null ) {
+            return new Message( "", Message.MessageType.ERROR );
+        }
+
         Player currentPlayer = playerLobby.getPlayer( currentPlayerName );
+        if( currentPlayer == null ) {
+            return new Message( "", Message.MessageType.ERROR );
+        }
 
         Game game = gameLobby.findGame( currentPlayer );
+        if( game == null ) {
+            return new Message( "", Message.MessageType.ERROR );
+        }
+
         MoveValidator moveValidator = new MoveValidator( game );
 
         final String dataString = request.body();
         Move move = JsonUtils.fromJson( dataString, Move.class );
+        if( move == null ) {
+            return new Message( "", Message.MessageType.ERROR );
+        }
 
         boolean isValidMove = moveValidator.validate( move );
 

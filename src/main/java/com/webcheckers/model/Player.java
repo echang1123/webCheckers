@@ -62,6 +62,17 @@ public class Player {
 
 
     /**
+     * Helper function that removes the player's opponent, and sets isInGame to false
+     */
+    public void removeOpponent() {
+        if( this.isInGame ) {
+            this.opponent = null;
+            this.isInGame = false;
+        }
+    }
+
+
+    /**
      * Override the default equals to check player name
      * @param o the object to compare with (Player)
      * @return whether has the same username or not
