@@ -31,6 +31,7 @@ public class PostValidateMoveRoute implements Route {
 
     /**
      * Constructor for the PostValidateMoveRoute route handler
+     *
      * @param gi the Global Information object
      */
     public PostValidateMoveRoute( final GlobalInformation gi ) {
@@ -42,7 +43,8 @@ public class PostValidateMoveRoute implements Route {
 
     /**
      * Handles the POST "/validateMove" request
-     * @param request the request
+     *
+     * @param request  the request
      * @param response the response
      * @return the Object containing the return data
      */
