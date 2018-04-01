@@ -153,7 +153,7 @@ public class Game {
      * @return true if player given is in this Game
      */
     public boolean contains( Player player ) {
-        return playerOne.equals( player ) || playerTwo.equals( player );
+        return ( ( playerOne != null && playerOne.equals( player )) || ( playerTwo != null && playerTwo.equals( player ) ) );
     }
 
 
