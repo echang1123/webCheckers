@@ -69,6 +69,10 @@ public class GetGameRoute implements Route {
         String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER_KEY );
         Player currentPlayer = players.get( currentPlayerName );
 
+        //create map with all players, and remove the current player from it
+        Map< String, Player > otherPlayers = new HashMap<>( players );
+        otherPlayers.remove( currentPlayerName ); // remove the current player from being shown
+
         // add main info
 
         Board boardModel;
@@ -111,8 +115,6 @@ public class GetGameRoute implements Route {
                             String message = "Player \"" + opponentName + "\" is already playing a game.";
                             vm.put( "message", message );
                             vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName );
-                            Map< String, Player > otherPlayers = new HashMap<>( players );
-                            otherPlayers.remove( currentPlayerName ); // remove the current player from being shown
                             vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
                             vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
                             // render home with error message
@@ -159,6 +161,27 @@ public class GetGameRoute implements Route {
             Player playerTwo = game.getPlayerTwo();
             vm.put( "redPlayer", playerOne );
             vm.put( "whitePlayer", playerTwo );
+
+            if( currentPlayer.equals( playerOne ) && playerTwo == null ){
+                Message message = new Message( "Player 2 resigned.", Message.MessageType.INFO );
+                vm.put( RoutesAndKeys.MESSAGE_KEY, message );
+                vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName);
+                vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
+                vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
+
+                return templateEngine.render( new ModelAndView( vm, "home.ftl" ) );
+            }
+
+            if( currentPlayer.equals( playerTwo ) && playerOne == null ){
+                Message message = new Message( "Player 1 resigned.", Message.MessageType.INFO );
+                vm.put( RoutesAndKeys.MESSAGE_KEY, message );
+                vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName);
+                vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
+                vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
+
+                return templateEngine.render( new ModelAndView( vm, "home.ftl" ) );
+            }
+
 
             int whoseTurn = game.getWhoseTurn();
             if( whoseTurn == 0 ) { // it is player one's turn (red)
