@@ -10,8 +10,11 @@ package com.webcheckers.model;
 public class Piece {
 
     // Enums
-    public enum PieceType { SINGLE, KING } // type of the piece
-    public enum Color { RED, WHITE } // color of the piece
+    public enum PieceType {
+        SINGLE, KING
+    } // type of the piece
+
+    public enum Color {RED, WHITE} // color of the piece
 
     // Attributes
     public PieceType pieceType; // the type of piece
@@ -20,8 +23,9 @@ public class Piece {
 
     /**
      * Constructor for the Piece class
+     *
      * @param pieceType the type of the class
-     * @param color the color of the piece
+     * @param color     the color of the piece
      */
     public Piece( PieceType pieceType, Color color ) {
         this.pieceType = pieceType;
@@ -31,6 +35,7 @@ public class Piece {
 
     /**
      * Getter for the type of the piece
+     *
      * @return the type of the piece
      */
     public PieceType getType() {
@@ -40,6 +45,7 @@ public class Piece {
 
     /**
      * Getter for the color of the piece
+     *
      * @return the color of the piece
      */
     public Color getColor() {
@@ -47,14 +53,15 @@ public class Piece {
     }
 
 
-  /**
-   * Override the toString to return a String that is useful
-   * @return a String representation of a Piece object
-   */
-  @Override
-  public String toString() {
-    return "Piece {type: " + this.pieceType + ", color: " + this.color + "}";
-  }
+    /**
+     * Override the toString to return a String that is useful
+     *
+     * @return a String representation of a Piece object
+     */
+    @Override
+    public String toString() {
+        return "Piece {type: " + this.pieceType + ", color: " + this.color + "}";
+    }
 
 
 }

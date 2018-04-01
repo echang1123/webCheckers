@@ -16,13 +16,14 @@ public class BoardView implements Iterable< Row > {
 
     // Attributes
     private ArrayList< Row > rows;
-    private Iterator<Row> rowIterator;
+    private Iterator< Row > rowIterator;
 
 
     /**
      * Constructor for the Board view
      * Generates a collection of rows, each having a collection of Spaces, and assigning the rowIterator
-     * @param board the Board that this BoardView needs to represent
+     *
+     * @param board          the Board that this BoardView needs to represent
      * @param forFirstPlayer boolean telling us if this boardview is for the first player
      */
     public BoardView( Board board, boolean forFirstPlayer ) {
@@ -37,8 +38,7 @@ public class BoardView implements Iterable< Row > {
         }
         if( forFirstPlayer ) {
             this.rowIterator = new ReverseIterator<>( this.rows );
-        }
-        else {
+        } else {
             this.rowIterator = this.rows.iterator();
         }
     }
@@ -46,6 +46,7 @@ public class BoardView implements Iterable< Row > {
 
     /**
      * Override of the iterator function since we are implementing Iterable
+     *
      * @return the iterator to iterate over the rows
      */
     @Override

@@ -12,7 +12,9 @@ package com.webcheckers.model;
 public class Move {
 
     // enum
-    public enum MoveType { SIMPLE, JUMP }
+    public enum MoveType {
+        SIMPLE, JUMP
+    }
 
     // Attributes
     private MoveType moveType;
@@ -22,8 +24,9 @@ public class Move {
 
     /**
      * Constructor for the Move class
+     *
      * @param start the starting position
-     * @param end the ending position
+     * @param end   the ending position
      */
     public Move( Position start, Position end ) {
         this.start = start;
@@ -33,6 +36,7 @@ public class Move {
 
     /**
      * Getter for the starting position of the move
+     *
      * @return the starting position
      */
     public Position getStart() {
@@ -42,6 +46,7 @@ public class Move {
 
     /**
      * Getter for the ending position of the move
+     *
      * @return the ending position
      */
     public Position getEnd() {
@@ -52,6 +57,7 @@ public class Move {
     /**
      * Setter for the type of the move
      * should be called from validateMove
+     *
      * @param moveType
      */
     public void setMoveType( MoveType moveType ) {
@@ -61,6 +67,7 @@ public class Move {
 
     /**
      * Getter for the move type
+     *
      * @return the type of the move
      */
     public MoveType getMoveType() {

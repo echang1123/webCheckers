@@ -17,8 +17,9 @@ public class Space {
 
     /**
      * Constructor for the Space class
-     * @param cellIdx the index of the space
-     * @param piece the piece that rests on the space
+     *
+     * @param cellIdx      the index of the space
+     * @param piece        the piece that rests on the space
      * @param isValidSpace whether the space is valid to play on
      */
     public Space( int cellIdx, Piece piece, Boolean isValidSpace ) {
@@ -30,6 +31,7 @@ public class Space {
 
     /**
      * Getter for the index of the space
+     *
      * @return the index of the space
      */
     public int getCellIdx() {
@@ -39,6 +41,7 @@ public class Space {
 
     /**
      * Getter for the validity of the space
+     *
      * @return whether the space is valid to play on
      */
     public Boolean isValid() {
@@ -48,6 +51,7 @@ public class Space {
 
     /**
      * Getter for the piece on the space
+     *
      * @return the piece that rests on this space
      */
     public Piece getPiece() {
@@ -57,6 +61,7 @@ public class Space {
 
     /**
      * Setter for the piece on the board
+     *
      * @param piece the piece to place on the space
      */
     public void setPiece( Piece piece ) {

@@ -34,6 +34,7 @@ public class PostResignGameRoute implements Route {
 
     /**
      * Constructor for the PostResignGameRoute handler
+     *
      * @param gi the global information
      */
     public PostResignGameRoute( GlobalInformation gi ) {
@@ -45,7 +46,8 @@ public class PostResignGameRoute implements Route {
 
     /**
      * Handler function
-     * @param request the http session request
+     *
+     * @param request  the http session request
      * @param response the response
      * @return a message of either info type or error type
      */
