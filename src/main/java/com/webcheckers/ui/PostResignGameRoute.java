@@ -34,6 +34,7 @@ public class PostResignGameRoute implements Route {
 
     /**
      * Constructor for the PostResignGameRoute handler
+     *
      * @param gi the global information
      */
     public PostResignGameRoute( GlobalInformation gi ) {
@@ -45,7 +46,8 @@ public class PostResignGameRoute implements Route {
 
     /**
      * Handler function
-     * @param request the http session request
+     *
+     * @param request  the http session request
      * @param response the response
      * @return a message of either info type or error type
      */
@@ -59,17 +61,17 @@ public class PostResignGameRoute implements Route {
 
         String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER_KEY );
         if( currentPlayerName == null ) {
-            return new Message( "", Message.MessageType.ERROR );
+            return new Message( "", Message.MessageType.error );
         }
 
         Player currentPlayer = playerLobby.getPlayer( currentPlayerName );
         if( currentPlayer == null ) {
-            return new Message( "", Message.MessageType.ERROR );
+            return new Message( "", Message.MessageType.error );
         }
 
         Game game = gameLobby.findGame( currentPlayer );
         if( game == null ) {
-            return new Message( "", Message.MessageType.ERROR );
+            return new Message( "", Message.MessageType.error );
         }
 
         currentPlayer.removeOpponent();
@@ -80,7 +82,7 @@ public class PostResignGameRoute implements Route {
             game.removePlayerOne();
             if( game.getWhoseTurn() == 0 )
                 game.switchTurn();
-            return new Message( "", Message.MessageType.INFO );
+            return new Message( "", Message.MessageType.info );
         }
 
         // you are the second player
@@ -89,12 +91,12 @@ public class PostResignGameRoute implements Route {
             game.removePlayerTwo();
             if( game.getWhoseTurn() == 1 )
                 game.switchTurn();
-            return new Message( "", Message.MessageType.INFO );
+            return new Message( "", Message.MessageType.info );
         }
 
         // error
         else {
-            return new Message( "", Message.MessageType.ERROR );
+            return new Message( "", Message.MessageType.error );
         }
     }
 

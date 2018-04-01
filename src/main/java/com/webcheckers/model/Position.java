@@ -16,7 +16,8 @@ public class Position {
 
     /**
      * Constructor for the Position class
-     * @param row the index of the row
+     *
+     * @param row  the index of the row
      * @param cell the index of the space ( cell )
      */
     public Position( int row, int cell ) {
@@ -27,6 +28,7 @@ public class Position {
 
     /**
      * Getter for the row index
+     *
      * @return the row index of the position
      */
     public int getRow() {
@@ -36,6 +38,7 @@ public class Position {
 
     /**
      * Getter for the space ( cell ) index
+     *
      * @return the space ( cell ) index of the position
      */
     public int getCell() {

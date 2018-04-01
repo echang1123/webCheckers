@@ -16,26 +16,30 @@ import java.io.Serializable;
 public class Message implements Serializable {
 
     // Enums
-    public enum MessageType { INFO, ERROR } // the type of the message
+    public enum MessageType {
+        info, error
+    } // the type of the message
 
     // Attributes
     private String text; // the text of the message
-    private MessageType messageType;
+    private MessageType type;
 
 
     /**
      * Constructor for the Message class
+     *
      * @param text the text of the message
-     * @param messageType the type of the message
+     * @param type the type of the message
      */
-    public Message( String text, MessageType messageType ) {
+    public Message( String text, MessageType type ) {
         this.text = text;
-        this.messageType = messageType;
+        this.type = type;
     }
 
 
     /**
      * Getter for the message text
+     *
      * @return the text of the message
      */
     public String getText() {
@@ -45,10 +49,11 @@ public class Message implements Serializable {
 
     /**
      * Getter for the message type
+     *
      * @return the type of the message
      */
     public MessageType getType() {
-        return this.messageType;
+        return this.type;
     }
 
 }

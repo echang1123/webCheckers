@@ -19,6 +19,7 @@ public class Player {
 
     /**
      * Constructor for the Player class
+     *
      * @param name the name of the player
      */
     public Player( String name ) {
@@ -30,6 +31,7 @@ public class Player {
 
     /**
      * Getter for the player's name
+     *
      * @return the name of the player
      */
     public String getName() {
@@ -39,6 +41,7 @@ public class Player {
 
     /**
      * Add an opponent to the current player, and logically make isInGame true
+     *
      * @param opponent the opponent to add
      * @return true if added successfully, false if already in game
      */
@@ -54,6 +57,7 @@ public class Player {
 
     /**
      * Getter for the player's opponent
+     *
      * @return the opponent
      */
     public Player getOpponent() {
@@ -74,13 +78,14 @@ public class Player {
 
     /**
      * Override the default equals to check player name
+     *
      * @param o the object to compare with (Player)
      * @return whether has the same username or not
      */
     @Override
     public boolean equals( Object o ) {
         if( o instanceof Player ) {
-            Player player = ( Player )o;
+            Player player = ( Player ) o;
             return this.name.equals( player.getName() );
         }
         return false;
@@ -89,6 +94,7 @@ public class Player {
 
     /**
      * Override the default hashCode method to use only the player's username
+     *
      * @return the hashcode that is representative of this player object
      */
     @Override

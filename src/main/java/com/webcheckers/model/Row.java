@@ -20,6 +20,7 @@ public class Row implements Iterable< Space > {
 
     /**
      * Constructor for the Row class
+     *
      * @param index the index of the row
      */
     public Row( int index ) {
@@ -31,6 +32,7 @@ public class Row implements Iterable< Space > {
 
     /**
      * Getter for the row index
+     *
      * @return the index of the row
      */
     public int getIndex() {
@@ -42,6 +44,7 @@ public class Row implements Iterable< Space > {
      * Sets the iterator for the rows
      * NOTE
      * IF THIS FUNCTION IS NOT CALLED, THE ITERATOR WILL BE NULL!
+     *
      * @param forFirstPlayer boolean whether for first player
      */
     public void setSpaceIterator( boolean forFirstPlayer ) {
@@ -56,6 +59,7 @@ public class Row implements Iterable< Space > {
      * Override of the iterator function since we are implementing Iterable
      * Returns an iterator for the spaces of the row
      * Since spaces is an ArrayList, we can just return it's iterator
+     *
      * @return the iterator for the row spaces
      */
     @Override
@@ -66,6 +70,7 @@ public class Row implements Iterable< Space > {
 
     /**
      * A function to add a Space to a row at a specified index
+     *
      * @param index the index to add the Space at
      * @param space the Space to add to
      */

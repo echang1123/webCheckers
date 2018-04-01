@@ -26,16 +26,17 @@ import java.util.logging.Logger;
 
 public class GetGameRoute implements Route {
 
-    public enum ViewMode { PLAY, SPECTATOR, REPLAY }
+    public enum ViewMode {PLAY, SPECTATOR, REPLAY}
 
-    private static final Logger LOG = Logger.getLogger(GetSignInRoute.class.getName());
+    private static final Logger LOG = Logger.getLogger( GetSignInRoute.class.getName() );
     private final TemplateEngine templateEngine;
     private final GlobalInformation gi;
 
     /**
      * Constructor for the GetGameRoute route handler
-     * @param templateEngine  the HTML template rendering engine
-     * @param gi the Global Information
+     *
+     * @param templateEngine the HTML template rendering engine
+     * @param gi             the Global Information
      */
     public GetGameRoute( final TemplateEngine templateEngine, final GlobalInformation gi ) {
         // validation
@@ -50,8 +51,9 @@ public class GetGameRoute implements Route {
 
     /**
      * Render the signed-in WebCheckers Home page.
+     *
      * @param request  the HTTP request
-     * @param response  the HTTP response
+     * @param response the HTTP response
      * @return the rendered HTML for the Home page
      */
     @Override
@@ -60,14 +62,21 @@ public class GetGameRoute implements Route {
 
         // construct the view model
         Map< String, Object > vm = new HashMap<>();
-        vm.put("title", "Welcome!");
+        vm.put( "title", "Welcome!" );
 
         final Session httpSession = request.session();
         final PlayerLobby playerLobby = gi.getPlayerLobby();
         HashMap< String, Player > players = playerLobby.getPlayers();
 
         String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER_KEY );
+        if( currentPlayerName == null ) {
+            response.redirect( RoutesAndKeys.HOME_URL );
+        }
+
         Player currentPlayer = players.get( currentPlayerName );
+        if( currentPlayer == null ) {
+            response.redirect( RoutesAndKeys.HOME_URL );
+        }
 
         //create map with all players, and remove the current player from it
         Map< String, Player > otherPlayers = new HashMap<>( players );
@@ -87,17 +96,17 @@ public class GetGameRoute implements Route {
         // Player is not in game, that means we are opening this board for the first time
         if( ( httpSession.attribute( RoutesAndKeys.IN_GAME_KEY ) == null )
             || ( httpSession.attribute( RoutesAndKeys.IN_GAME_KEY ).equals( false ) ) ) {
-        // We have to determine if the current player is the first player
-        // If it is the first player:
-        // - Create a new Game with a new Board
-        // - Add the Game to the GameLobby
-        // - Generate a BoardView for the first player
-        // - Render game.ftl
-        //
-        // If it is the second player:
-        // - Retrieve the Game from the GameLobby
-        // - Generate a BoardView for the second player
-        // - Render game.ftl
+            // We have to determine if the current player is the first player
+            // If it is the first player:
+            // - Create a new Game with a new Board
+            // - Add the Game to the GameLobby
+            // - Generate a BoardView for the first player
+            // - Render game.ftl
+            //
+            // If it is the second player:
+            // - Retrieve the Game from the GameLobby
+            // - Generate a BoardView for the second player
+            // - Render game.ftl
 
             // check if you are the first player
             Boolean isFirstPlayer = false;
@@ -114,7 +123,7 @@ public class GetGameRoute implements Route {
                         if( players.get( opponentName ).getOpponent() != null ) { // the selected opponent is already in game
                             String message = "Player \"" + opponentName + "\" is already playing a game.";
                             vm.put( "message", message );
-                            vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName );
+                            vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayer );
                             vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
                             vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
                             // render home with error message
@@ -164,30 +173,30 @@ public class GetGameRoute implements Route {
 
             //if your opponent is null, they resigned so: remove your opponent, remove the game from the lobby
             //set inGame to false, create message that your opponent resigned, populate vm and render home
-            if( currentPlayer.equals( playerOne ) && playerTwo == null ){
+            if( currentPlayer.equals( playerOne ) && playerTwo == null ) {
                 currentPlayer.removeOpponent();
 
                 gameLobby.removeGame( game );
                 httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
 
-                Message message = new Message( "Player 2 resigned.", Message.MessageType.INFO );
+                Message message = new Message( "Player 2 resigned.", Message.MessageType.info );
                 vm.put( RoutesAndKeys.MESSAGE_KEY, message );
-                vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName);
+                vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayer );
                 vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
                 vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
 
                 return templateEngine.render( new ModelAndView( vm, "home.ftl" ) );
             }
 
-            if( currentPlayer.equals( playerTwo ) && playerOne == null ){
+            if( currentPlayer.equals( playerTwo ) && playerOne == null ) {
                 currentPlayer.removeOpponent();
 
                 gameLobby.removeGame( game );
                 httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
 
-                Message message = new Message( "Player 1 resigned.", Message.MessageType.INFO );
+                Message message = new Message( "Player 1 resigned.", Message.MessageType.info );
                 vm.put( RoutesAndKeys.MESSAGE_KEY, message );
-                vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName);
+                vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayer );
                 vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
                 vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
 
@@ -204,6 +213,7 @@ public class GetGameRoute implements Route {
 
             // currentPlayer will be the first player if it is the same as playerOne
             board = new BoardView( boardModel, currentPlayer.equals( playerOne ) );
+            vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayer );
             vm.put( "board", board );
         }
 

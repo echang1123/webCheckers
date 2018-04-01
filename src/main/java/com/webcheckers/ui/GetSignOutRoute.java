@@ -20,13 +20,14 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 
-public class GetSignOutRoute implements Route{
+public class GetSignOutRoute implements Route {
 
     private static final Logger LOG = Logger.getLogger( GetSignInRoute.class.getName() );
     private final GlobalInformation gi;
 
     /**
      * Constructor for the GetSignOutRoute route handler
+     *
      * @param gi the Global Information
      */
     public GetSignOutRoute( final GlobalInformation gi ) {
@@ -39,8 +40,9 @@ public class GetSignOutRoute implements Route{
 
     /**
      * Render the signed-in WebCheckers Home page.
-     * @param request the HTTP request
-     * @param response  the HTTP response
+     *
+     * @param request  the HTTP request
+     * @param response the HTTP response
      * @return the rendered HTML for the Home page (redirects to GetHomeRoute )
      */
     @Override
@@ -48,10 +50,22 @@ public class GetSignOutRoute implements Route{
         LOG.finer( "GetSignOutRoute is invoked." );
 
         final PlayerLobby playerLobby = gi.getPlayerLobby();
+        if( playerLobby == null ) {
+            response.redirect( RoutesAndKeys.HOME_URL );
+        }
+
         final Session session = request.session();
+        if( session == null ) {
+            response.redirect( RoutesAndKeys.HOME_URL );
+        }
+
         String username = session.attribute( RoutesAndKeys.CURRENT_PLAYER_KEY );
+        if( username == null ) {
+            response.redirect( RoutesAndKeys.HOME_URL );
+        }
+
         playerLobby.removePlayer( username );
-        session.attribute( RoutesAndKeys.SIGNED_IN_KEY,false );
+        session.attribute( RoutesAndKeys.SIGNED_IN_KEY, false );
         response.redirect( RoutesAndKeys.HOME_URL );
         return null;
     }

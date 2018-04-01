@@ -4,6 +4,7 @@
  * @author Karthik Iyer
  * @author Gaurav Pant
  * @author Hongda Lin
+ * @Emily Wesson
  */
 
 
@@ -11,17 +12,19 @@ package com.webcheckers.model;
 
 public class Board {
 
-	// Attributes
-	private Space spaces[][]; // the spaces
+    // Attributes
+    private Space spaces[][]; // the spaces
+    private int redPiecesInPlay;
+    private int whitePiecesInPlay;
 
-
-	/**
-	 * Constructor for the Board class
-	 * Automagically adds the Spaces and Pieces to the Board
-     *
-	 */
-	public Board( ) {
-		this.spaces = new Space[ 8 ][ 8 ]; // initialize ( construct ) the 2D array
+    /**
+     * Constructor for the Board class
+     * Automagically adds the Spaces and Pieces to the Board
+     */
+    public Board() {
+        this.spaces = new Space[ 8 ][ 8 ]; // initialize ( construct ) the 2D array
+        this.redPiecesInPlay = 12;
+        this.whitePiecesInPlay = 12;
         for( int row = 0; row < 8; row++ ) {
             for( int col = 0; col < 8; col++ ) {
                 if( ( row % 2 == col % 2 ) && ( row < 3 ) ) { // needs a red piece
@@ -36,41 +39,62 @@ public class Board {
                 // a space is valid ( dark ) if both the row index and the column index share the same parity ( even or odd )
             }
         }
-	}
+    }
 
 
-	/**
-	 * A function that allows you to access a Space in the Board
-	 * @param row the row index of the board
-	 * @param col the column index of the board
-	 * @return the Space at ( row, col ).
-	 */
-	public Space getSpace( int row, int col ) {
-		if( ( row < 0 ) || ( row > 7 ) ) {
-			throw new ArrayIndexOutOfBoundsException( "The row index must be in [ 0, 7 ]" );
-		}
-		if( ( col < 0 ) || ( col > 7 ) ) {
-			throw new ArrayIndexOutOfBoundsException( "The column index must be in [ 0, 7 ]" );
-		}
-		return this.spaces[ row ][ col ];
-	}
+    /**
+     * A function that allows you to access a Space in the Board
+     *
+     * @param row the row index of the board
+     * @param col the column index of the board
+     * @return the Space at ( row, col ).
+     */
+    public Space getSpace( int row, int col ) {
+        if( ( row < 0 ) || ( row > 7 ) ) {
+            throw new ArrayIndexOutOfBoundsException( "The row index must be in [ 0, 7 ]" );
+        }
+        if( ( col < 0 ) || ( col > 7 ) ) {
+            throw new ArrayIndexOutOfBoundsException( "The column index must be in [ 0, 7 ]" );
+        }
+        return this.spaces[ row ][ col ];
+    }
 
 
     /**
      * Overloaded the getSpace function to work with position objects as well
+     *
      * @param position the position on the board
      * @return the space at the specified position
      */
-	public Space getSpace( Position position ) {
-	    return this.getSpace( position.getRow(), position.getCell() );
+    public Space getSpace( Position position ) {
+        return this.getSpace( position.getRow(), position.getCell() );
+    }
+
+    /**
+     * Getter for red piece count
+     *
+     * @return number of red pieces still in play
+     */
+    public int getRedPiecesInPlay() {
+        return this.redPiecesInPlay;
+    }
+
+    /**
+     * Getter for white piece count
+     *
+     * @return number of white pieces still on the board
+     */
+    public int getWhitePiecesInPlay() {
+        return this.whitePiecesInPlay;
     }
 
 
     /**
      * Function that updates the board to reflect a move that has been done (submitted)
+     *
      * @param move the move to 'do'
      */
-	public void doMove( Move move ) {
+    public void doMove( Move move ) {
 
         Position start = move.getStart();
         Position end = move.getEnd();
@@ -87,14 +111,19 @@ public class Board {
         if( move.getMoveType() == Move.MoveType.JUMP ) {
             int middleRow = ( start.getRow() + end.getRow() ) / 2;
             int middleCol = ( start.getCell() + end.getCell() ) / 2;
-            this.getSpace( middleRow, middleCol ).removePiece();
+            Piece removed = this.getSpace( middleRow, middleCol ).removePiece();
+            if( removed.getColor() == Piece.Color.RED ) {
+                redPiecesInPlay--;
+            } else {
+                whitePiecesInPlay--;
+            }
         }
 
         //check the color and end row, if RED ends at row 7 or WHITE ends at row 0, upgrade the piece to a KING
-        if( newPiece.getColor() == Piece.Color.RED && end.getRow() == 7){
+        if( newPiece.getColor() == Piece.Color.RED && end.getRow() == 7 ) {
             newPiece.pieceType = Piece.PieceType.KING;
         }
-        if( newPiece.getColor() == Piece.Color.WHITE && end.getRow() == 0){
+        if( newPiece.getColor() == Piece.Color.WHITE && end.getRow() == 0 ) {
             newPiece.pieceType = Piece.PieceType.KING;
         }
     }

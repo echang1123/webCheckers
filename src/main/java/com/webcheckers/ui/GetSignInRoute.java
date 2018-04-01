@@ -10,6 +10,7 @@
 package com.webcheckers.ui;
 
 import com.webcheckers.appl.GlobalInformation;
+import com.webcheckers.appl.RoutesAndKeys;
 import spark.*;
 
 
@@ -19,7 +20,7 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 
-public class GetSignInRoute implements Route{
+public class GetSignInRoute implements Route {
 
     private static final Logger LOG = Logger.getLogger( GetSignInRoute.class.getName() );
     private final TemplateEngine templateEngine;
@@ -28,8 +29,9 @@ public class GetSignInRoute implements Route{
 
     /**
      * Constructor for the GetSignInRoute route handler
+     *
      * @param templateEngine the HTML template rendering engine
-     * @param gi the Global Information
+     * @param gi             the Global Information
      */
     public GetSignInRoute( final TemplateEngine templateEngine, final GlobalInformation gi ) {
         // validation
@@ -44,7 +46,8 @@ public class GetSignInRoute implements Route{
 
     /**
      * Render the sign-in page
-     * @param request the HTTP request
+     *
+     * @param request  the HTTP request
      * @param response the HTTP response
      * @return the rendered HTML for the Home page
      */
@@ -52,8 +55,13 @@ public class GetSignInRoute implements Route{
     public Object handle( Request request, Response response ) {
         LOG.finer( "GetSignInRoute is invoked." );
 
+        if( ( request.session().attribute( RoutesAndKeys.SIGNED_IN_KEY ) != null ) &&
+            ( request.session().attribute( RoutesAndKeys.SIGNED_IN_KEY ).equals( true ) ) ) {
+            response.redirect( RoutesAndKeys.HOME_URL );
+        }
+
         Map< String, Object > vm = new HashMap<>();
         vm.put( "title", "Welcome!" );
-        return templateEngine.render( new ModelAndView( vm , "signin.ftl" ) );
+        return templateEngine.render( new ModelAndView( vm, "signin.ftl" ) );
     }
 }
