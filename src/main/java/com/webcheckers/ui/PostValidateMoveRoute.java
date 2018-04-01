@@ -56,17 +56,17 @@ public class PostValidateMoveRoute implements Route {
 
         String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER_KEY );
         if( currentPlayerName == null ) {
-            return new Message( "", Message.MessageType.ERROR );
+            return new Message( "", Message.MessageType.error );
         }
 
         Player currentPlayer = playerLobby.getPlayer( currentPlayerName );
         if( currentPlayer == null ) {
-            return new Message( "", Message.MessageType.ERROR );
+            return new Message( "", Message.MessageType.error );
         }
 
         Game game = gameLobby.findGame( currentPlayer );
         if( game == null ) {
-            return new Message( "", Message.MessageType.ERROR );
+            return new Message( "", Message.MessageType.error );
         }
 
         MoveValidator moveValidator = new MoveValidator( game );
@@ -74,21 +74,21 @@ public class PostValidateMoveRoute implements Route {
         final String dataString = request.body();
         Move move = JsonUtils.fromJson( dataString, Move.class );
         if( move == null ) {
-            return new Message( "", Message.MessageType.ERROR );
+            return new Message( "", Message.MessageType.error );
         }
 
         boolean isValidMove = moveValidator.validate( move );
 
         // if the move is valid, add it to the validatedMoves array list and
-        // return a message of type INFO
+        // return a message of type info
         if( isValidMove ) {
             game.addValidatedMove( move );
-            return new Message( "", Message.MessageType.INFO );
+            return new Message( "", Message.MessageType.info );
         }
 
-        // if the move is not valid, return a message of type ERROR
+        // if the move is not valid, return a message of type error
         else {
-            return new Message( "", Message.MessageType.ERROR );
+            return new Message( "", Message.MessageType.error );
         }
 
     }

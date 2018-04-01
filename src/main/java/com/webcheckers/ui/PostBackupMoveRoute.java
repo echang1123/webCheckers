@@ -57,12 +57,12 @@ public class PostBackupMoveRoute implements Route {
         // if validatedMoves array list has at least one move, remove it and return a message of type INFO
         if( !game.outOfValidatedMoves() ) {
             game.backupValidatedMove( );
-            return new Message( "", Message.MessageType.INFO );
+            return new Message( "", Message.MessageType.info );
         }
 
         // if there are no moves in the validatedMove array list, return a message of type ERROR
         else {
-            return new Message( "", Message.MessageType.ERROR );
+            return new Message( "", Message.MessageType.error );
         }
 
     }

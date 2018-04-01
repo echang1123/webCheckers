@@ -2,6 +2,7 @@
  * POST "/checkTurn" handler
  *
  * @author Karthik Iyer
+ * @Emily Wesson
  */
 
 
@@ -12,6 +13,7 @@ import com.webcheckers.appl.GameLobby;
 import com.webcheckers.appl.GlobalInformation;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.appl.RoutesAndKeys;
+import com.webcheckers.model.Board;
 import com.webcheckers.model.Game;
 import com.webcheckers.model.Message;
 import com.webcheckers.model.Player;
@@ -66,29 +68,47 @@ public class PostCheckTurnRoute implements Route {
 
         String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER_KEY );
         if( currentPlayerName == null ) {
-            return new Message( "", Message.MessageType.ERROR );
+            return new Message( "", Message.MessageType.error );
         }
 
         Player currentPlayer = playerLobby.getPlayer( currentPlayerName );
         if( currentPlayer == null ) {
-            return new Message( "", Message.MessageType.ERROR );
+            return new Message( "", Message.MessageType.error );
         }
 
         Game game = gameLobby.findGame( currentPlayer );
         if( game == null ) {
-            return new Message( "", Message.MessageType.ERROR );
+            return new Message( "", Message.MessageType.error );
         }
 
+        Board board = game.getBoard();
+        //get all of the players, remove the current player from that Map
+        HashMap< String, Player > players = playerLobby.getPlayers();
+        Map< String, Player > otherPlayers = new HashMap<>( players );
+        otherPlayers.remove( currentPlayerName ); // remove the current player from being shown
+        Map< String, Object > vm = new HashMap<>();
+
         if( currentPlayer.equals( game.getPlayerOne() ) ) {
+            // you are RED and you lost
+            if( board.getRedPiecesInPlay() <= 0 || game.noMovesAvailableForPlayerOne() ){ //OR NO MOVES ARE AVAILABLE
+                currentPlayer.removeOpponent();
+                gameLobby.removeGame( game );
+                httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
+                Message message = new Message( "You lost...", Message.MessageType.info );
+
+                vm.put( RoutesAndKeys.MESSAGE_KEY, message );
+                vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName);
+                vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
+                vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
+                return templateEngine.render( new ModelAndView( vm, "home.ftl" ) );
+            }
+
             // your opponent resigned
             if( game.getPlayerTwo() == null ) {
                 currentPlayer.removeOpponent();
                 httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
-                Map< String, Object > vm = new HashMap<>();
-                HashMap< String, Player > players = playerLobby.getPlayers();
-                Map< String, Player > otherPlayers = new HashMap<>( players );
                 otherPlayers.remove( currentPlayerName ); // remove the current player from being shown
-                Message message = new Message( "Player 2 resigned.", Message.MessageType.INFO );
+                Message message = new Message( "Player 2 resigned.", Message.MessageType.info );
                 vm.put( RoutesAndKeys.MESSAGE_KEY, message );
                 vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName);
                 vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
@@ -97,20 +117,31 @@ public class PostCheckTurnRoute implements Route {
             }
 
             if( game.getWhoseTurn() == 0 )
-                return new Message( "true", Message.MessageType.INFO );
+                return new Message( "true", Message.MessageType.info );
             else
-                return new Message( "false", Message.MessageType.INFO );
+                return new Message( "false", Message.MessageType.info );
         }
         else {
+            //you are WHITE and you lost
+            if( board.getWhitePiecesInPlay() <= 0 || game.noMovesAvailableForPlayerTwo() ){ //OR NO MOVES ARE AVAILABLE
+                currentPlayer.removeOpponent();
+                gameLobby.removeGame( game );
+                httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
+                Message message = new Message( "You lost...", Message.MessageType.info );
+
+                vm.put( RoutesAndKeys.MESSAGE_KEY, message );
+                vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName);
+                vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
+                vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
+                return templateEngine.render( new ModelAndView( vm, "home.ftl" ) );
+            }
+
             // your opponent resigned
             if( game.getPlayerOne() == null ) {
                 currentPlayer.removeOpponent();
                 httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
-                Map< String, Object > vm = new HashMap<>();
-                HashMap< String, Player > players = playerLobby.getPlayers();
-                Map< String, Player > otherPlayers = new HashMap<>( players );
                 otherPlayers.remove( currentPlayerName ); // remove the current player from being shown
-                Message message = new Message( "Player 1 resigned.", Message.MessageType.INFO );
+                Message message = new Message( "Player 1 resigned.", Message.MessageType.info );
                 vm.put( RoutesAndKeys.MESSAGE_KEY, message );
                 vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName);
                 vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
@@ -119,9 +150,9 @@ public class PostCheckTurnRoute implements Route {
             }
 
             if( game.getWhoseTurn() == 0 )
-                return new Message( "false", Message.MessageType.INFO );
+                return new Message( "false", Message.MessageType.info );
             else
-                return new Message( "true", Message.MessageType.INFO );
+                return new Message( "true", Message.MessageType.info );
         }
     }
 }

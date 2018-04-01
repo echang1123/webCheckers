@@ -10,6 +10,8 @@
 package com.webcheckers.model;
 
 
+import com.webcheckers.appl.MoveValidator;
+
 import java.util.ArrayList;
 
 
@@ -21,6 +23,7 @@ public class Game {
     private Player playerTwo; // player 2
     private int whoseTurn; // 0 is for player1 and 1 is for player2
     private ArrayList< Move > validatedMoves; // keeps track of moves that have been validated
+    private final MoveValidator mv = new MoveValidator( this );
 
     /**
      * Constructor for the Game class
@@ -101,7 +104,6 @@ public class Game {
         return this.board;
     }
 
-
     /**
      * Returns the space at a given row index and cell index
      * @param row row index
@@ -179,4 +181,35 @@ public class Game {
         return this.validatedMoves.remove( 0 );
     }
 
+
+    public boolean noMovesAvailableForPlayerOne() {
+        for( int r = 0; r < 8; r++ ){
+            for ( int c = 0; c < 8; c++ ) {
+                if( ( board.getSpace( r, c ).getPiece() != null ) &&
+                        ( board.getSpace( r, c ).getPiece().getColor() == Piece.Color.RED ) ) {
+                    if( mv.isNormalMoveAvailable( r, c, board ) || mv.isKingMoveAvailable( r, c, board )
+                            || mv.singleJumpAvailable( r, c, board ) || mv.kingJumpAvailable( r, c, board ) ){
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+
+    public boolean noMovesAvailableForPlayerTwo() {
+        for( int r = 0; r < 8; r++ ){
+            for ( int c = 0; c < 8; c++ ) {
+                if( ( board.getSpace( r, c ).getPiece() != null ) &&
+                        ( board.getSpace( r, c ).getPiece().getColor() != Piece.Color.WHITE ) ) {
+                    if( mv.isNormalMoveAvailable( r, c, board ) || mv.isKingMoveAvailable( r, c, board )
+                            || mv.singleJumpAvailable( r, c, board ) || mv.kingJumpAvailable( r, c, board ) ){
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
 }
