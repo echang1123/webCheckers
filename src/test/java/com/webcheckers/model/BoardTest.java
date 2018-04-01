@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Hongda Lin
  */
-
+@Tag("Model-tier")
 public class BoardTest {
     //attribute
     private static final  int row = 2;
@@ -24,8 +24,6 @@ public class BoardTest {
     }
     @Test
     public void getSpaceTest(){
-        assertEquals(row,board.getSpace(row,col));
-        assertEquals(col,board.getSpace(row,col));
         assertNotNull(board.getSpace(row,col));
     }
 }

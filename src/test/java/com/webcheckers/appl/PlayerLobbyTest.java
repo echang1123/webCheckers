@@ -17,6 +17,7 @@ import java.util.Set;
  *
  * @author Hongda Lin
  */
+@Tag("Appl-tier")
 public class PlayerLobbyTest {
     //Attributes
     private static final String name1 = "Hongda";

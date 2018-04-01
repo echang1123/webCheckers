@@ -9,10 +9,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Hongda Lin
  */
-
+@Tag("Model-tier")
 public class BoardViewTest {
     //attributes
-    private Board board;
+    private Board board = new Board();
     private BoardView boardView = new BoardView(board,false);
     private Row row;
 

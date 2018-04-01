@@ -17,7 +17,7 @@ import java.util.Set;
  *
  * @author Hongda Lin
  */
-
+@Tag("Appl-tier")
 public class RoutesAndKeysTest {
     //Attributes
     private final RoutesAndKeys routesAndKeys = new RoutesAndKeys();

@@ -27,6 +27,7 @@ import spark.TemplateEngine;
  *
  * @author Hongda Lin
  */
+@Tag("UI-tier")
 public class GetGameRouteTest {
 
     //Attributes
