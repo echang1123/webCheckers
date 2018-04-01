@@ -48,6 +48,14 @@ public class Game {
     }
 
     /**
+     * Getter for moveValidator
+     * @return moveValidator object
+     */
+    public MoveValidator getMoveValidator() {
+        return mv;
+    }
+
+    /**
      * Function that switches which player's turn it is
      */
     public void switchTurn() {
