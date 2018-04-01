@@ -4,6 +4,7 @@
  * @author Karthik Iyer
  * @author Gaurav Pant
  * @author Hongda Lin
+ * @Emily Wesson
  */
 
 
@@ -13,7 +14,8 @@ public class Board {
 
 	// Attributes
 	private Space spaces[][]; // the spaces
-
+    private int redPiecesInPlay;
+    private int whitePiecesInPlay;
 
 	/**
 	 * Constructor for the Board class
@@ -22,6 +24,8 @@ public class Board {
 	 */
 	public Board( ) {
 		this.spaces = new Space[ 8 ][ 8 ]; // initialize ( construct ) the 2D array
+        this.redPiecesInPlay = 12;
+        this.whitePiecesInPlay = 12;
         for( int row = 0; row < 8; row++ ) {
             for( int col = 0; col < 8; col++ ) {
                 if( ( row % 2 == col % 2 ) && ( row < 3 ) ) { // needs a red piece
@@ -65,6 +69,18 @@ public class Board {
 	    return this.getSpace( position.getRow(), position.getCell() );
     }
 
+    /**
+     * Getter for red piece count
+     * @return number of red pieces still in play
+     */
+    public int getRedPiecesInPlay(){ return this.redPiecesInPlay; }
+
+    /**
+     * Getter for white piece count
+     * @return number of white pieces still on the board
+     */
+    public int getWhitePiecesInPlay(){ return this.whitePiecesInPlay; }
+
 
     /**
      * Function that updates the board to reflect a move that has been done (submitted)
@@ -87,7 +103,13 @@ public class Board {
         if( move.getMoveType() == Move.MoveType.JUMP ) {
             int middleRow = ( start.getRow() + end.getRow() ) / 2;
             int middleCol = ( start.getCell() + end.getCell() ) / 2;
-            this.getSpace( middleRow, middleCol ).removePiece();
+            Piece removed = this.getSpace( middleRow, middleCol ).removePiece();
+            if( removed.getColor() == Piece.Color.RED ){
+                redPiecesInPlay--;
+            }
+            else{
+                whitePiecesInPlay--;
+            }
         }
 
         //check the color and end row, if RED ends at row 7 or WHITE ends at row 0, upgrade the piece to a KING

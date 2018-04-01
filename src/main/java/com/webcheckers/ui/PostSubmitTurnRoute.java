@@ -112,7 +112,6 @@ public class PostSubmitTurnRoute implements Route {
             vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
             game.switchTurn();
             return templateEngine.render( new ModelAndView( vm, "home.ftl" ) );
-
         }
 
         //if you are WHITE and your opponent is out of pieces, you won
@@ -128,7 +127,6 @@ public class PostSubmitTurnRoute implements Route {
             vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
             game.switchTurn();
             return templateEngine.render( new ModelAndView( vm, "home.ftl" ) );
-
         }
 
         //check if opponent has 0 moves available
