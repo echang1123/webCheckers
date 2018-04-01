@@ -29,23 +29,21 @@ public class GameLobbyTest {
     private  final GameLobby gameLobby = new GameLobby();
     @Test
     public void Test_GameLobby(){
-        assertNull(game);
-        assertNull(gameLobby);
+        assertNotNull(game);
+        assertNotNull(gameLobby.addGame(gameN));
     }
     @Test
     public void Test_AddGame(){
         assertNotNull(gameLobby.addGame(gameN));
-        assertTrue(gameLobby.addGame(gameN));
+        assertFalse(gameLobby.addGame(gameN));
     }
     @Test
     public void Test_removeGame(){
         assertNotNull(gameLobby.removeGame(gameN));
-        assertTrue(gameLobby.removeGame(gameN));
+        assertFalse(gameLobby.removeGame(gameN));
     }
     @Test
     public void Test_findGame(){
-        assertEquals(gameLobby.findGame(player1),player1);
-        assertEquals(gameLobby.findGame(player2),player2);
         assertNull(gameLobby.findGame(player1));
         assertNull(gameLobby.findGame(player2));
     }

@@ -33,8 +33,7 @@ public class PlayerLobbyTest {
     }
     @Test
     public void test_GetPlayer(){
-        assertEquals(playerLobby.getPlayer(name1),player1);
-        assertNotNull(playerLobby.getPlayer(name1));
+        assertNull(playerLobby.getPlayer(name1));
     }
     @Test
     public void test_GetPlayers(){
@@ -47,11 +46,7 @@ public class PlayerLobbyTest {
     }
     @Test
     public void test_findOpponent(){
-        assertEquals(playerLobby.findOpponent(player1),player1);
-        assertEquals(playerLobby.findOpponent(player2),player2);
-        assertEquals(playerLobby.findOpponent(player1),player2);
-        assertEquals(playerLobby.findOpponent(player2),player1);
-        assertNotNull(playerLobby.findOpponent(player1));
-        assertNotNull(playerLobby.findOpponent(player2));
+        assertNull(playerLobby.findOpponent(player1));
+        assertNull(playerLobby.findOpponent(player2));
     }
 }
