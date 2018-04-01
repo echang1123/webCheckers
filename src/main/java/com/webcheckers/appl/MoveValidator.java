@@ -170,6 +170,75 @@ public class MoveValidator {
         return false;
     }
 
+    private boolean isNormalMoveAvailable(int row, int col, Board board){
+        Piece.Color currentPlayerColor = getCurrentPlayerColor();
+        if( currentPlayerColor == Piece.Color.RED ){
+            if( ( row + 1 <= 7 ) && ( col - 1 >= 0 )) {
+                Space left = board.getSpace(row + 1, col - 1);
+                if( left.getPiece() == null ){
+                    return true;
+                }
+            }
+            if( ( row + 1 <= 7 ) && ( col + 1 <= 7 ) ){
+                Space right = board.getSpace(row + 1, col + 1);
+                if( right.getPiece() == null ){
+                    return true;
+                }
+            }
+            return false;
+        }
+        else if( currentPlayerColor == Piece.Color.WHITE ){
+            if( ( row - 1 >= 0 ) && ( col - 1 >= 0 )) {
+                Space left = board.getSpace(row + 1, col - 1);
+                if( left.getPiece() == null ){
+                    return true;
+                }
+            }
+            if( ( row - 1 >= 0 ) && ( col + 1 <= 7 ) ){
+                Space right = board.getSpace(row + 1, col + 1);
+                if( right.getPiece() == null ){
+                    return true;
+                }
+            }
+            return false;
+        }
+        return false;
+    }
+
+    private boolean isKingMoveAvailable(int row, int col, Board board){
+        Piece.Color currentPlayerColor = getCurrentPlayerColor();
+        if( currentPlayerColor == Piece.Color.WHITE ){
+            if( ( row + 1 <= 7 ) && ( col - 1 >= 0 )) {
+                Space left = board.getSpace(row + 1, col - 1);
+                if( left.getPiece() == null ){
+                    return true;
+                }
+            }
+            if( ( row + 1 <= 7 ) && ( col + 1 <= 7 ) ){
+                Space right = board.getSpace(row + 1, col + 1);
+                if( right.getPiece() == null ){
+                    return true;
+                }
+            }
+            return false;
+        }
+        else if( currentPlayerColor == Piece.Color.RED ){
+            if( ( row - 1 >= 0 ) && ( col - 1 >= 0 )) {
+                Space left = board.getSpace(row + 1, col - 1);
+                if( left.getPiece() == null ){
+                    return true;
+                }
+            }
+            if( ( row - 1 >= 0 ) && ( col + 1 <= 7 ) ){
+                Space right = board.getSpace(row + 1, col + 1);
+                if( right.getPiece() == null ){
+                    return true;
+                }
+            }
+            return false;
+        }
+        return false;
+    }
 
     /**
      * Method to determine if the piece at (row, col) can make a jump move, checks both the case of a RED

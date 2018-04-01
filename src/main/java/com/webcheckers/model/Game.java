@@ -183,4 +183,38 @@ public class Game {
         return this.validatedMoves.remove( 0 );
     }
 
+    private boolean noMovesAvailable(){
+        Board board = game.getBoard();
+        Piece.Color currentPlayerColor = getCurrentPlayerColor();
+        for( int r = 0; r < 8; r++ ){
+            for ( int c = 0; c < 8; c++ ) {
+                if( ( board.getSpace( r, c ).getPiece() != null ) &&
+                        ( board.getSpace( r, c ).getPiece().getColor() == currentPlayerColor ) ) {
+                    if( isNormalMoveAvailable( r, c, board ) || isKingMoveAvailable( r, c, board )
+                            || singleJumpAvailable( r, c, board ) || kingJumpAvailable( r, c, board ) ){
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+
+    private boolean noMovesAvailableForOpponent(){
+        Board board = game.getBoard();
+        Piece.Color currentPlayerColor = getCurrentPlayerColor();
+        for( int r = 0; r < 8; r++ ){
+            for ( int c = 0; c < 8; c++ ) {
+                if( ( board.getSpace( r, c ).getPiece() != null ) &&
+                        ( board.getSpace( r, c ).getPiece().getColor() != currentPlayerColor ) ) {
+                    if( isNormalMoveAvailable( r, c, board ) || isKingMoveAvailable( r, c, board )
+                            || singleJumpAvailable( r, c, board ) || kingJumpAvailable( r, c, board ) ){
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
 }
