@@ -13,61 +13,65 @@ package com.webcheckers.ui;
 
 
 import static spark.Spark.*;
-import com.google.gson.Gson;
 
 
 import java.util.Objects;
 import java.util.logging.Logger;
 
+
+import com.webcheckers.appl.GlobalInformation;
 import com.webcheckers.appl.JsonUtils;
-import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.appl.RoutesAndKeys;
 import spark.TemplateEngine;
 
 
 public class WebServer {
 
-  private static final Logger LOG = Logger.getLogger( WebServer.class.getName() );
-  private final TemplateEngine templateEngine;
-  private final PlayerLobby playerLobby;
+    private static final Logger LOG = Logger.getLogger( WebServer.class.getName() );
+    private final TemplateEngine templateEngine;
+    private final GlobalInformation gi;
 
 
-  /**
-   * The constructor for the Web Server.
-   * @param templateEngine The default {@link TemplateEngine} to render page-level HTML views.
-   * @param playerLobby the player lobby
-   * @throws NullPointerException If any of the parameters are {@code null}.
-   */
-  public WebServer( final TemplateEngine templateEngine, PlayerLobby playerLobby ) {
-    // validation
-    Objects.requireNonNull( templateEngine, "templateEngine must not be null" );
-    Objects.requireNonNull( playerLobby, "playerLobby must not be null" );
+    /**
+     * The constructor for the Web Server.
+     * @param templateEngine The default {@link TemplateEngine} to render page-level HTML views.
+     * @param gi the Global Information
+     * @throws NullPointerException If any of the parameters are {@code null}.
+     */
+    public WebServer( final TemplateEngine templateEngine, GlobalInformation gi ) {
+        // validation
+        Objects.requireNonNull( templateEngine, "templateEngine must not be null" );
+        Objects.requireNonNull( gi, "playerLobby must not be null" );
 
-    this.templateEngine = templateEngine;
-    this.playerLobby = playerLobby;
-  }
+        this.templateEngine = templateEngine;
+        this.gi = gi;
+    }
 
 
-  /**
-   * Initialize all of the HTTP routes that make up this web application.
-   * Initialization of the web server includes defining the location for static
-   * files, and defining all routes for processing client requests. The method
-   * returns after the web server finishes its initialization.
-   */
-  public void initialize() {
+    /**
+     * Initialize all of the HTTP routes that make up this web application.
+     * Initialization of the web server includes defining the location for static
+     * files, and defining all routes for processing client requests. The method
+     * returns after the web server finishes its initialization.
+     */
+    public void initialize() {
 
-    // Configuration to serve static files
-    staticFileLocation( "/public" );
+        // Configuration to serve static files
+        staticFileLocation( "/public" );
 
-    // Set up the route handlers
-    get( RoutesAndKeys.HOME_URL, new GetHomeRoute( templateEngine, playerLobby ) );
-    get( RoutesAndKeys.SIGN_IN_URL, new GetSignInRoute( templateEngine, playerLobby ) );
-    post( RoutesAndKeys.SIGN_IN_URL, new PostSignInRoute( templateEngine, playerLobby ) );
-    get( RoutesAndKeys.SIGN_OUT_URL, new GetSignOutRoute( playerLobby ) );
-    get( RoutesAndKeys.GAME_URL, new GetGameRoute( templateEngine, playerLobby ) );
-    post( RoutesAndKeys.VALIDATE_MOVE_URL, new PostValidateMoveRoute(), JsonUtils.json() );
+        // Set up the route handlers
+        get( RoutesAndKeys.HOME_URL, new GetHomeRoute( templateEngine, gi ) );
+        get( RoutesAndKeys.SIGN_IN_URL, new GetSignInRoute( templateEngine, gi ) );
+        get( RoutesAndKeys.SIGN_OUT_URL, new GetSignOutRoute( gi ) );
+        get( RoutesAndKeys.GAME_URL, new GetGameRoute( templateEngine, gi ) );
 
-    LOG.config( "WebServer is initialized." );
-  }
+        post( RoutesAndKeys.SIGN_IN_URL, new PostSignInRoute( templateEngine, gi ) );
+        post( RoutesAndKeys.VALIDATE_MOVE_URL, new PostValidateMoveRoute( gi ), JsonUtils.json() );
+        post( RoutesAndKeys.CHECK_TURN_URL, new PostCheckTurnRoute( gi ) );
+        post( RoutesAndKeys.SUBMIT_TURN_URL, new PostSubmitTurnRoute( gi ) );
+        post( RoutesAndKeys.RESIGN_GAME_URL, new PostResignGameRoute( gi ) );
+
+        LOG.config( "WebServer is initialized." );
+    }
 
 }

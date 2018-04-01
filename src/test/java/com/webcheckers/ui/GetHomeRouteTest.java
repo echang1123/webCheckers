@@ -6,6 +6,8 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import com.webcheckers.appl.GlobalInformation;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.appl.RoutesAndKeys;
 import com.webcheckers.model.Player;
@@ -27,7 +29,7 @@ public class GetHomeRouteTest {
     private GetHomeRoute CuT;
 
     /*friendly objects*/
-    private PlayerLobby lobby;
+    private GlobalInformation lobby;
 
     /*attributes holding mock objects*/
     private Request request;
@@ -46,7 +48,7 @@ public class GetHomeRouteTest {
         engine = mock(TemplateEngine.class);
         testHelper = mock(TemplateEngineTester.class);
 
-        lobby = new PlayerLobby();
+        lobby = new GlobalInformation();
         CuT = new GetHomeRoute(engine, lobby);
     }
 
@@ -69,8 +71,8 @@ public class GetHomeRouteTest {
         testHelper.assertViewModelAttribute("title","Welcome!");
 
         //because player is NOT signed in
-        testHelper.assertViewModelAttribute(RoutesAndKeys.SIGNED_IN, false);
-        testHelper.assertViewModelAttribute(RoutesAndKeys.PLAYERS, lobby.getPlayers());
+        testHelper.assertViewModelAttribute(RoutesAndKeys.SIGNED_IN_KEY, false);
+        testHelper.assertViewModelAttribute(RoutesAndKeys.PLAYERS_KEY, lobby.getPlayerLobby());
 
         //test view name
         testHelper.assertViewName("home.ftl");
@@ -82,7 +84,7 @@ public class GetHomeRouteTest {
     @Test
     public void old_session(){
         // Arrange the test scenario: There is an existing session with a PlayerLobby object
-        when(session.attribute(RoutesAndKeys.PLAYERS)).thenReturn(lobby.getPlayers());
+        when(session.attribute(RoutesAndKeys.PLAYERS_KEY)).thenReturn(lobby.getPlayerLobby());
         CuT.handle(request, response);
 
         // Analyze the results:
@@ -90,10 +92,10 @@ public class GetHomeRouteTest {
         testHelper.assertViewModelExists();
         testHelper.assertViewModelIsaMap();
         //   * model contains all necessary View-Model data
-        String currentPlayerName = session.attribute(RoutesAndKeys.CURRENT_PLAYER);
-        testHelper.assertViewModelAttribute(RoutesAndKeys.CURRENT_PLAYER, currentPlayerName);
-        testHelper.assertViewModelAttribute(RoutesAndKeys.PLAYERS, lobby.getPlayers().remove(currentPlayerName));
-        testHelper.assertViewModelAttribute(RoutesAndKeys.SIGNED_IN, true);
+        String currentPlayerName = session.attribute(RoutesAndKeys.CURRENT_PLAYER_KEY);
+        testHelper.assertViewModelAttribute(RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName);
+        testHelper.assertViewModelAttribute(RoutesAndKeys.PLAYERS_KEY, lobby.getPlayerLobby());
+        testHelper.assertViewModelAttribute(RoutesAndKeys.SIGNED_IN_KEY, true);
         testHelper.assertViewName("home.ftl");
     }
 }

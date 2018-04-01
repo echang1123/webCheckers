@@ -15,6 +15,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.webcheckers.appl.GlobalInformation;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.model.Player;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,7 +35,7 @@ public class PostSignInRouteTest {
 	private PostSignInRoute CuT;
 
 	// Friendly objects
-	private PlayerLobby playerLobby; // we need this to be real
+	private GlobalInformation playerLobby; // we need this to be real
 
 	// Mock objects
 	private Session session;
@@ -53,7 +54,7 @@ public class PostSignInRouteTest {
 		session = mock(Session.class);
 		when(request.session()).thenReturn(session);
 		templateEngine = mock(TemplateEngine.class);
-		playerLobby = new PlayerLobby();
+		playerLobby = new GlobalInformation();
 		CuT = new PostSignInRoute(templateEngine, playerLobby);
 	}
 
@@ -127,7 +128,7 @@ public class PostSignInRouteTest {
 		when(request.queryParams("name")).thenReturn(VALID_USERNAME);
 		final TemplateEngineTester templateEngineTester = new TemplateEngineTester();
 		when(templateEngine.render(any(ModelAndView.class))).thenAnswer(templateEngineTester.makeAnswer());
-		playerLobby.addPlayer(new Player(VALID_USERNAME), null); // add a valid username to the lobby
+		playerLobby.getPlayerLobby().addPlayer(new Player(VALID_USERNAME), null); // add a valid username to the lobby
 		// invoke the test
 		CuT.handle(request,response);
 		// check view model

@@ -10,6 +10,7 @@
 package com.webcheckers.ui;
 
 
+import com.webcheckers.appl.GlobalInformation;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.appl.RoutesAndKeys;
 import com.webcheckers.model.Player;
@@ -26,21 +27,20 @@ public class PostSignInRoute implements Route{
 
     private static final Logger LOG = Logger.getLogger(PostSignInRoute.class.getName());
     private final TemplateEngine templateEngine;
-    private final PlayerLobby playerLobby;
-
+    private final GlobalInformation gi;
 
     /**
      * Constructor for the PostSignInRoute route handler
      * @param templateEngine the template engine to render the HTML template
-     * @param playerLobby the player lobby
+     * @param gi the Global Information
      */
-    public PostSignInRoute( TemplateEngine templateEngine, final PlayerLobby playerLobby ) {
+    public PostSignInRoute( TemplateEngine templateEngine, final GlobalInformation gi ) {
         // validation
         Objects.requireNonNull( templateEngine, "templateEngine must not be null" );
-        Objects.requireNonNull( playerLobby, "playerLobby must not be null" );
+        Objects.requireNonNull( gi, "GI must not be null" );
 
         this.templateEngine = templateEngine;
-        this.playerLobby = playerLobby;
+        this.gi = gi;
         LOG.config( "PostSignInRoute is initialized." );
     }
 
@@ -58,6 +58,7 @@ public class PostSignInRoute implements Route{
 
         // construct the view model
         final Map< String, Object > vm = new HashMap<>();
+        final PlayerLobby playerLobby = gi.getPlayerLobby();
         vm.put( "title", "Sign In" );
         final Session session = request.session();
         final String userName = request.queryParams( "name" );
@@ -69,8 +70,8 @@ public class PostSignInRoute implements Route{
         else {
             Player player = new Player( userName );
             if( playerLobby.addPlayer( player, vm ) ) { // try adding the username to the hash table
-                session.attribute( RoutesAndKeys.SIGNED_IN, true );
-                session.attribute( RoutesAndKeys.CURRENT_PLAYER, userName );
+                session.attribute( RoutesAndKeys.SIGNED_IN_KEY, true );
+                session.attribute( RoutesAndKeys.CURRENT_PLAYER_KEY, userName );
                 response.redirect( RoutesAndKeys.HOME_URL );
             }
             else { // didn't work!
