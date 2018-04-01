@@ -87,13 +87,21 @@ public class PostSubmitTurnRoute implements Route {
             return new Message( "", Message.MessageType.ERROR );
         }
 
-//        if( currentPlayer.equals(game.getPlayerOne()) ){
+        //if you are RED and your opponent is out of pieces, you won
+        if( currentPlayer.equals(game.getPlayerOne()) && board.getWhitePiecesInPlay() <= 0){
 
-//        }
+        }
 
-        //after your moves are submitted but before you switch turns,
-        //check if your opponent has 0 pieces, if so you won
-        //check if your opponent has 0 valid moves, if so you won
+        //if you are WHITE and your opponent is out of pieces, you won
+        if( currentPlayer.equals( game.getPlayerTwo() ) && board.getRedPiecesInPlay() <= 0 ){
+
+        }
+
+        //check if opponent has 0 moves available
+        //if you are red, check all white pieces for available jump or single moves, both pawn and king pieces
+
+        //if you are white, check all red pieces
+
 
         // all validated moves were submitted successfully
         else {
