@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 public class MessageTest {
     //Attributes
     private static String text = "Test";
-    private Message.MessageType messageType =  Message.MessageType.INFO;
+    private Message.MessageType messageType =  Message.MessageType.info;
     private Message message = new Message(text,messageType);
 
     @Test
