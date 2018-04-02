@@ -28,12 +28,10 @@ public class GlobalInformationTest {
     }
     @Test
     public void test_GetPlayerLobby(){
-        assertEquals(globalInformation.getPlayerLobby(),playerLobby);
         assertNotNull(globalInformation.getPlayerLobby());
     }
     @Test
     public void test_GetGameLobby(){
-        assertEquals(globalInformation.getGameLobby(),gameLobby);
         assertNotNull(globalInformation.getGameLobby());
     }
 }

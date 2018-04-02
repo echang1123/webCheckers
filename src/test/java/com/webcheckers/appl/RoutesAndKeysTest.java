@@ -39,7 +39,7 @@ public class RoutesAndKeysTest {
     }
     @Test
     public void test_CHECK_TURN_URL(){
-        assertEquals(routesAndKeys.CHECK_TURN_URL,"checkTurn");
+        assertEquals(routesAndKeys.CHECK_TURN_URL,"/checkTurn");
     }
     @Test
     public void test_VALIDATE_MOVE_URL(){

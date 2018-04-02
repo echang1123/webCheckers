@@ -26,6 +26,8 @@ import spark.TemplateEngine;
  */
 @Tag("UI-tier")
 public class PostValidateMoveRouteTest {
+    //Attributes
+    private static final String Player1 = "Hongda";
     // Component under test
     private PostValidateMoveRoute CuT;
 
@@ -59,30 +61,6 @@ public class PostValidateMoveRouteTest {
         // invoke the test
         CuT.handle(request, response);
         // check view model
-        templateEngineTester.assertViewModelExists();
-        templateEngineTester.assertViewModelIsaMap();
-        // check data in view model
-        templateEngineTester.assertViewModelAttribute(RoutesAndKeys.GAME_LOBBY_KEY,gameLobby.getGameLobby());
-        templateEngineTester.assertViewModelAttribute(RoutesAndKeys.CURRENT_PLAYER_KEY,gameLobby.getPlayerLobby());
-        // assert view name
-        templateEngineTester.assertViewName("game.ftl");
-    }
-    @Test
-    public void invalidMove(){
-        final TemplateEngineTester templateEngineTester = new TemplateEngineTester();
-        when(templateEngine.render(any(ModelAndView.class))).thenAnswer(templateEngineTester.makeAnswer());
-        // invoke the test
-        CuT.handle(request, response);
-        // check view model
-        templateEngineTester.assertViewModelExists();
-        templateEngineTester.assertViewModelIsaMap();
-        // check data in view model
-        templateEngineTester.assertViewModelAttribute(RoutesAndKeys.GAME_LOBBY_KEY,gameLobby.getGameLobby());
-        templateEngineTester.assertViewModelAttribute(RoutesAndKeys.CURRENT_PLAYER_KEY,gameLobby.getPlayerLobby());
-        templateEngineTester.assertViewModelAttribute("title","Invalid Move");
-        templateEngineTester.assertViewModelAttribute("message","The move is invalid.");
-        // assert view name
-        templateEngineTester.assertViewName("game.ftl");
-
+        templateEngineTester.assertViewModelNotExists();
     }
 }

@@ -22,6 +22,7 @@ public class RowTest {
     @BeforeEach
     public void test_constructor(){
         row = new Row(index);
+        row.setSpaceIterator( true );
         assertNotNull(row);
     }
 
@@ -35,6 +36,7 @@ public class RowTest {
     public void test_add_space_null_piece(){
         Space s = new Space( 0, null, false );
         row.add( 0, s );
+        row.setSpaceIterator( true );
         Space zero = row.iterator().next();
         assertNotNull( zero ); //space you added
     }
@@ -44,6 +46,7 @@ public class RowTest {
         Piece p = new Piece( Piece.PieceType.SINGLE, Piece.Color.RED );
         Space s = new Space( 0, null, false );
         row.add( 0, s );
+        row.setSpaceIterator( true );
         Space zero = row.iterator().next();
         assertNotNull( zero ); //space you added
     }
