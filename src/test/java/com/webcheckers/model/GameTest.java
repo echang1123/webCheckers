@@ -114,5 +114,13 @@ public class GameTest {
     public void test_getFirstValidateMove(){
         addMove();
         assertEquals(game.getFirstValidatedMove(),move);
-  }
+    }
+    @Test
+    public void test_noMovesAvailableForPlayerOne(){
+        assertFalse(game.noMovesAvailableForPlayerOne());
+    }
+    @Test
+    public void test_noMovesAvailableForPlayerTwo(){
+        assertFalse(game.noMovesAvailableForPlayerTwo());
+    }
 }

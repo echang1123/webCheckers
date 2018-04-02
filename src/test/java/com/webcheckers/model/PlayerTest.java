@@ -50,6 +50,8 @@ public class PlayerTest {
     @Test
     public  void  addOpponentTest(){
         Player CuT = new Player(opponent);
+        assertTrue(CuT.addOpponent(CuT));
+        assertEquals(CuT.addOpponent(CuT),false);
         assertFalse(isIngame);
     }
     @Test
@@ -63,6 +65,7 @@ public class PlayerTest {
     public void euqalTest(){
         Player CuT = new Player(name);
         assertFalse(CuT.equals(name));
+        assertEquals(CuT.equals(name),false);
     }
     @Test
     public void hasdCode(){

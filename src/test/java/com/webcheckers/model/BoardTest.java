@@ -13,20 +13,25 @@ import org.junit.jupiter.api.Test;
 @Tag("Model-tier")
 public class BoardTest {
     //attribute
-    private static final  int row = 7;
-    private static final  int col = 7;
+    private static final  int row = 5;
+    private static final  int col = 5;
     private static final  int row1 = 6;
-    private static  final int cell = 6;
-
+    private static final int cell = 6;
+    private static final int redPiecesInPlay = 12;
+    private static final int whitePiecesInPlay = 12;
     final Position position = new Position(row,col);
     final Position start = new Position(row1,cell);
-    final Move move = new Move(start,position);
+    private Move move ;
     final Space space = new Space(row,null,true);
     private Board board;
+
 
     @BeforeEach
     public void test_constructor(){
         board = new Board();
+        final Move move = new Move(position,start);
+        final Move.MoveType moveType =  Move.MoveType.JUMP;
+        move.setMoveType(moveType);
         assertNotNull(board);
     }
     @Test
@@ -41,7 +46,20 @@ public class BoardTest {
     }
     @Test
     public void test_deMove(){
+        final Move move = new Move(position,start);
+        move.getStart();
+        move.getEnd();
         board.doMove(move);
         assertNotNull(board.getSpace(position));
+    }
+    @Test
+    public void test_getRedPiecesInPlay(){
+        assertNotNull(board.getRedPiecesInPlay());
+        assertEquals(board.getRedPiecesInPlay(),redPiecesInPlay);
+    }
+    @Test
+    public void testgetWhitePiecesInPlay(){
+        assertNotNull(board.getWhitePiecesInPlay());
+        assertEquals(board.getWhitePiecesInPlay(),whitePiecesInPlay);
     }
 }

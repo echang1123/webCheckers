@@ -5,16 +5,14 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import java.util.*;
 
-import com.webcheckers.appl.GlobalInformation;
-import com.webcheckers.appl.RoutesAndKeys;
-import com.webcheckers.model.Message;
+import com.webcheckers.appl.*;
+import com.webcheckers.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import com.webcheckers.appl.PlayerLobby;
-import com.webcheckers.model.Player;
 import org.mockito.internal.matchers.NotNull;
 import spark.HaltException;
 import spark.ModelAndView;
@@ -34,24 +32,34 @@ import java.util.HashMap;
 public class GetGameRouteTest {
 
     //Attributes
-    private static final String Opponent = "Karthik";
     private static final String Player1 = "Hongda";
-    private Player player = new Player(Player1);
-
+    private static final String Player2 = "Karthik";
+    private static final int Row = 2;
+    private static final int Cell = 2;
+    private static final int row = 0;
+    private static final int col = 0;
+    private final HashMap<String,Object> players = new HashMap<>();
     // Component under test
     private GetGameRoute CuT;
 
     // Friendly objects
     private GlobalInformation gi; // we need this to be real
-    private GlobalInformation gol;
+    private JsonUtils jsonUtils;
+    private Game games;
+    private PlayerLobby playerLobby;
+    private GameLobby gameLobby;
     private Message message;
     // Mock objects
     private Session session;
     private Request request;
     private Response response;
     private TemplateEngine templateEngine;
-    private PlayerLobby playerLobby;
-
+    private Player player1 = new Player(Player1);
+    private Player player2 = new Player(Player2);
+    private Board board = new Board();
+    final Position start = new Position(Row,Cell);
+    final Position end  = new Position(row,col);
+    private Move move = new Move(start,end);
     /**
      * Create all the mock objects before running the tests
      */
@@ -61,43 +69,37 @@ public class GetGameRouteTest {
         response = mock(Response.class);
         session = mock(Session.class);
         when(request.session()).thenReturn(session);
-        player = mock(Player.class);
         templateEngine = mock(TemplateEngine.class);
-        playerLobby = mock(PlayerLobby.class);
-        gol = mock(GlobalInformation.class);
         gi = new GlobalInformation();
-        CuT = new GetGameRoute(templateEngine, gi);
+        games = new Game(board,player1,player2);
+        playerLobby = new PlayerLobby();
+        gameLobby = new GameLobby();
+        message = new Message(" ",Message.MessageType.error);
+        CuT = new GetGameRoute(templateEngine,gi);
     }
     @Test
     public void  startAgame(){
-        final TemplateEngineTester templateEngineTester = new TemplateEngineTester();
-        when(templateEngine.render(any(ModelAndView.class))).thenAnswer(templateEngineTester.makeAnswer());
-        when(gol.getPlayerLobby()).thenReturn(gi.getPlayerLobby());
-        final PlayerLobby playerLobbyTest = new PlayerLobby();
-        when(playerLobby.getPlayer(Player1)).thenReturn(playerLobbyTest.getPlayer(Player1));
-        // check view model
-        templateEngineTester.assertViewModelNotExists();
-        // check data in view model
-        //templateEngineTester.assertViewModelAttribute(RoutesAndKeys.SIGNED_IN_KEY,false);
-        //templateEngineTester.assertViewModelAttribute(RoutesAndKeys.PLAYERS_KEY,gi.getPlayerLobby().getPlayers());
-        //templateEngineTester.assertViewModelAttribute(RoutesAndKeys.IN_GAME_KEY,gi.getGameLobby());
-        //templateEngineTester.assertViewModelAttribute("Button","Player");
-        // assert view name
-        //templateEngineTester.assertViewName("game.ftl");
-    }
-    @Test
-    public  void isIngame(){
-        final TemplateEngineTester templateEngineTester = new TemplateEngineTester();
-        when(templateEngine.render(any(ModelAndView.class))).thenAnswer(templateEngineTester.makeAnswer());
-        when(gol.getPlayerLobby()).thenReturn(gi.getPlayerLobby());
-        final PlayerLobby playerLobbyTest = new PlayerLobby();
-        when(playerLobby.getPlayer(Player1)).thenReturn(playerLobbyTest.getPlayer(Player1));
-        // check view model
-        templateEngineTester.assertViewModelNotExists();
-        // check data in view model
+        playerLobby.addPlayer(player1,players);
+        playerLobby.addPlayer(player2,players);
+        player2.addOpponent(player2);
 
-        //templateEngineTester.assertViewModelAttribute(RoutesAndKeys.MESSAGE_KEY, message.getText());
-        //  assert view name
-        //templateEngineTester.assertViewName("signin.ftl");
+        gi.getPlayerLobby().addPlayer(player1,players);
+        gi.getPlayerLobby().addPlayer(player2,players);
+        final Game game = new Game(board,player1,player2);
+        gi.getGameLobby().addGame(game);
+        when(session.attribute(RoutesAndKeys.CURRENT_PLAYER_KEY)).thenReturn(Player1);
+        // setup
+        when(request.queryParams("name")).thenReturn(Player1);
+        final TemplateEngineTester templateEngineTester = new TemplateEngineTester();
+        when(templateEngine.render(any(ModelAndView.class))).thenAnswer(templateEngineTester.makeAnswer());
+        // invoke the test
+        CuT.handle(request, response);
+        // check view model
+        templateEngineTester.assertViewModelExists();
+        templateEngineTester.assertViewModelAttribute("title","Welcome!");
+        templateEngineTester.assertViewModelAttribute(RoutesAndKeys.IN_GAME_KEY,null);
+        // assert view name
+        templateEngineTester.assertViewName("game.ftl");
     }
+
 }
