@@ -28,7 +28,6 @@ public class PlayerLobbyTest {
     final Player player3 = new Player(name3);
     private final HashMap<String,Object> player = new HashMap<>();
     private final PlayerLobby playerLobby = new PlayerLobby();
-
     @Test
     public void test_PlayerLobby(){
         assertNotNull(playerLobby);
@@ -52,12 +51,17 @@ public class PlayerLobbyTest {
     }
     @Test
     public void test_removePlayer(){
+        playerLobby.addPlayer(player1,player);
+        playerLobby.addPlayer(player2,player);
         playerLobby.removePlayer(name1);
         assertNull(playerLobby.getPlayer(name1));
     }
     @Test
     public void test_findOpponent(){
+        playerLobby.addPlayer(player1,player);
+        playerLobby.addPlayer(player2,player);
+        player1.addOpponent(player2);
         assertNull(playerLobby.findOpponent(player1));
-        assertNull(playerLobby.findOpponent(player2));
+        assertNotNull(playerLobby.findOpponent(player2));
     }
 }
