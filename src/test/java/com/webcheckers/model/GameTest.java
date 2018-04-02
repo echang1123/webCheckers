@@ -32,11 +32,11 @@ public class GameTest {
     final Player player2 = new Player(opponent);
     private Game game = new Game(board,player1,player2);
 
-    @Test
-    public void addMove(){
-        validatedMoves.add(move);
-        validatedMoves.add(move1);
-    }
+//    @Test
+//    public void addMove(){
+//        validatedMoves.add(move);
+//        validatedMoves.add(move1);
+//    }
     @Test
     public void  test_Game(){
 
