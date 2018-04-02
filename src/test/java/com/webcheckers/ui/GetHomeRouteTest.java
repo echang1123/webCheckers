@@ -15,6 +15,7 @@ import jdk.nashorn.internal.ir.RuntimeNode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.mockito.internal.matchers.NotNull;
 import spark.*;
 
 import javax.print.attribute.standard.RequestingUserName;
@@ -25,6 +26,8 @@ import java.util.HashMap;
  */
 @Tag("UI-tier")
 public class GetHomeRouteTest {
+
+    private static final String Player1 = "Hongda";
     /*Component under test*/
     private GetHomeRoute CuT;
 
@@ -57,6 +60,8 @@ public class GetHomeRouteTest {
      */
     @Test
     public void new_session(){
+        when(session.attribute(RoutesAndKeys.CURRENT_PLAYER_KEY)).thenReturn(Player1);
+
         testHelper = new TemplateEngineTester();
         when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
 
@@ -71,6 +76,7 @@ public class GetHomeRouteTest {
         testHelper.assertViewModelAttribute("title","Welcome!");
 
         //because player is NOT signed in
+        testHelper.assertViewModelAttribute(RoutesAndKeys.CURRENT_PLAYER_KEY,null);
         testHelper.assertViewModelAttribute(RoutesAndKeys.SIGNED_IN_KEY, false);
         testHelper.assertViewModelAttribute(RoutesAndKeys.PLAYERS_KEY, lobby.getPlayerLobby().getPlayers());
 

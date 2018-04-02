@@ -20,7 +20,7 @@ public class BoardViewTest {
     private ArrayList< Row > rows = new ArrayList<Row>();
     private Iterator<Row> rowIterator ;
     private Board board = new Board();
-    private BoardView boardView = new BoardView(board,false);
+    private BoardView boardView = new BoardView(board,true);
     private Row row;
     @Test
     public void ArrayList(){
@@ -36,6 +36,6 @@ public class BoardViewTest {
     }
     @Test
     public void test_Iterator(){
-        assertNull(rowIterator);
+        assertNotNull(boardView.iterator());
     }
 }

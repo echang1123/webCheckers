@@ -34,8 +34,8 @@ public class GameTest {
 
     @Test
     public void addMove(){
-        validatedMoves.add(move);
-        validatedMoves.add(move1);
+        game.addValidatedMove(move);
+        game.addValidatedMove(move1);
     }
     @Test
     public void  test_Game(){
@@ -100,19 +100,27 @@ public class GameTest {
     public void test_outOfValidatedMove(){
         assertTrue(game.outOfValidatedMoves());
     }
-//    @Test
-//    public void test_backupValidatedMove(){
-//        addMove();
-//        assertNull(game.backupValidatedMove());
-//    }
+    @Test
+    public void test_backupValidatedMove(){
+        addMove();
+        assertEquals(game.backupValidatedMove(),move1);
+   }
     @Test
     public void test_getValidatedMove(){
         validatedMoves = game.getValidatedMoves();
         assertNotNull(validatedMoves);
     }
-//    @Test
-//    public void test_getFirstValidateMove(){
-//        addMove();
-//        assertNull(game.getFirstValidatedMove());
-//   }
+    @Test
+    public void test_getFirstValidateMove(){
+        addMove();
+        assertEquals(game.getFirstValidatedMove(),move);
+    }
+    @Test
+    public void test_noMovesAvailableForPlayerOne(){
+        assertFalse(game.noMovesAvailableForPlayerOne());
+    }
+    @Test
+    public void test_noMovesAvailableForPlayerTwo(){
+        assertFalse(game.noMovesAvailableForPlayerTwo());
+    }
 }

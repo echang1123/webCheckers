@@ -25,7 +25,7 @@ import java.util.HashMap;
  * @author Hongda Lin
  */
 @Tag("UI-tier")
-public class PostValidateMoveRouteTest {
+public class PostCheckTurnRouteTest {
     //Attributes
     private static final String Player1 = "Hongda";
     private static final String Player2 = "Karthik";
@@ -35,12 +35,15 @@ public class PostValidateMoveRouteTest {
     private static final int col = 0;
     private final HashMap<String,Object> players = new HashMap<>();
     // Component under test
-    private PostValidateMoveRoute CuT;
+    private PostCheckTurnRoute CuT;
 
     // Friendly objects
     private GlobalInformation gi; // we need this to be real
     private JsonUtils jsonUtils;
     private Game games;
+    private PlayerLobby playerLobby;
+    private GameLobby gameLobby;
+    private Message message;
     // Mock objects
     private Session session;
     private Request request;
@@ -65,25 +68,60 @@ public class PostValidateMoveRouteTest {
         templateEngine = mock(TemplateEngine.class);
         gi = new GlobalInformation();
         games = new Game(board,player1,player2);
-        CuT = new PostValidateMoveRoute(gi);
+        playerLobby = new PlayerLobby();
+        gameLobby = new GameLobby();
+        message = new Message(" ",Message.MessageType.error);
+        CuT = new PostCheckTurnRoute(templateEngine,gi);
     }
     @Test
-    public void validMove(){
+    public void checkTurn(){
+        playerLobby.addPlayer(player1,players);
+        playerLobby.addPlayer(player2,players);
+
         gi.getPlayerLobby().addPlayer(player1,players);
         gi.getPlayerLobby().addPlayer(player2,players);
         final Game game = new Game(board,player1,player2);
         gi.getGameLobby().addGame(game);
 
-
-        final String dataString = " ";
-        jsonUtils.fromJson( dataString, Move.class );
-
         final Move move = new Move(start,end);
-        games.addValidatedMove(move);
-        games.getMoveValidator();
-
+        board.doMove(move);
+        final TemplateEngineTester templateEngineTester = new TemplateEngineTester();
         when(session.attribute(RoutesAndKeys.CURRENT_PLAYER_KEY)).thenReturn(Player1);
-        //when(global.getGameLobby().findGame(player1)).thenReturn(game);
+        when(templateEngine.render(any(ModelAndView.class))).thenAnswer(templateEngineTester.makeAnswer());
+        // invoke the test
+        CuT.handle(request, response);
+        // check view model
+        templateEngineTester.assertViewModelNotExists();
+    }
+
+    @Test
+    public void checkTurnNoplayer(){
+        final TemplateEngineTester templateEngineTester = new TemplateEngineTester();
+        when(session.attribute(RoutesAndKeys.CURRENT_PLAYER_KEY)).thenReturn(Player1);
+        when(templateEngine.render(any(ModelAndView.class))).thenAnswer(templateEngineTester.makeAnswer());
+        // invoke the test
+        CuT.handle(request, response);
+        // check view model
+        templateEngineTester.assertViewModelNotExists();
+    }
+    @Test
+    public void checkTurnNogame() {
+        playerLobby.addPlayer(player1, players);
+        playerLobby.addPlayer(player2, players);
+
+        gi.getPlayerLobby().addPlayer(player1, players);
+        gi.getPlayerLobby().addPlayer(player2, players);
+        final TemplateEngineTester templateEngineTester = new TemplateEngineTester();
+        when(session.attribute(RoutesAndKeys.CURRENT_PLAYER_KEY)).thenReturn(Player1);
+        when(templateEngine.render(any(ModelAndView.class))).thenAnswer(templateEngineTester.makeAnswer());
+        // invoke the test
+        CuT.handle(request, response);
+        // check view model
+        templateEngineTester.assertViewModelNotExists();
+    }
+    @Test
+    public void checkTurnNoPlayer1() {
+
         final TemplateEngineTester templateEngineTester = new TemplateEngineTester();
         when(templateEngine.render(any(ModelAndView.class))).thenAnswer(templateEngineTester.makeAnswer());
         // invoke the test
