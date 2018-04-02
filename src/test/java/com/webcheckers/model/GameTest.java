@@ -1,11 +1,13 @@
 package com.webcheckers.model;
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.webcheckers.appl.PlayerLobby;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * The unit test suite for the PostValidateMoveRoute
@@ -30,6 +32,8 @@ public class GameTest {
     final Move move1 = new Move(position,end);
     final Player player1 = new Player(name);
     final Player player2 = new Player(opponent);
+    private PlayerLobby playerLobby = new PlayerLobby();
+    private final HashMap<String,Object> player = new HashMap<>();
     private Game game = new Game(board,player1,player2);
 
     @Test
@@ -122,5 +126,11 @@ public class GameTest {
     @Test
     public void test_noMovesAvailableForPlayerTwo(){
         assertFalse(game.noMovesAvailableForPlayerTwo());
+    }
+    @Test
+    public void test_Euqals(){
+        playerLobby.addPlayer(player1,player);
+        playerLobby.addPlayer(player2,player);
+        assertFalse(game.equals(player1));
     }
 }
