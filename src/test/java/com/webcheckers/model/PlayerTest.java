@@ -34,6 +34,7 @@ public class PlayerTest {
     public  void getNameTest(){
         Player CuT = new Player(name);
         assertEquals(name, CuT.getName());
+        assertNotNull(CuT.getName());
     }
 
     /**
@@ -44,10 +45,29 @@ public class PlayerTest {
         Player CuT = new Player(name);
         CuT.addOpponent(new Player(opponent));
         assertEquals(opponent, CuT.getOpponent().getName());
+        assertNotNull(CuT.getOpponent());
     }
     @Test
     public  void  addOpponentTest(){
         Player CuT = new Player(opponent);
         assertFalse(isIngame);
+    }
+    @Test
+    public void  removeOppoentTest(){
+        Player CuT = new Player(opponent);
+        CuT.removeOpponent();
+        assertFalse(isIngame);
+        assertNotNull(opponent);
+    }
+    @Test
+    public void euqalTest(){
+        Player CuT = new Player(name);
+        assertFalse(CuT.equals(name));
+    }
+    @Test
+    public void hasdCode(){
+        Player CuT = new Player(name);
+        assertNotEquals(CuT.hashCode(),0);
+        assertNotNull(CuT.hashCode());
     }
 }
