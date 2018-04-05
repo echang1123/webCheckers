@@ -17,13 +17,6 @@ public class MoveValidator {
 
 
     /**
-     * Constructor for the Move Validator
-     */
-    public MoveValidator() {
-    }
-
-
-    /**
      * Simple helper function that returns whether a given (row, col) is within bounds
      *
      * @param row the row index
