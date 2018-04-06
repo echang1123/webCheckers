@@ -234,7 +234,7 @@ public class Game {
         for( int r = 0; r < 8; r++ ) {
             for( int c = 0; c < 8; c++ ) {
                 if( ( board.getSpace( r, c ).getPiece() != null ) &&
-                    ( board.getSpace( r, c ).getPiece().getColor() != Piece.Color.WHITE ) ) {
+                    ( board.getSpace( r, c ).getPiece().getColor() == Piece.Color.WHITE ) ) {
                     if( mv.isNormalMoveAvailable( this, r, c, board ) || mv.isKingMoveAvailable( this, r, c, board )
                         || mv.singleJumpAvailable( this, r, c, board ) || mv.kingJumpAvailable( this, r, c, board ) ) {
                         return false;
