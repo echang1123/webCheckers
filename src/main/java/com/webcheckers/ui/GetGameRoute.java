@@ -137,6 +137,7 @@ public class GetGameRoute implements Route {
             if( isFirstPlayer ) {
                 boardModel = new Board();
                 opponent = players.get( opponentName );
+                currentPlayer.addOpponent( opponent );
                 game = new Game( boardModel, currentPlayer, opponent );
                 gameLobby.addGame( game );
                 vm.put( "activeColor", Piece.Color.RED );
@@ -146,6 +147,7 @@ public class GetGameRoute implements Route {
                 game = gameLobby.findGame( currentPlayer ); // get the game that was created by the first player
                 boardModel = game.getBoard();
                 opponent = game.getPlayerOne();
+                currentPlayer.addOpponent( opponent );
                 vm.put( "activeColor", Piece.Color.RED );
                 vm.put( "redPlayer", opponent );
                 vm.put( "whitePlayer", currentPlayer );
@@ -171,8 +173,8 @@ public class GetGameRoute implements Route {
             vm.put( "redPlayer", playerOne );
             vm.put( "whitePlayer", playerTwo );
 
-            //if your opponent is null, they resigned so: remove your opponent, remove the game from the lobby
-            //set inGame to false, create message that your opponent resigned, populate vm and render home
+            // if your opponent is null, they resigned so: remove your opponent, remove the game from the lobby
+            // set inGame to false, create message that your opponent resigned, populate vm and render home
             if( currentPlayer.equals( playerOne ) && playerTwo == null ) {
                 currentPlayer.removeOpponent();
 
