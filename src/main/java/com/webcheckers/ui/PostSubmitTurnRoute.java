@@ -115,7 +115,6 @@ public class PostSubmitTurnRoute implements Route {
 
         if( wonGame ) {
             currentPlayer.removeOpponent();
-            httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
             game.setGameState( Game.GameState.complete );
         }
 

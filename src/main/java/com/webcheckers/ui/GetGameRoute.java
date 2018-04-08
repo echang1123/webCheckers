@@ -175,36 +175,19 @@ public class GetGameRoute implements Route {
 
             // if your opponent is null, they resigned so: remove your opponent, remove the game from the lobby
             // set inGame to false, create message that your opponent resigned, populate vm and render home
-            if( currentPlayer.equals( playerOne ) && game.isComplete() ) {
+            if( game.isComplete() ) {
                 currentPlayer.removeOpponent();
-
                 gameLobby.removeGame( game );
                 httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
 
-                Message message = new Message( "You won the game", Message.MessageType.info );
+                Message message = new Message( "Game complete", Message.MessageType.info );
                 vm.put( RoutesAndKeys.MESSAGE_KEY, message );
-                vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayer );
+                vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName );
                 vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
                 vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
 
                 return templateEngine.render( new ModelAndView( vm, "home.ftl" ) );
             }
-
-            if( currentPlayer.equals( playerTwo ) && game.isComplete() ) {
-                currentPlayer.removeOpponent();
-
-                gameLobby.removeGame( game );
-                httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
-
-                Message message = new Message( "Player 1 resigned.", Message.MessageType.info );
-                vm.put( RoutesAndKeys.MESSAGE_KEY, message );
-                vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayer );
-                vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
-                vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
-
-                return templateEngine.render( new ModelAndView( vm, "home.ftl" ) );
-            }
-
 
             int whoseTurn = game.getWhoseTurn();
             if( whoseTurn == 0 ) { // it is player one's turn (red)
