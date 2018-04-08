@@ -115,6 +115,32 @@ public class Game {
 
 
     /**
+     * Getter for the piece at a given (row, col) co-ordinate on the board
+     * @param row the row index
+     * @param col the column index
+     * @return the piece at the (row, col) co-ordinate; null if no piece or out of bounds
+     */
+    public Piece getPieceAt( int row, int col ) {
+        if( mv.isWithinBounds( row, col ) ) {
+            return this.board.getSpace( row, col ).getPiece();
+        }
+        return null;
+    }
+
+
+    /**
+     * Getter for the piece at a Position
+     * @param position the position
+     * @return the piece at the position; null if no piece or out of bounds
+     */
+    public Piece getPieceAt( Position position ) {
+        int row = position.getRow();
+        int col = position.getCell();
+        return this.getPieceAt( row, col );
+    }
+
+
+    /**
      * Getter for the board of the game
      *
      * @return the board that represents the game

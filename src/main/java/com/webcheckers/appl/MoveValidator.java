@@ -30,7 +30,7 @@ public class MoveValidator {
      * @param col the column index
      * @return whether it is in bounds
      */
-    private boolean isWithinBounds( int row, int col ) {
+    public boolean isWithinBounds( int row, int col ) {
         return ( ( row <= 7 ) && ( row >= 0 ) && ( col <= 7 ) && ( col >= 0 ) );
     }
 
