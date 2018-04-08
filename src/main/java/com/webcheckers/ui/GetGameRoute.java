@@ -123,7 +123,7 @@ public class GetGameRoute implements Route {
                         if( players.get( opponentName ).getOpponent() != null ) { // the selected opponent is already in game
                             String message = "Player \"" + opponentName + "\" is already playing a game.";
                             vm.put( "message", message );
-                            vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayer );
+                            vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName );
                             vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
                             vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
                             // render home with error message
@@ -175,8 +175,7 @@ public class GetGameRoute implements Route {
 
             // if your opponent is null, they resigned so: remove your opponent, remove the game from the lobby
             // set inGame to false, create message that your opponent resigned, populate vm and render home
-            if( currentPlayer.equals( playerOne ) &&
-                ( httpSession.attribute( RoutesAndKeys.IN_GAME_KEY ).equals( false ) ) ) {
+            if( currentPlayer.equals( playerOne ) && game.isComplete() ) {
                 currentPlayer.removeOpponent();
 
                 gameLobby.removeGame( game );
@@ -191,7 +190,7 @@ public class GetGameRoute implements Route {
                 return templateEngine.render( new ModelAndView( vm, "home.ftl" ) );
             }
 
-            if( currentPlayer.equals( playerTwo ) && playerOne == null ) {
+            if( currentPlayer.equals( playerTwo ) && game.isComplete() ) {
                 currentPlayer.removeOpponent();
 
                 gameLobby.removeGame( game );
