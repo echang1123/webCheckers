@@ -92,14 +92,6 @@ public class PostSubmitTurnRoute implements Route {
             return new Message( "", Message.MessageType.error );
         }
 
-
-        // get all of the players, remove the current player from that Map
-        HashMap< String, Player > players = playerLobby.getPlayers();
-        Map< String, Player > otherPlayers = new HashMap<>( players );
-        otherPlayers.remove( currentPlayerName ); // remove the current player from being shown
-
-        Map< String, Object > vm = new HashMap<>();
-
         boolean wonGame = false;
         // if you are Red and either your opponent is out of pieces or they can't move, you won
         if( currentPlayer.equals( game.getPlayerOne() ) &&
