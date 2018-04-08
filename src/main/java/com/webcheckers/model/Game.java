@@ -129,6 +129,17 @@ public class Game {
 
 
     /**
+     * Helper method that checks if a piece at a position is a king piece
+     * @param row the row index
+     * @param col the col index
+     * @return whether the piece there (if it exists), it is a king piece
+     */
+    public boolean isThereAKingPieceAt( int row, int col ) {
+        return ( getPieceAt( row, col ) != null ) && ( getPieceAt( row, col ).getType() == Piece.PieceType.KING );
+    }
+
+
+    /**
      * Getter for the piece at a Position
      * @param position the position
      * @return the piece at the position; null if no piece or out of bounds
