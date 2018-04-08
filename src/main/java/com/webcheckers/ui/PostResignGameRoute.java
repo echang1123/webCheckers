@@ -78,7 +78,7 @@ public class PostResignGameRoute implements Route {
 
         // you are the first player
         if( game.getPlayerOne().equals( currentPlayer ) ) {
-            httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
+            game.setGameState( Game.GameState.complete );
             game.removePlayerOne();
             if( game.getWhoseTurn() == 0 )
                 game.switchTurn();
@@ -87,7 +87,7 @@ public class PostResignGameRoute implements Route {
 
         // you are the second player
         else if( game.getPlayerTwo().equals( currentPlayer ) ) {
-            httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
+            game.setGameState( Game.GameState.complete );
             game.removePlayerTwo();
             if( game.getWhoseTurn() == 1 )
                 game.switchTurn();

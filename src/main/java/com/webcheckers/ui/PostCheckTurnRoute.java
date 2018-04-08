@@ -83,52 +83,23 @@ public class PostCheckTurnRoute implements Route {
             return new Message( "", Message.MessageType.error );
         }
 
+        if( game.isComplete() ) {
+            return new Message( "true", Message.MessageType.info );
+        }
+
         Board board = game.getBoard();
-        //get all of the players, remove the current player from that Map
+        // get all of the players, remove the current player from that Map
         HashMap< String, Player > players = playerLobby.getPlayers();
         Map< String, Player > otherPlayers = new HashMap<>( players );
         otherPlayers.remove( currentPlayerName ); // remove the current player from being shown
         Map< String, Object > vm = new HashMap<>();
 
         if( currentPlayer.equals( game.getPlayerOne() ) ) {
-            if( game.getPlayerTwo() == null ) {
-                Message message;
-                if( ( board.getRedPiecesInPlay() <= 0 ) || ( !game.anyMovesAvailableForPlayerOne() ) ) {
-                    message = new Message( "You lost...", Message.MessageType.info );
-                } else {
-                    message = new Message( "Player 2 resigned.", Message.MessageType.info );
-                }
-                currentPlayer.removeOpponent();
-                httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
-                otherPlayers.remove( currentPlayerName ); // remove the current player from being shown
-                vm.put( RoutesAndKeys.MESSAGE_KEY, message );
-                vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName );
-                vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
-                vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
-                return templateEngine.render( new ModelAndView( vm, "home.ftl" ) );
-            }
-
             if( game.getWhoseTurn() == 0 )
                 return new Message( "true", Message.MessageType.info );
             else
                 return new Message( "false", Message.MessageType.info );
         } else {
-            if( game.getPlayerOne() == null ) {
-                Message message;
-                if( ( board.getWhitePiecesInPlay() <= 0 ) || ( !game.anyMovesAvailableForPlayerTwo() ) ) {
-                    message = new Message( "You lost...", Message.MessageType.info );
-                } else {
-                    message = new Message( "Player 2 resigned.", Message.MessageType.info );
-                }
-                currentPlayer.removeOpponent();
-                httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
-                otherPlayers.remove( currentPlayerName ); // remove the current player from being shown
-                vm.put( RoutesAndKeys.MESSAGE_KEY, message );
-                vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName );
-                vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
-                vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
-                return templateEngine.render( new ModelAndView( vm, "home.ftl" ) );
-            }
 
             if( game.getWhoseTurn() == 0 )
                 return new Message( "false", Message.MessageType.info );
