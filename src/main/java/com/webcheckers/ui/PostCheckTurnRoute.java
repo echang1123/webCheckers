@@ -87,13 +87,6 @@ public class PostCheckTurnRoute implements Route {
             return new Message( "true", Message.MessageType.info );
         }
 
-        Board board = game.getBoard();
-        // get all of the players, remove the current player from that Map
-        HashMap< String, Player > players = playerLobby.getPlayers();
-        Map< String, Player > otherPlayers = new HashMap<>( players );
-        otherPlayers.remove( currentPlayerName ); // remove the current player from being shown
-        Map< String, Object > vm = new HashMap<>();
-
         if( currentPlayer.equals( game.getPlayerOne() ) ) {
             if( game.getWhoseTurn() == 0 )
                 return new Message( "true", Message.MessageType.info );
