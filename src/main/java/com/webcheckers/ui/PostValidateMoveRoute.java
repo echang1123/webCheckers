@@ -85,12 +85,12 @@ public class PostValidateMoveRoute implements Route {
         // return a message of type info
         if( isValidMove ) {
             game.addValidatedMove( move );
-            return new Message( "", Message.MessageType.info );
+            return new Message( "Valid move", Message.MessageType.info );
         }
 
         // if the move is not valid, return a message of type error
         else {
-            return new Message( "", Message.MessageType.error );
+            return new Message( "Invalid move", Message.MessageType.error );
         }
 
     }
