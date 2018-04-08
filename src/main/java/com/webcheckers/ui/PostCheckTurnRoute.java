@@ -13,15 +13,12 @@ import com.webcheckers.appl.GameLobby;
 import com.webcheckers.appl.GlobalInformation;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.appl.RoutesAndKeys;
-import com.webcheckers.model.Board;
 import com.webcheckers.model.Game;
 import com.webcheckers.model.Message;
 import com.webcheckers.model.Player;
 import spark.*;
 
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
@@ -70,17 +67,17 @@ public class PostCheckTurnRoute implements Route {
 
         String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER_KEY );
         if( currentPlayerName == null ) {
-            return new Message( "", Message.MessageType.error );
+            response.redirect( RoutesAndKeys.HOME_URL );
         }
 
         Player currentPlayer = playerLobby.getPlayer( currentPlayerName );
         if( currentPlayer == null ) {
-            return new Message( "", Message.MessageType.error );
+            response.redirect( RoutesAndKeys.HOME_URL );
         }
 
         Game game = gameLobby.findGame( currentPlayer );
         if( game == null ) {
-            return new Message( "", Message.MessageType.error );
+            response.redirect( RoutesAndKeys.HOME_URL );
         }
 
         if( game.isComplete() ) {

@@ -181,12 +181,7 @@ public class GetGameRoute implements Route {
                 httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
 
                 Message message = new Message( "Game complete", Message.MessageType.info );
-                vm.put( RoutesAndKeys.MESSAGE_KEY, message );
-                vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName );
-                vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
-                vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
-
-                return templateEngine.render( new ModelAndView( vm, "home.ftl" ) );
+                response.redirect( RoutesAndKeys.HOME_URL );
             }
 
             int whoseTurn = game.getWhoseTurn();
