@@ -93,7 +93,7 @@ public class PostCheckTurnRoute implements Route {
         if( currentPlayer.equals( game.getPlayerOne() ) ) {
             if( game.getPlayerTwo() == null ) {
                 Message message;
-                if( ( board.getRedPiecesInPlay() <= 0 ) || ( game.noMovesAvailableForPlayerOne() ) ) {
+                if( ( board.getRedPiecesInPlay() <= 0 ) || ( !game.anyMovesAvailableForPlayerOne() ) ) {
                     message = new Message( "You lost...", Message.MessageType.info );
                 } else {
                     message = new Message( "Player 2 resigned.", Message.MessageType.info );
@@ -115,7 +115,7 @@ public class PostCheckTurnRoute implements Route {
         } else {
             if( game.getPlayerOne() == null ) {
                 Message message;
-                if( ( board.getWhitePiecesInPlay() <= 0 ) || ( game.noMovesAvailableForPlayerTwo() ) ) {
+                if( ( board.getWhitePiecesInPlay() <= 0 ) || ( !game.anyMovesAvailableForPlayerTwo() ) ) {
                     message = new Message( "You lost...", Message.MessageType.info );
                 } else {
                     message = new Message( "Player 2 resigned.", Message.MessageType.info );
