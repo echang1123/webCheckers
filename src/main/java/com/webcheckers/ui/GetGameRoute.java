@@ -26,7 +26,7 @@ import java.util.logging.Logger;
 
 public class GetGameRoute implements Route {
 
-    public enum ViewMode {PLAY, SPECTATOR, REPLAY}
+    public enum ViewMode { PLAY, SPECTATOR, REPLAY }
 
     private static final Logger LOG = Logger.getLogger( GetSignInRoute.class.getName() );
     private final TemplateEngine templateEngine;
