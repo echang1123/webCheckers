@@ -11,6 +11,7 @@ package com.webcheckers.model;
 
 
 import com.webcheckers.appl.MoveValidator;
+import com.webcheckers.appl.MoveVerifier;
 
 import java.util.ArrayList;
 
@@ -23,7 +24,7 @@ public class Game {
     private Player playerTwo; // player 2
     private int whoseTurn; // 0 is for player1 and 1 is for player2
     private ArrayList< Move > validatedMoves; // keeps track of moves that have been validated
-    private final MoveValidator mv = new MoveValidator();
+    private final MoveVerifier mv;
 
     /**
      * Constructor for the Game class
@@ -38,6 +39,7 @@ public class Game {
         this.playerTwo = playerTwo;
         this.whoseTurn = 0; // 0 is for player1 and 1 is for player2
         this.validatedMoves = new ArrayList<>();
+        mv = new MoveVerifier();
     }
 
     /**
@@ -50,11 +52,11 @@ public class Game {
     }
 
     /**
-     * Getter for moveValidator
+     * Getter for moveVerifier
      *
-     * @return moveValidator object
+     * @return moveVerifier object
      */
-    public MoveValidator getMoveValidator() {
+    public MoveVerifier getMoveVerifier() {
         return mv;
     }
 
@@ -252,33 +254,11 @@ public class Game {
      * @return
      */
     public boolean noMovesAvailableForPlayerOne() {
-        for( int r = 0; r < 8; r++ ) {
-            for( int c = 0; c < 8; c++ ) {
-                if( ( board.getSpace( r, c ).getPiece() != null ) &&
-                    ( board.getSpace( r, c ).getPiece().getColor() == Piece.Color.RED ) ) {
-                    if( mv.isNormalMoveAvailable( this, r, c, board ) || mv.isKingMoveAvailable( this, r, c, board )
-                        || mv.singleJumpAvailable( this, r, c, board ) || mv.kingJumpAvailable( this, r, c, board ) ) {
-                        return false;
-                    }
-                }
-            }
-        }
-        return true;
+        return mv.isAnyMoveAvailableForPlayerOne( this );
     }
 
 
     public boolean noMovesAvailableForPlayerTwo() {
-        for( int r = 0; r < 8; r++ ) {
-            for( int c = 0; c < 8; c++ ) {
-                if( ( board.getSpace( r, c ).getPiece() != null ) &&
-                    ( board.getSpace( r, c ).getPiece().getColor() == Piece.Color.WHITE ) ) {
-                    if( mv.isNormalMoveAvailable( this, r, c, board ) || mv.isKingMoveAvailable( this, r, c, board )
-                        || mv.singleJumpAvailable( this, r, c, board ) || mv.kingJumpAvailable( this, r, c, board ) ) {
-                        return false;
-                    }
-                }
-            }
-        }
-        return true;
+        return mv.isAnyMoveAvailableForPlayerTwo( this );
     }
 }

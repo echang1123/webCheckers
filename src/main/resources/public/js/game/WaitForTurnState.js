@@ -42,7 +42,7 @@ define(function(require){
   WaitForTurnState.prototype.onEntry = function onEntry() {
     var view = this.getView();
     // wait five seconds then check my turn
-    setTimeout(function() { view.setState(GameConstants.CHECK_MY_TURN); }, 500);
+    setTimeout(function() { view.setState(GameConstants.CHECK_MY_TURN); }, 100);
   }
 
   // export class constructor

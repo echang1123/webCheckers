@@ -356,7 +356,7 @@ public class MoveVerifier {
      * @param game the Web Checkers game
      * @return whether any moves can be made by player one
      */
-    private boolean isAnyMoveAvailableForPlayerOne( Game game ) {
+    public boolean isAnyMoveAvailableForPlayerOne( Game game ) {
         Piece.Color currentPlayerColor = Piece.Color.RED;
         for( int row = 0; row < 8; row++ ) {
             for( int col = 0; col < 8; col++ ) {
@@ -384,7 +384,7 @@ public class MoveVerifier {
      * @param game the Web Checkers game
      * @return whether any moves can be made by player two
      */
-    private boolean isAnyMoveAvailableForPlayerTwo( Game game ) {
+    public boolean isAnyMoveAvailableForPlayerTwo( Game game ) {
         Piece.Color currentPlayerColor = Piece.Color.WHITE;
         for( int row = 0; row < 8; row++ ) {
             for( int col = 0; col < 8; col++ ) {

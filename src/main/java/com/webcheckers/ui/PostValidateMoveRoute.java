@@ -71,7 +71,7 @@ public class PostValidateMoveRoute implements Route {
             return new Message( "", Message.MessageType.error );
         }
 
-        MoveValidator moveValidator = game.getMoveValidator();
+        MoveVerifier moveVerifier = game.getMoveVerifier();
 
         final String dataString = request.body();
         Move move = JsonUtils.fromJson( dataString, Move.class );
@@ -79,7 +79,7 @@ public class PostValidateMoveRoute implements Route {
             return new Message( "", Message.MessageType.error );
         }
 
-        boolean isValidMove = moveValidator.validate( game, move );
+        boolean isValidMove = moveVerifier.verifyMove(move, game);
 
         // if the move is valid, add it to the validatedMoves array list and
         // return a message of type info
