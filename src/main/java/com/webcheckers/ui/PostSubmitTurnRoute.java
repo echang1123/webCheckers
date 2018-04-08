@@ -80,8 +80,8 @@ public class PostSubmitTurnRoute implements Route {
         int numberOfMovesSubmitted = 0;
 
         // iterate till we have used all the validated moves
-        while( !game.outOfValidatedMoves() ) {
-            Move move = game.getFirstValidatedMove();
+        while( !game.outOfVerifiedMoves() ) {
+            Move move = game.getFirstVerifiedMove();
             board.doMove( move );
             numberOfMovesSubmitted++;
         }
@@ -101,15 +101,15 @@ public class PostSubmitTurnRoute implements Route {
         Map< String, Object > vm = new HashMap<>();
 
         boolean wonGame = false;
-        // if you are RED and either your opponent is out of pieces or they can't move, you won
+        // if you are Red and either your opponent is out of pieces or they can't move, you won
         if( currentPlayer.equals( game.getPlayerOne() ) &&
-            ( board.getWhitePiecesInPlay() <= 0 || game.noMovesAvailableForPlayerTwo() ) ) {
+            ( board.getWhitePiecesInPlay() <= 0 || ( !game.anyMovesAvailableForPlayerTwo() ) ) ) {
             wonGame = true;
         }
 
-        // if you are WHITE and either your opponent is out of pieces or has no moves available, you won
+        // if you are White and either your opponent is out of pieces or has no moves available, you won
         if( currentPlayer.equals( game.getPlayerTwo() ) &&
-            ( board.getRedPiecesInPlay() <= 0 || game.noMovesAvailableForPlayerOne() ) ) {
+            ( board.getRedPiecesInPlay() <= 0 || ( !game.anyMovesAvailableForPlayerOne() ) ) ) {
             wonGame = true;
         }
 

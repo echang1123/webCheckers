@@ -58,17 +58,17 @@ public class PostValidateMoveRoute implements Route {
 
         String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER_KEY );
         if( currentPlayerName == null ) {
-            return new Message( "", Message.MessageType.error );
+            response.redirect( RoutesAndKeys.HOME_URL );
         }
 
         Player currentPlayer = playerLobby.getPlayer( currentPlayerName );
         if( currentPlayer == null ) {
-            return new Message( "", Message.MessageType.error );
+            response.redirect( RoutesAndKeys.HOME_URL );
         }
 
         Game game = gameLobby.findGame( currentPlayer );
         if( game == null ) {
-            return new Message( "", Message.MessageType.error );
+            response.redirect( RoutesAndKeys.HOME_URL );
         }
 
         MoveVerifier moveVerifier = game.getMoveVerifier();
@@ -76,15 +76,15 @@ public class PostValidateMoveRoute implements Route {
         final String dataString = request.body();
         Move move = JsonUtils.fromJson( dataString, Move.class );
         if( move == null ) {
-            return new Message( "", Message.MessageType.error );
+            return new Message( "Invalid move", Message.MessageType.error );
         }
 
-        boolean isValidMove = moveVerifier.verifyMove(move, game);
+        boolean isVerifiedMove = moveVerifier.verifyMove(move, game);
 
         // if the move is valid, add it to the validatedMoves array list and
         // return a message of type info
-        if( isValidMove ) {
-            game.addValidatedMove( move );
+        if( isVerifiedMove ) {
+            game.addVerifiedMove( move );
             return new Message( "Valid move", Message.MessageType.info );
         }
 
