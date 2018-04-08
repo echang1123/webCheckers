@@ -116,21 +116,13 @@ public class PostSubmitTurnRoute implements Route {
         if( wonGame ) {
             currentPlayer.removeOpponent();
             httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
-            Message message = new Message( "You are victorious!", Message.MessageType.info );
-
-            vm.put( RoutesAndKeys.MESSAGE_KEY, message );
-            vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName );
-            vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
-            vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
             game.switchTurn();
-            return templateEngine.render( new ModelAndView( vm, "home.ftl" ) );
+            response.redirect( RoutesAndKeys.GAME_URL );
         }
 
         // all validated moves were submitted successfully
-        else {
-            game.switchTurn();
-            return new Message( "", Message.MessageType.info );
-        }
+        game.switchTurn();
+        return new Message( "", Message.MessageType.info );
     }
 
 }

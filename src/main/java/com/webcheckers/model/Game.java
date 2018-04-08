@@ -18,6 +18,9 @@ import java.util.ArrayList;
 
 public class Game {
 
+    // enums
+    public enum GameState { in_progress, complete }
+
     // Attributes
     private Board board; // the board
     private Player playerOne; // player 1
@@ -25,6 +28,7 @@ public class Game {
     private int whoseTurn; // 0 is for player1 and 1 is for player2
     private ArrayList< Move > verifiedMoves; // keeps track of moves that have been validated
     private final MoveVerifier mv;
+    private GameState gameState;
 
     /**
      * Constructor for the Game class
@@ -40,6 +44,7 @@ public class Game {
         this.whoseTurn = 0; // 0 is for player1 and 1 is for player2
         this.verifiedMoves = new ArrayList<>();
         this.mv = new MoveVerifier();
+        this.gameState = GameState.in_progress;
     }
 
     /**
@@ -50,6 +55,27 @@ public class Game {
     public int getWhoseTurn() {
         return this.whoseTurn;
     }
+
+
+    /**
+     * Setter for the state of the game
+     *
+     * @param gameState the new state of the game
+     */
+    public void setGameState( Game.GameState gameState ) {
+        this.gameState = gameState;
+    }
+
+
+    /**
+     * Method that returns whether the game is complete
+     *
+     * @return boolean whether the game is complete
+     */
+    public boolean isComplete() {
+        return this.gameState == GameState.complete;
+    }
+
 
     /**
      * Getter for moveVerifier

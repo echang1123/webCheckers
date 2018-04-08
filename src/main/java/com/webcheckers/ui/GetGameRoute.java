@@ -78,7 +78,7 @@ public class GetGameRoute implements Route {
             response.redirect( RoutesAndKeys.HOME_URL );
         }
 
-        //create map with all players, and remove the current player from it
+        // create map with all players, and remove the current player from it
         Map< String, Player > otherPlayers = new HashMap<>( players );
         otherPlayers.remove( currentPlayerName ); // remove the current player from being shown
 
@@ -175,13 +175,14 @@ public class GetGameRoute implements Route {
 
             // if your opponent is null, they resigned so: remove your opponent, remove the game from the lobby
             // set inGame to false, create message that your opponent resigned, populate vm and render home
-            if( currentPlayer.equals( playerOne ) && playerTwo == null ) {
+            if( currentPlayer.equals( playerOne ) &&
+                ( httpSession.attribute( RoutesAndKeys.IN_GAME_KEY ).equals( false ) ) ) {
                 currentPlayer.removeOpponent();
 
                 gameLobby.removeGame( game );
                 httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
 
-                Message message = new Message( "Player 2 resigned.", Message.MessageType.info );
+                Message message = new Message( "You won the game", Message.MessageType.info );
                 vm.put( RoutesAndKeys.MESSAGE_KEY, message );
                 vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayer );
                 vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
