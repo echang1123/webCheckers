@@ -30,7 +30,7 @@ public class MoveValidator {
      * @param col the column index
      * @return whether it is in bounds
      */
-    private boolean isWithinBounds( int row, int col ) {
+    public boolean isWithinBounds( int row, int col ) {
         return ( ( row <= 7 ) && ( row >= 0 ) && ( col <= 7 ) && ( col >= 0 ) );
     }
 
@@ -206,7 +206,7 @@ public class MoveValidator {
      */
     public boolean isNormalMoveAvailable( Game game, int row, int col, Board board ) {
         Piece.Color currentPlayerColor = getCurrentPlayerColor( game );
-        if( currentPlayerColor == Piece.Color.RED ) {
+        if( currentPlayerColor.equals( Piece.Color.RED ) ) {
             if( isWithinBounds( row + 1, col - 1 ) ) {
                 Space left = board.getSpace( row + 1, col - 1 );
                 if( left.getPiece() == null ) {
@@ -220,7 +220,7 @@ public class MoveValidator {
                 }
             }
             return false;
-        } else if( currentPlayerColor == Piece.Color.WHITE ) {
+        } else if( currentPlayerColor.equals( Piece.Color.WHITE ) ) {
             if( isWithinBounds( row - 1, col - 1 ) ) {
                 Space left = board.getSpace( row - 1, col - 1 );
                 if( left.getPiece() == null ) {

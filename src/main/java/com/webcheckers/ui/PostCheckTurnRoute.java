@@ -13,15 +13,12 @@ import com.webcheckers.appl.GameLobby;
 import com.webcheckers.appl.GlobalInformation;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.appl.RoutesAndKeys;
-import com.webcheckers.model.Board;
 import com.webcheckers.model.Game;
 import com.webcheckers.model.Message;
 import com.webcheckers.model.Player;
 import spark.*;
 
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
@@ -70,65 +67,29 @@ public class PostCheckTurnRoute implements Route {
 
         String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER_KEY );
         if( currentPlayerName == null ) {
-            return new Message( "", Message.MessageType.error );
+            response.redirect( RoutesAndKeys.HOME_URL );
         }
 
         Player currentPlayer = playerLobby.getPlayer( currentPlayerName );
         if( currentPlayer == null ) {
-            return new Message( "", Message.MessageType.error );
+            response.redirect( RoutesAndKeys.HOME_URL );
         }
 
         Game game = gameLobby.findGame( currentPlayer );
         if( game == null ) {
-            return new Message( "", Message.MessageType.error );
+            response.redirect( RoutesAndKeys.HOME_URL );
         }
 
-        Board board = game.getBoard();
-        //get all of the players, remove the current player from that Map
-        HashMap< String, Player > players = playerLobby.getPlayers();
-        Map< String, Player > otherPlayers = new HashMap<>( players );
-        otherPlayers.remove( currentPlayerName ); // remove the current player from being shown
-        Map< String, Object > vm = new HashMap<>();
+        if( game.isComplete() ) {
+            return new Message( "true", Message.MessageType.info );
+        }
 
         if( currentPlayer.equals( game.getPlayerOne() ) ) {
-            if( game.getPlayerTwo() == null ) {
-                Message message;
-                if( ( board.getRedPiecesInPlay() <= 0 ) || ( game.noMovesAvailableForPlayerOne() ) ) {
-                    message = new Message( "You lost...", Message.MessageType.info );
-                } else {
-                    message = new Message( "Player 2 resigned.", Message.MessageType.info );
-                }
-                currentPlayer.removeOpponent();
-                httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
-                otherPlayers.remove( currentPlayerName ); // remove the current player from being shown
-                vm.put( RoutesAndKeys.MESSAGE_KEY, message );
-                vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName );
-                vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
-                vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
-                return templateEngine.render( new ModelAndView( vm, "home.ftl" ) );
-            }
-
             if( game.getWhoseTurn() == 0 )
                 return new Message( "true", Message.MessageType.info );
             else
                 return new Message( "false", Message.MessageType.info );
         } else {
-            if( game.getPlayerOne() == null ) {
-                Message message;
-                if( ( board.getWhitePiecesInPlay() <= 0 ) || ( game.noMovesAvailableForPlayerTwo() ) ) {
-                    message = new Message( "You lost...", Message.MessageType.info );
-                } else {
-                    message = new Message( "Player 2 resigned.", Message.MessageType.info );
-                }
-                currentPlayer.removeOpponent();
-                httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
-                otherPlayers.remove( currentPlayerName ); // remove the current player from being shown
-                vm.put( RoutesAndKeys.MESSAGE_KEY, message );
-                vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName );
-                vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
-                vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
-                return templateEngine.render( new ModelAndView( vm, "home.ftl" ) );
-            }
 
             if( game.getWhoseTurn() == 0 )
                 return new Message( "false", Message.MessageType.info );
