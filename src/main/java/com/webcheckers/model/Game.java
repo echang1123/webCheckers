@@ -11,19 +11,24 @@ package com.webcheckers.model;
 
 
 import com.webcheckers.appl.MoveValidator;
+import com.webcheckers.appl.MoveVerifier;
 
 import java.util.ArrayList;
 
 
 public class Game {
 
+    // enums
+    public enum GameState { in_progress, complete }
+
     // Attributes
     private Board board; // the board
     private Player playerOne; // player 1
     private Player playerTwo; // player 2
     private int whoseTurn; // 0 is for player1 and 1 is for player2
-    private ArrayList< Move > validatedMoves; // keeps track of moves that have been validated
-    private final MoveValidator mv = new MoveValidator();
+    private ArrayList< Move > verifiedMoves; // keeps track of moves that have been validated
+    private final MoveVerifier mv;
+    private GameState gameState;
 
     /**
      * Constructor for the Game class
@@ -37,7 +42,9 @@ public class Game {
         this.playerOne = playerOne;
         this.playerTwo = playerTwo;
         this.whoseTurn = 0; // 0 is for player1 and 1 is for player2
-        this.validatedMoves = new ArrayList<>();
+        this.verifiedMoves = new ArrayList<>();
+        this.mv = new MoveVerifier();
+        this.gameState = GameState.in_progress;
     }
 
     /**
@@ -49,13 +56,34 @@ public class Game {
         return this.whoseTurn;
     }
 
+
     /**
-     * Getter for moveValidator
+     * Setter for the state of the game
      *
-     * @return moveValidator object
+     * @param gameState the new state of the game
      */
-    public MoveValidator getMoveValidator() {
-        return mv;
+    public void setGameState( Game.GameState gameState ) {
+        this.gameState = gameState;
+    }
+
+
+    /**
+     * Method that returns whether the game is complete
+     *
+     * @return boolean whether the game is complete
+     */
+    public boolean isComplete() {
+        return this.gameState == GameState.complete;
+    }
+
+
+    /**
+     * Getter for moveVerifier
+     *
+     * @return moveVerifier object
+     */
+    public MoveVerifier getMoveVerifier() {
+        return this.mv;
     }
 
     /**
@@ -115,6 +143,46 @@ public class Game {
 
 
     /**
+     * Getter for the piece at a given (row, col) co-ordinate on the board
+     *
+     * @param row the row index
+     * @param col the column index
+     * @return the piece at the (row, col) co-ordinate; null if no piece or out of bounds
+     */
+    public Piece getPieceAt( int row, int col ) {
+        if( mv.isWithinBounds( row, col ) ) {
+            return this.board.getSpace( row, col ).getPiece();
+        }
+        return null;
+    }
+
+
+    /**
+     * Helper method that checks if a piece at a position is a king piece
+     *
+     * @param row the row index
+     * @param col the col index
+     * @return whether the piece there (if it exists), it is a king piece
+     */
+    public boolean isThereAKingPieceAt( int row, int col ) {
+        return ( getPieceAt( row, col ) != null ) && ( getPieceAt( row, col ).getType() == Piece.PieceType.KING );
+    }
+
+
+    /**
+     * Getter for the piece at a Position
+     *
+     * @param position the position
+     * @return the piece at the position; null if no piece or out of bounds
+     */
+    public Piece getPieceAt( Position position ) {
+        int row = position.getRow();
+        int col = position.getCell();
+        return this.getPieceAt( row, col );
+    }
+
+
+    /**
      * Getter for the board of the game
      *
      * @return the board that represents the game
@@ -134,6 +202,13 @@ public class Game {
         return board.getSpace( row, cell );
     }
 
+
+    /**
+     * Override of the equals function to compare player one and player two of two games
+     *
+     * @param o the Object to compare with
+     * @return whether the two Web Checkers games are equal
+     */
     @Override
     public boolean equals( Object o ) {
         if( o != null ) {
@@ -153,95 +228,79 @@ public class Game {
      * @return true if player given is in this Game
      */
     public boolean contains( Player player ) {
-        return ( ( playerOne != null && playerOne.equals( player )) || ( playerTwo != null && playerTwo.equals( player ) ) );
+        return ( ( playerOne != null && playerOne.equals( player ) ) || ( playerTwo != null && playerTwo.equals( player ) ) );
     }
 
 
     /**
-     * Method that adds a validated move to the validatedMoves array list
-     * does not check if the move is validated; (move validity is a pre-condition)
+     * Method that adds a verified move to the verifiedMoves array list
+     * does not check if the move is verified; (move validity is a pre-condition)
      *
-     * @param move the validated move to add
+     * @param move the verified move to add
      */
-    public void addValidatedMove( Move move ) {
-        this.validatedMoves.add( move );
+    public void addVerifiedMove( Move move ) {
+        this.verifiedMoves.add( move );
     }
 
 
     /**
-     * Method that removes the most recently added validated move from the validatedMoves array list
+     * Method that removes the most recently added verified move from the verifiedMoves array list
      *
      * @return the move that was removed
      */
-    public Move backupValidatedMove() {
-        return this.validatedMoves.remove( this.validatedMoves.size() - 1 );
+    public Move backupVerifiedMove() {
+        return this.verifiedMoves.remove( this.verifiedMoves.size() - 1 );
     }
 
 
     /**
-     * Getter for the validated moves
+     * Getter for the verified moves
      *
-     * @return the array list of validated moves
+     * @return the array list of verified moves
      */
-    public ArrayList< Move > getValidatedMoves() {
-        return this.validatedMoves;
+    public ArrayList< Move > getVerifiedMoves() {
+        return this.verifiedMoves;
     }
 
 
     /**
-     * Helper function that serves as a boolean flag for whether we're out of validated moves
+     * Helper function that serves as a boolean flag for whether we're out of verified moves
      *
      * @return boolean whether it is empty or not
      */
-    public boolean outOfValidatedMoves() {
-        return this.validatedMoves.isEmpty();
+    public boolean outOfVerifiedMoves() {
+        return this.verifiedMoves.isEmpty();
     }
 
 
     /**
-     * Helper function that returns the first move in validatedMoves
+     * Helper function that returns the first move in verifiedMoves
      * used in PostSubmitTurnRoute to get the moves in the right order
      *
      * @return the first move
      */
-    public Move getFirstValidatedMove() {
-        return this.validatedMoves.remove( 0 );
+    public Move getFirstVerifiedMove() {
+        return this.verifiedMoves.remove( 0 );
     }
 
     /**
-     * Function to determine if playerOne (RED) has any more moves available
+     * Function to determine if player one (Red) has any more moves available
      * checks each space for red pieces, then if any type of move is available for that piece
      *
-     * @return
+     * @return whether player one can make any moves
      */
-    public boolean noMovesAvailableForPlayerOne() {
-        for( int r = 0; r < 8; r++ ) {
-            for( int c = 0; c < 8; c++ ) {
-                if( ( board.getSpace( r, c ).getPiece() != null ) &&
-                    ( board.getSpace( r, c ).getPiece().getColor() == Piece.Color.RED ) ) {
-                    if( mv.isNormalMoveAvailable( this, r, c, board ) || mv.isKingMoveAvailable( this, r, c, board )
-                        || mv.singleJumpAvailable( this, r, c, board ) || mv.kingJumpAvailable( this, r, c, board ) ) {
-                        return false;
-                    }
-                }
-            }
-        }
-        return true;
+    public boolean anyMovesAvailableForPlayerOne() {
+        return mv.isAnyMoveAvailableForPlayerOne( this );
     }
 
 
-    public boolean noMovesAvailableForPlayerTwo() {
-        for( int r = 0; r < 8; r++ ) {
-            for( int c = 0; c < 8; c++ ) {
-                if( ( board.getSpace( r, c ).getPiece() != null ) &&
-                    ( board.getSpace( r, c ).getPiece().getColor() != Piece.Color.WHITE ) ) {
-                    if( mv.isNormalMoveAvailable( this, r, c, board ) || mv.isKingMoveAvailable( this, r, c, board )
-                        || mv.singleJumpAvailable( this, r, c, board ) || mv.kingJumpAvailable( this, r, c, board ) ) {
-                        return false;
-                    }
-                }
-            }
-        }
-        return true;
+    /**
+     * Function to determine if player two (White) has any more moves available
+     * checks each space for red pieces, then if any type of move is available for that piece
+     *
+     * @return whether player two can make any moves
+     */
+    public boolean anyMovesAvailableForPlayerTwo() {
+        return mv.isAnyMoveAvailableForPlayerTwo( this );
     }
 }

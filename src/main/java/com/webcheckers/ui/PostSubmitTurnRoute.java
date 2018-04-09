@@ -17,8 +17,6 @@ import com.webcheckers.model.*;
 import spark.*;
 
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
@@ -80,8 +78,8 @@ public class PostSubmitTurnRoute implements Route {
         int numberOfMovesSubmitted = 0;
 
         // iterate till we have used all the validated moves
-        while( !game.outOfValidatedMoves() ) {
-            Move move = game.getFirstValidatedMove();
+        while( !game.outOfVerifiedMoves() ) {
+            Move move = game.getFirstVerifiedMove();
             board.doMove( move );
             numberOfMovesSubmitted++;
         }
@@ -92,45 +90,27 @@ public class PostSubmitTurnRoute implements Route {
             return new Message( "", Message.MessageType.error );
         }
 
-
-        // get all of the players, remove the current player from that Map
-        HashMap< String, Player > players = playerLobby.getPlayers();
-        Map< String, Player > otherPlayers = new HashMap<>( players );
-        otherPlayers.remove( currentPlayerName ); // remove the current player from being shown
-
-        Map< String, Object > vm = new HashMap<>();
-
         boolean wonGame = false;
-        // if you are RED and either your opponent is out of pieces or they can't move, you won
+        // if you are Red and either your opponent is out of pieces or they can't move, you won
         if( currentPlayer.equals( game.getPlayerOne() ) &&
-            ( board.getWhitePiecesInPlay() <= 0 || game.noMovesAvailableForPlayerTwo() ) ) {
+            ( board.getWhitePiecesInPlay() <= 0 || ( !game.anyMovesAvailableForPlayerTwo() ) ) ) {
             wonGame = true;
         }
 
-        // if you are WHITE and either your opponent is out of pieces or has no moves available, you won
+        // if you are White and either your opponent is out of pieces or has no moves available, you won
         if( currentPlayer.equals( game.getPlayerTwo() ) &&
-            ( board.getRedPiecesInPlay() <= 0 || game.noMovesAvailableForPlayerOne() ) ) {
+            ( board.getRedPiecesInPlay() <= 0 || ( !game.anyMovesAvailableForPlayerOne() ) ) ) {
             wonGame = true;
         }
 
         if( wonGame ) {
             currentPlayer.removeOpponent();
-            httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
-            Message message = new Message( "You are victorious!", Message.MessageType.info );
-
-            vm.put( RoutesAndKeys.MESSAGE_KEY, message );
-            vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName );
-            vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
-            vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
-            game.switchTurn();
-            return templateEngine.render( new ModelAndView( vm, "home.ftl" ) );
+            game.setGameState( Game.GameState.complete );
         }
 
         // all validated moves were submitted successfully
-        else {
-            game.switchTurn();
-            return new Message( "", Message.MessageType.info );
-        }
+        game.switchTurn();
+        return new Message( "", Message.MessageType.info );
     }
 
 }

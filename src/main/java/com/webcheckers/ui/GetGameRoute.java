@@ -26,7 +26,7 @@ import java.util.logging.Logger;
 
 public class GetGameRoute implements Route {
 
-    public enum ViewMode {PLAY, SPECTATOR, REPLAY}
+    public enum ViewMode { PLAY, SPECTATOR, REPLAY }
 
     private static final Logger LOG = Logger.getLogger( GetSignInRoute.class.getName() );
     private final TemplateEngine templateEngine;
@@ -78,7 +78,7 @@ public class GetGameRoute implements Route {
             response.redirect( RoutesAndKeys.HOME_URL );
         }
 
-        //create map with all players, and remove the current player from it
+        // create map with all players, and remove the current player from it
         Map< String, Player > otherPlayers = new HashMap<>( players );
         otherPlayers.remove( currentPlayerName ); // remove the current player from being shown
 
@@ -123,7 +123,7 @@ public class GetGameRoute implements Route {
                         if( players.get( opponentName ).getOpponent() != null ) { // the selected opponent is already in game
                             String message = "Player \"" + opponentName + "\" is already playing a game.";
                             vm.put( "message", message );
-                            vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayer );
+                            vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName );
                             vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
                             vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
                             // render home with error message
@@ -137,6 +137,7 @@ public class GetGameRoute implements Route {
             if( isFirstPlayer ) {
                 boardModel = new Board();
                 opponent = players.get( opponentName );
+                currentPlayer.addOpponent( opponent );
                 game = new Game( boardModel, currentPlayer, opponent );
                 gameLobby.addGame( game );
                 vm.put( "activeColor", Piece.Color.RED );
@@ -146,6 +147,7 @@ public class GetGameRoute implements Route {
                 game = gameLobby.findGame( currentPlayer ); // get the game that was created by the first player
                 boardModel = game.getBoard();
                 opponent = game.getPlayerOne();
+                currentPlayer.addOpponent( opponent );
                 vm.put( "activeColor", Piece.Color.RED );
                 vm.put( "redPlayer", opponent );
                 vm.put( "whitePlayer", currentPlayer );
@@ -171,38 +173,16 @@ public class GetGameRoute implements Route {
             vm.put( "redPlayer", playerOne );
             vm.put( "whitePlayer", playerTwo );
 
-            //if your opponent is null, they resigned so: remove your opponent, remove the game from the lobby
-            //set inGame to false, create message that your opponent resigned, populate vm and render home
-            if( currentPlayer.equals( playerOne ) && playerTwo == null ) {
+            // if your opponent is null, they resigned so: remove your opponent, remove the game from the lobby
+            // set inGame to false, create message that your opponent resigned, populate vm and render home
+            if( game.isComplete() ) {
                 currentPlayer.removeOpponent();
-
                 gameLobby.removeGame( game );
                 httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
 
-                Message message = new Message( "Player 2 resigned.", Message.MessageType.info );
-                vm.put( RoutesAndKeys.MESSAGE_KEY, message );
-                vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayer );
-                vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
-                vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
-
-                return templateEngine.render( new ModelAndView( vm, "home.ftl" ) );
+                Message message = new Message( "Game complete", Message.MessageType.info );
+                response.redirect( RoutesAndKeys.HOME_URL );
             }
-
-            if( currentPlayer.equals( playerTwo ) && playerOne == null ) {
-                currentPlayer.removeOpponent();
-
-                gameLobby.removeGame( game );
-                httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
-
-                Message message = new Message( "Player 1 resigned.", Message.MessageType.info );
-                vm.put( RoutesAndKeys.MESSAGE_KEY, message );
-                vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayer );
-                vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
-                vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
-
-                return templateEngine.render( new ModelAndView( vm, "home.ftl" ) );
-            }
-
 
             int whoseTurn = game.getWhoseTurn();
             if( whoseTurn == 0 ) { // it is player one's turn (red)

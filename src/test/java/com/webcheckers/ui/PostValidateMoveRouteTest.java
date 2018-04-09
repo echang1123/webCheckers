@@ -80,7 +80,7 @@ public class PostValidateMoveRouteTest {
 
         final Move move = new Move(start,end);
         games.addValidatedMove(move);
-        games.getMoveValidator();
+        games.getMoveVerifier();
 
         when(session.attribute(RoutesAndKeys.CURRENT_PLAYER_KEY)).thenReturn(Player1);
         //when(global.getGameLobby().findGame(player1)).thenReturn(game);
