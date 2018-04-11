@@ -180,7 +180,6 @@ public class GetGameRoute implements Route {
                 gameLobby.removeGame( game );
                 httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
 
-                Message message = new Message( "Game complete", Message.MessageType.info );
                 response.redirect( RoutesAndKeys.HOME_URL );
             }
 
