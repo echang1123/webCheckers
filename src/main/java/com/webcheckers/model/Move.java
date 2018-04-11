@@ -13,7 +13,7 @@ public class Move {
 
     // enum
     public enum MoveType {
-        SIMPLE, JUMP
+        SIMPLE, JUMP, KING_SIMPLE, KING_JUMP
     }
 
     // Attributes

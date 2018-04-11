@@ -1,3 +1,4 @@
+/*
 package com.webcheckers.ui;
 
 import static org.junit.jupiter.api.Assertions.fail;
@@ -21,20 +22,28 @@ import spark.*;
 import javax.print.attribute.standard.RequestingUserName;
 import java.util.HashMap;
 
+*/
 /**
  * Created by Eugene on 3/20/2018.
- */
+ *//*
+
 @Tag("UI-tier")
 public class GetHomeRouteTest {
 
     private static final String Player1 = "Hongda";
-    /*Component under test*/
+    */
+/*Component under test*//*
+
     private GetHomeRoute CuT;
 
-    /*friendly objects*/
+    */
+/*friendly objects*//*
+
     private GlobalInformation lobby;
 
-    /*attributes holding mock objects*/
+    */
+/*attributes holding mock objects*//*
+
     private Request request;
     private Session session;
     private TemplateEngine engine;
@@ -55,9 +64,11 @@ public class GetHomeRouteTest {
         CuT = new GetHomeRoute(engine, lobby);
     }
 
-    /**
+    */
+/**
      * Test that CuT shows the Home view when the session is brand new. (played is NOT signed in)
-     */
+     *//*
+
     @Test
     public void new_session(){
         when(session.attribute(RoutesAndKeys.CURRENT_PLAYER_KEY)).thenReturn(Player1);
@@ -84,9 +95,11 @@ public class GetHomeRouteTest {
         testHelper.assertViewName("home.ftl");
     }
 
-    /**
+    */
+/**
      * Test that CuT accounts for when the player is signed in
-     */
+     *//*
+
     @Test
     public void old_session(){
         // Arrange the test scenario: There is an existing session with a PlayerLobby object
@@ -105,3 +118,4 @@ public class GetHomeRouteTest {
         testHelper.assertViewName("home.ftl");
     }
 }
+*/
