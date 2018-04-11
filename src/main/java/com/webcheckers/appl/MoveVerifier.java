@@ -531,16 +531,21 @@ public class MoveVerifier {
         int endCol = end.getCell();
 
         if( isAnyJumpMoveAvailable( game ) ) {
-            if( verifySimpleJumpMove( game, startRow, startCol, endRow, endCol ) ||
-                verifyKingJumpMove( game, startRow, startCol, endRow, endCol ) ) {
+            if( verifySimpleJumpMove( game, startRow, startCol, endRow, endCol ) ) {
                 move.setMoveType( Move.MoveType.JUMP );
                 return true;
             }
-        }
-        else {
-            if( verifySimpleMove( game, startRow, startCol, endRow, endCol ) ||
-                verifyKingSimpleMove( game, startRow, startCol, endRow, endCol ) ) {
+            if( verifyKingJumpMove( game, startRow, startCol, endRow, endCol ) ) {
+                move.setMoveType( Move.MoveType.KING_JUMP );
+                return true;
+            }
+        } else {
+            if( verifySimpleMove( game, startRow, startCol, endRow, endCol ) ) {
                 move.setMoveType( Move.MoveType.SIMPLE );
+                return true;
+            }
+            if( verifyKingSimpleMove( game, startRow, startCol, endRow, endCol ) ) {
+                move.setMoveType( Move.MoveType.KING_SIMPLE );
                 return true;
             }
         }
