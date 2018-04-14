@@ -95,20 +95,12 @@ public class Board {
      * @param move the move to 'do'
      */
     public void doMove( Move move ) {
-
         Position start = move.getStart();
         Position end = move.getEnd();
 
-        // no matter the move type we need to do the following
-        // 1. transfer (copy) the piece from start to end
-        // 2. remove the piece from the start position
-        Piece oldPiece = this.getSpace( start ).getPiece();
-        Piece newPiece = new Piece( oldPiece.getType(), oldPiece.getColor() );
-        this.getSpace( end ).setPiece( newPiece );
-        this.getSpace( start ).removePiece();
-
         // if it is a jump move, remove the piece in the middle (the captured piece)
-        if( move.getMoveType() == Move.MoveType.JUMP ) {
+        if( ( move.getMoveType() == Move.MoveType.JUMP ) ||
+            ( move.getMoveType() == Move.MoveType.KING_JUMP ) ) {
             int middleRow = ( start.getRow() + end.getRow() ) / 2;
             int middleCol = ( start.getCell() + end.getCell() ) / 2;
             Piece removed = this.getSpace( middleRow, middleCol ).removePiece();
@@ -117,14 +109,6 @@ public class Board {
             } else {
                 whitePiecesInPlay--;
             }
-        }
-
-        //check the color and end row, if RED ends at row 7 or WHITE ends at row 0, upgrade the piece to a KING
-        if( newPiece.getColor() == Piece.Color.RED && end.getRow() == 7 ) {
-            newPiece.pieceType = Piece.PieceType.KING;
-        }
-        if( newPiece.getColor() == Piece.Color.WHITE && end.getRow() == 0 ) {
-            newPiece.pieceType = Piece.PieceType.KING;
         }
     }
 

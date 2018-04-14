@@ -10,8 +10,8 @@
 package com.webcheckers.model;
 
 
-import com.webcheckers.appl.MoveValidator;
 import com.webcheckers.appl.MoveVerifier;
+
 
 import java.util.ArrayList;
 
@@ -19,7 +19,9 @@ import java.util.ArrayList;
 public class Game {
 
     // enums
-    public enum GameState { in_progress, complete }
+    public enum GameState {
+        in_progress, complete
+    }
 
     // Attributes
     private Board board; // the board
@@ -240,6 +242,7 @@ public class Game {
      */
     public void addVerifiedMove( Move move ) {
         this.verifiedMoves.add( move );
+        this.simulateVerifiedMove( move );
     }
 
 
@@ -249,17 +252,8 @@ public class Game {
      * @return the move that was removed
      */
     public Move backupVerifiedMove() {
+        this.reverseSimulateVerifiedMove( this.verifiedMoves.get( this.verifiedMoves.size() - 1 ) );
         return this.verifiedMoves.remove( this.verifiedMoves.size() - 1 );
-    }
-
-
-    /**
-     * Getter for the verified moves
-     *
-     * @return the array list of verified moves
-     */
-    public ArrayList< Move > getVerifiedMoves() {
-        return this.verifiedMoves;
     }
 
 
@@ -283,6 +277,7 @@ public class Game {
         return this.verifiedMoves.remove( 0 );
     }
 
+
     /**
      * Function to determine if player one (Red) has any more moves available
      * checks each space for red pieces, then if any type of move is available for that piece
@@ -303,4 +298,50 @@ public class Game {
     public boolean anyMovesAvailableForPlayerTwo() {
         return mv.isAnyMoveAvailableForPlayerTwo( this );
     }
+
+
+    /**
+     * Simulates a verified move by moving the piece involved in the move.
+     * It does not remove captured piece (if any), that is done in board.doMove()
+     *
+     * @param move the move to simulate
+     */
+    private void simulateVerifiedMove( Move move ) {
+        Position start = move.getStart();
+        Position end = move.getEnd();
+
+        Piece oldPiece = this.getPieceAt( start );
+        Piece newPiece = new Piece( oldPiece.getType(), oldPiece.getColor() );
+        this.getSpaceAt( end ).setPiece( newPiece );
+        this.getSpaceAt( start ).removePiece();
+
+        if( ( newPiece.getColor() == Piece.Color.RED ) && ( end.getRow() == 7 ) ) {
+            newPiece.setPieceType( Piece.PieceType.KING );
+        }
+        if( ( newPiece.getColor() == Piece.Color.WHITE ) && ( end.getRow() == 0 ) ) {
+            newPiece.setPieceType( Piece.PieceType.KING );
+        }
+    }
+
+
+    /**
+     * Reverse simulates (un-simulates?) a verified move by moving the piece back to where it was.
+     *
+     * @param move the move to reverse simulate
+     */
+    private void reverseSimulateVerifiedMove( Move move ) {
+        Position start = move.getStart();
+        Position end = move.getEnd();
+
+        Piece oldPiece = this.getPieceAt( end );
+        Piece newPiece = new Piece( oldPiece.getType(), oldPiece.getColor() );
+        this.getSpaceAt( start ).setPiece( newPiece );
+        this.getSpaceAt( end ).removePiece();
+
+        if( ( newPiece.getType() == Piece.PieceType.KING ) &&
+            ( ( move.getMoveType() == Move.MoveType.JUMP ) || ( move.getMoveType() == Move.MoveType.SIMPLE ) ) ) {
+            newPiece.setPieceType( Piece.PieceType.SINGLE );
+        }
+    }
+
 }

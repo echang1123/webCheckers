@@ -10,15 +10,13 @@ package com.webcheckers.model;
 public class Piece {
 
     // Enums
-    public enum PieceType {
-        SINGLE, KING
-    } // type of the piece
+    public enum PieceType { SINGLE, KING } // type of the piece
 
     public enum Color {RED, WHITE} // color of the piece
 
     // Attributes
-    public PieceType pieceType; // the type of piece
-    public Color color; // the color of the piece
+    private PieceType pieceType; // the type of piece
+    private Color color; // the color of the piece
 
 
     /**
@@ -50,6 +48,26 @@ public class Piece {
      */
     public Color getColor() {
         return this.color;
+    }
+
+
+    /**
+     * Setter for the color
+     *
+     * @param color the piece color
+     */
+    public void setColor( Piece.Color color ) {
+        this.color = color;
+    }
+
+
+    /**
+     * Setter for the piece type
+     *
+     * @param pieceType the new piece type
+     */
+    public void setPieceType( Piece.PieceType pieceType ) {
+        this.pieceType = pieceType;
     }
 
 

@@ -1,3 +1,4 @@
+/*
 package com.webcheckers.model;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,11 +10,13 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+*/
 /**
  * The unit test suite for the PostValidateMoveRoute
  *
  * @author Hongda Lin
- */
+ *//*
+
 @Tag("Model-tier")
 public class GameTest {
     //attributes
@@ -134,3 +137,4 @@ public class GameTest {
         assertFalse(game.equals(player1));
     }
 }
+*/
