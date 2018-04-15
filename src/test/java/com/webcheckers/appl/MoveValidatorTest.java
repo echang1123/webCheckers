@@ -1,4 +1,4 @@
-/*
+
 package com.webcheckers.appl;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -7,12 +7,12 @@ import javafx.scene.control.Cell;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-*/
+
 /**
  * The unit test suite for the PostValidateMoveRoute
  *
  * @author Hongda Lin
- *//*
+ */
 
 @Tag("Appl-tier")
 public class MoveValidatorTest {
@@ -87,4 +87,4 @@ public class MoveValidatorTest {
     }
 
 }
-*/
+
