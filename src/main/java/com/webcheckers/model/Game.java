@@ -253,7 +253,7 @@ public class Game {
      */
     public Move backupVerifiedMove() {
         Move oldMove = this.verifiedMoves.get( this.verifiedMoves.size() - 1 );
-        Move reverseMove = new Move( oldMove.getStart(), oldMove.getEnd() );
+        Move reverseMove = new Move( oldMove.getEnd(), oldMove.getStart() );
         this.simulateVerifiedMove( reverseMove );
         return this.verifiedMoves.remove( this.verifiedMoves.size() - 1 );
     }
