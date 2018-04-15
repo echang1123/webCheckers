@@ -23,17 +23,17 @@ public class GameTest {
     //attributes
     private  static final  String name = "Hongda Lin";
     private  static final  String opponent = "Karthik";
-    private  static final  int  Row  = 2;
+    private  static final  int  Row  = 1;
     private  static final  int  Cell  = 3;
-    private static final int row1 = 3;
+    private static final int row1 = 0;
     private static final int cell1 = 4;
     private  static final  int whoseTurn = 0;
     private ArrayList< Move > validatedMoves;
     final Board board = new Board();
-    final Position position = new Position(Row,Cell);
+    final Position start = new Position(Row,Cell);
     final Position end = new Position(row1,cell1);
-    final Move move = new Move(position,end);
-    final Move move1 = new Move(position,end);
+    final Move move = new Move(start,end);
+    final Move move1 = new Move(start,end);
     final Player player1 = new Player(name);
     final Player player2 = new Player(opponent);
     private PlayerLobby playerLobby = new PlayerLobby();
@@ -42,11 +42,17 @@ public class GameTest {
     private Game.GameState gameState  = Game.GameState.in_progress;
     private MoveVerifier moveVerifier = new MoveVerifier();
 
-//    @Test
-//    public void addMove(){
+    @Test
+    public void addMove(){
+        Piece piece = new Piece(Piece.PieceType.SINGLE, Piece.Color.WHITE);
+        final Move move = new Move(start,end);
+        move.setMoveType(Move.MoveType.SIMPLE);
+        board.getSpace(start).setPiece(piece);
+//        game.getPieceAt(row1,cell1).setPieceType(Piece.PieceType.KING);
+//        game.getPieceAt(row1,cell1).setColor(Piece.Color.RED);
 //        game.addVerifiedMove(move);
 //        game.addVerifiedMove(move1);
-//    }
+    }
     @Test
     public void  test_Game(){
 
@@ -99,8 +105,8 @@ public class GameTest {
     }
     @Test
     public void test_GetSpaceAT1(){
-        assertNotNull(game.getSpaceAt(position));
-        assertEquals(game.getSpaceAt(position),board.getSpace(Row,Cell));
+        assertNotNull(game.getSpaceAt(start));
+        assertEquals(game.getSpaceAt(start),board.getSpace(Row,Cell));
     }
     @Test
     public void test_GetSpaceAT2(){
@@ -126,15 +132,10 @@ public class GameTest {
     }
 //    @Test
 //    public void test_backupValidatedMove(){
-//        game.getMoveVerifier();
-//        game.addVerifiedMove(move);
 //        assertEquals(game.backupVerifiedMove(),move);
 //   }
 //    @Test
 //    public void test_getFirstValidateMove(){
-//        move.getStart();
-//        move.getEnd();
-//       game.addVerifiedMove(move);
 //        assertEquals(game.getFirstVerifiedMove(),move);
 //    }
     @Test
@@ -153,15 +154,17 @@ public class GameTest {
     }
     @Test
     public void  test_isThereAKingPieceAt(){
-        assertFalse(game.isThereAKingPieceAt(row1,cell1));
+        Piece piece = new Piece(Piece.PieceType.KING, Piece.Color.WHITE);
+        board.getSpace(0,1).setPiece(piece);
+        assertTrue(game.isThereAKingPieceAt(0,1));
     }
     @Test
     public void  test_getPieceAt1(){
-        assertNull(game.getPieceAt(row1,cell1));
+        assertNotNull(game.getPieceAt(row1,cell1));
     }
     @Test
     public void test_getPieceAt2(){
-        assertNotNull(game.getSpaceAt(position));
+        assertNotNull(game.getSpaceAt(start));
     }
 }
 
