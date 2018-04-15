@@ -19,6 +19,7 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 import spark.Session;
+import spark.route.Routes;
 
 
 import java.util.Objects;
@@ -83,6 +84,8 @@ public class PostResignGameRoute implements Route {
             game.setWinner( game.getPlayerTwo() );
             if( game.getWhoseTurn() == 0 )
                 game.switchTurn();
+            httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
+            currentPlayer.removeOpponent();
             return new Message( "", Message.MessageType.info );
         }
 
@@ -93,6 +96,8 @@ public class PostResignGameRoute implements Route {
             game.setWinner( game.getPlayerOne() );
             if( game.getWhoseTurn() == 1 )
                 game.switchTurn();
+            httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
+            currentPlayer.removeOpponent();
             return new Message( "", Message.MessageType.info );
         }
 
