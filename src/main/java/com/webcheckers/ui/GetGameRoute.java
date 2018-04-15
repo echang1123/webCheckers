@@ -167,11 +167,6 @@ public class GetGameRoute implements Route {
         // - Render game.ftl
         else {
             game = gameLobby.findGame( currentPlayer ); // get the game that the player is in
-            boardModel = game.getBoard(); // get the board that has been updated with all moves made
-            Player playerOne = game.getPlayerOne();
-            Player playerTwo = game.getPlayerTwo();
-            vm.put( "redPlayer", playerOne );
-            vm.put( "whitePlayer", playerTwo );
 
             // if your opponent is null, they resigned so: remove your opponent, remove the game from the lobby
             // set inGame to false, create message that your opponent resigned, populate vm and render home
@@ -182,6 +177,13 @@ public class GetGameRoute implements Route {
 
                 response.redirect( RoutesAndKeys.HOME_URL );
             }
+
+            boardModel = game.getBoard(); // get the board that has been updated with all moves made
+            Player playerOne = game.getPlayerOne();
+            Player playerTwo = game.getPlayerTwo();
+            vm.put( "redPlayer", playerOne );
+            vm.put( "whitePlayer", playerTwo );
+
 
             int whoseTurn = game.getWhoseTurn();
             if( whoseTurn == 0 ) { // it is player one's turn (red)
