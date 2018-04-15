@@ -88,7 +88,7 @@ public class GetHomeRoute implements Route {
             // check if you have been selected for a game
             Game game = gameLobby.findGame( currentPlayer );
 
-            if( game != null && !game.isComplete() ) {
+            if( game != null ) {
                 response.redirect( RoutesAndKeys.GAME_URL );
             }
 
