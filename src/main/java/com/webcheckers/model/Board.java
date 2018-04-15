@@ -98,6 +98,15 @@ public class Board {
         Position start = move.getStart();
         Position end = move.getEnd();
 
+        Piece piece = this.getSpace( end ).getPiece();
+
+        if( ( piece.getColor() == Piece.Color.RED ) && ( end.getRow() == 7 ) ) {
+            piece.setPieceType( Piece.PieceType.KING );
+        }
+        if( ( piece.getColor() == Piece.Color.WHITE ) && ( end.getRow() == 0 ) ) {
+            piece.setPieceType( Piece.PieceType.KING );
+        }
+
         // if it is a jump move, remove the piece in the middle (the captured piece)
         if( ( move.getMoveType() == Move.MoveType.JUMP ) ||
             ( move.getMoveType() == Move.MoveType.KING_JUMP ) ) {

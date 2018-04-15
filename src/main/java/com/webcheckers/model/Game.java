@@ -315,12 +315,6 @@ public class Game {
         this.getSpaceAt( end ).setPiece( newPiece );
         this.getSpaceAt( start ).removePiece();
 
-        if( ( newPiece.getColor() == Piece.Color.RED ) && ( end.getRow() == 7 ) ) {
-            newPiece.setPieceType( Piece.PieceType.KING );
-        }
-        if( ( newPiece.getColor() == Piece.Color.WHITE ) && ( end.getRow() == 0 ) ) {
-            newPiece.setPieceType( Piece.PieceType.KING );
-        }
     }
 
 
@@ -338,10 +332,6 @@ public class Game {
         this.getSpaceAt( start ).setPiece( newPiece );
         this.getSpaceAt( end ).removePiece();
 
-        if( ( newPiece.getType() == Piece.PieceType.KING ) &&
-            ( ( move.getMoveType() == Move.MoveType.JUMP ) || ( move.getMoveType() == Move.MoveType.SIMPLE ) ) ) {
-            newPiece.setPieceType( Piece.PieceType.SINGLE );
-        }
     }
 
 }
