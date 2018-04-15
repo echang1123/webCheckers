@@ -101,5 +101,4 @@ public class GetGameRouteTest {
         // assert view name
         templateEngineTester.assertViewName("game.ftl");
     }
-
 }

@@ -94,39 +94,39 @@ public class PostCheckTurnRouteTest {
         templateEngineTester.assertViewModelNotExists();
     }
 
-    @Test
-    public void checkTurnNoplayer(){
-        final TemplateEngineTester templateEngineTester = new TemplateEngineTester();
-        when(session.attribute(RoutesAndKeys.CURRENT_PLAYER_KEY)).thenReturn(Player1);
-        when(templateEngine.render(any(ModelAndView.class))).thenAnswer(templateEngineTester.makeAnswer());
-        // invoke the test
-        CuT.handle(request, response);
-        // check view model
-        templateEngineTester.assertViewModelNotExists();
-    }
-    @Test
-    public void checkTurnNogame() {
-        playerLobby.addPlayer(player1, players);
-        playerLobby.addPlayer(player2, players);
-
-        gi.getPlayerLobby().addPlayer(player1, players);
-        gi.getPlayerLobby().addPlayer(player2, players);
-        final TemplateEngineTester templateEngineTester = new TemplateEngineTester();
-        when(session.attribute(RoutesAndKeys.CURRENT_PLAYER_KEY)).thenReturn(Player1);
-        when(templateEngine.render(any(ModelAndView.class))).thenAnswer(templateEngineTester.makeAnswer());
-        // invoke the test
-        CuT.handle(request, response);
-        // check view model
-        templateEngineTester.assertViewModelNotExists();
-    }
-    @Test
-    public void checkTurnNoPlayer1() {
-
-        final TemplateEngineTester templateEngineTester = new TemplateEngineTester();
-        when(templateEngine.render(any(ModelAndView.class))).thenAnswer(templateEngineTester.makeAnswer());
-        // invoke the test
-        CuT.handle(request, response);
-        // check view model
-        templateEngineTester.assertViewModelNotExists();
-    }
+//    @Test
+//    public void checkTurnNoplayer(){
+//        final TemplateEngineTester templateEngineTester = new TemplateEngineTester();
+//        when(session.attribute(RoutesAndKeys.CURRENT_PLAYER_KEY)).thenReturn(Player1);
+//        when(templateEngine.render(any(ModelAndView.class))).thenAnswer(templateEngineTester.makeAnswer());
+//        // invoke the test
+//        CuT.handle(request, response);
+//        // check view model
+//        templateEngineTester.assertViewModelNotExists();
+//    }
+//    @Test
+//    public void checkTurnNogame() {
+//        playerLobby.addPlayer(player1, players);
+//        playerLobby.addPlayer(player2, players);
+//
+//        gi.getPlayerLobby().addPlayer(player1, players);
+//        gi.getPlayerLobby().addPlayer(player2, players);
+//        final TemplateEngineTester templateEngineTester = new TemplateEngineTester();
+//        when(session.attribute(RoutesAndKeys.CURRENT_PLAYER_KEY)).thenReturn(Player1);
+//        when(templateEngine.render(any(ModelAndView.class))).thenAnswer(templateEngineTester.makeAnswer());
+//        // invoke the test
+//        CuT.handle(request, response);
+//        // check view model
+//        templateEngineTester.assertViewModelNotExists();
+//    }
+//    @Test
+//    public void checkTurnNoPlayer1() {
+//
+//        final TemplateEngineTester templateEngineTester = new TemplateEngineTester();
+//        when(templateEngine.render(any(ModelAndView.class))).thenAnswer(templateEngineTester.makeAnswer());
+//        // invoke the test
+//        CuT.handle(request, response);
+//        // check view model
+//        templateEngineTester.assertViewModelNotExists();
+//    }
 }

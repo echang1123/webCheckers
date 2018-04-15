@@ -21,7 +21,7 @@ public class BoardTest {
     private static final int whitePiecesInPlay = 12;
     final Position position = new Position(row,col);
     final Position start = new Position(row1,cell);
-    private Move move ;
+    private Move move= new Move(position,start); ;
     final Space space = new Space(row,null,true);
     private Board board;
 
@@ -29,9 +29,6 @@ public class BoardTest {
     @BeforeEach
     public void test_constructor(){
         board = new Board();
-        final Move move = new Move(position,start);
-        final Move.MoveType moveType =  Move.MoveType.JUMP;
-        move.setMoveType(moveType);
         assertNotNull(board);
     }
     @Test
@@ -46,10 +43,12 @@ public class BoardTest {
     }
     @Test
     public void test_deMove(){
-        final Move move = new Move(position,start);
-        move.getStart();
-        move.getEnd();
-        board.doMove(move);
+        final Move.MoveType moveType =  Move.MoveType.JUMP;
+        final Move moves1 = new Move(position,start);
+        moves1.setMoveType(moveType);
+        moves1.getStart();
+        moves1.getEnd();
+        board.doMove(moves1);
         assertNotNull(board.getSpace(position));
     }
     @Test

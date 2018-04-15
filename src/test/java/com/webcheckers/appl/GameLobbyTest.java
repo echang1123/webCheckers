@@ -39,6 +39,7 @@ public class GameLobbyTest {
     }
     @Test
     public void Test_removeGame(){
+        gameLobby.addGame(gameN);
         assertNotNull(gameLobby.removeGame(gameN));
         assertFalse(gameLobby.removeGame(gameN));
     }

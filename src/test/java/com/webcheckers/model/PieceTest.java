@@ -56,6 +56,14 @@ public class PieceTest {
 		CuT = new Piece(SINGLE_PIECE, WHITE_COLOR); // try the other color
 		assertEquals(WHITE_COLOR, CuT.getColor());
 	}
-
-
+	@Test
+	public void testSetColor(){
+		final Piece CuT = new Piece(SINGLE_PIECE, RED_COLOR);
+		CuT.setColor(RED_COLOR);
+	}
+	@Test
+	public void testSetPieceType(){
+		final Piece CuT = new Piece(SINGLE_PIECE, RED_COLOR);
+		CuT.setPieceType(SINGLE_PIECE);
+	}
 }
