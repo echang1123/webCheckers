@@ -60,6 +60,16 @@ public class Game {
 
 
     /**
+     * Getter for the game state
+     *
+     * @return the state of the game
+     */
+    public GameState getGameState() {
+        return this.gameState;
+    }
+
+
+    /**
      * Setter for the state of the game
      *
      * @param gameState the new state of the game

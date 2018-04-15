@@ -106,6 +106,8 @@ public class PostSubmitTurnRoute implements Route {
         if( wonGame ) {
             currentPlayer.removeOpponent();
             game.setGameState( Game.GameState.complete );
+            game.switchTurn();
+            response.redirect( RoutesAndKeys.HOME_URL );
         }
 
         // all validated moves were submitted successfully

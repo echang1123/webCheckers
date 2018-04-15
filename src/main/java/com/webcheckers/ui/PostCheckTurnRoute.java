@@ -80,8 +80,13 @@ public class PostCheckTurnRoute implements Route {
             response.redirect( RoutesAndKeys.HOME_URL );
         }
 
-        if( game.isComplete() ) {
-            return new Message( "true", Message.MessageType.info );
+        if( game.getGameState() != null ) {
+            if( game.isComplete() ) {
+                return new Message( "true", Message.MessageType.info );
+            }
+        }
+        else {
+            System.out.println( "Game State was NULL" );
         }
 
         if( currentPlayer.equals( game.getPlayerOne() ) ) {
