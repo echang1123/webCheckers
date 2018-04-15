@@ -252,7 +252,9 @@ public class Game {
      * @return the move that was removed
      */
     public Move backupVerifiedMove() {
-        this.reverseSimulateVerifiedMove( this.verifiedMoves.get( this.verifiedMoves.size() - 1 ) );
+        Move oldMove = this.verifiedMoves.get( this.verifiedMoves.size() - 1 );
+        Move reverseMove = new Move( oldMove.getStart(), oldMove.getEnd() );
+        this.simulateVerifiedMove( reverseMove );
         return this.verifiedMoves.remove( this.verifiedMoves.size() - 1 );
     }
 
@@ -315,33 +317,6 @@ public class Game {
         this.getSpaceAt( end ).setPiece( newPiece );
         this.getSpaceAt( start ).removePiece();
 
-        if( ( newPiece.getColor() == Piece.Color.RED ) && ( end.getRow() == 7 ) ) {
-            newPiece.setPieceType( Piece.PieceType.KING );
-        }
-        if( ( newPiece.getColor() == Piece.Color.WHITE ) && ( end.getRow() == 0 ) ) {
-            newPiece.setPieceType( Piece.PieceType.KING );
-        }
-    }
-
-
-    /**
-     * Reverse simulates (un-simulates?) a verified move by moving the piece back to where it was.
-     *
-     * @param move the move to reverse simulate
-     */
-    private void reverseSimulateVerifiedMove( Move move ) {
-        Position start = move.getStart();
-        Position end = move.getEnd();
-
-        Piece oldPiece = this.getPieceAt( end );
-        Piece newPiece = new Piece( oldPiece.getType(), oldPiece.getColor() );
-        this.getSpaceAt( start ).setPiece( newPiece );
-        this.getSpaceAt( end ).removePiece();
-
-        if( ( newPiece.getType() == Piece.PieceType.KING ) &&
-            ( ( move.getMoveType() == Move.MoveType.JUMP ) || ( move.getMoveType() == Move.MoveType.SIMPLE ) ) ) {
-            newPiece.setPieceType( Piece.PieceType.SINGLE );
-        }
     }
 
 }
