@@ -82,7 +82,7 @@ public class PostCheckTurnRoute implements Route {
 
         if( game.getGameState() != null ) {
             if( game.isComplete() ) {
-                return new Message( "true", Message.MessageType.info );
+                response.redirect( RoutesAndKeys.HOME_URL );
             }
         }
         else {

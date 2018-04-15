@@ -172,9 +172,10 @@ public class GetGameRoute implements Route {
             // set inGame to false, create message that your opponent resigned, populate vm and render home
             if( game.isComplete() ) {
                 currentPlayer.removeOpponent();
-                gameLobby.removeGame( game );
                 httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
-
+                if( !currentPlayer.equals( game.getWinner() ) ) {
+                    gameLobby.removeGame( game );
+                }
                 response.redirect( RoutesAndKeys.HOME_URL );
             }
 

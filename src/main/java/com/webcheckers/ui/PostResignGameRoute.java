@@ -80,6 +80,7 @@ public class PostResignGameRoute implements Route {
         if( game.getPlayerOne().equals( currentPlayer ) ) {
             httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
             game.setGameState( Game.GameState.complete );
+            game.setWinner( game.getPlayerTwo() );
             if( game.getWhoseTurn() == 0 )
                 game.switchTurn();
             return new Message( "", Message.MessageType.info );
@@ -89,6 +90,7 @@ public class PostResignGameRoute implements Route {
         else if( game.getPlayerTwo().equals( currentPlayer ) ) {
             httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
             game.setGameState( Game.GameState.complete );
+            game.setWinner( game.getPlayerOne() );
             if( game.getWhoseTurn() == 1 )
                 game.switchTurn();
             return new Message( "", Message.MessageType.info );
