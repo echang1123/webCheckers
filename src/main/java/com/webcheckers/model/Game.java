@@ -252,9 +252,7 @@ public class Game {
      * @return the move that was removed
      */
     public Move backupVerifiedMove() {
-        Move oldMove = this.verifiedMoves.get( this.verifiedMoves.size() - 1 );
-        Move reverseMove = new Move( oldMove.getEnd(), oldMove.getStart() );
-        this.simulateVerifiedMove( reverseMove );
+        this.reverseSimulateVerifiedMove( this.verifiedMoves.get( this.verifiedMoves.size() - 1 ) );
         return this.verifiedMoves.remove( this.verifiedMoves.size() - 1 );
     }
 
@@ -315,8 +313,14 @@ public class Game {
         Piece oldPiece = this.getPieceAt( start );
         Piece newPiece = new Piece( oldPiece.getType(), oldPiece.getColor() );
         this.getSpaceAt( end ).setPiece( newPiece );
-        this.getSpaceAt( start ).removePiece();
 
+    }
+
+
+    private void reverseSimulateVerifiedMove( Move move ) {
+        Position start = move.getStart();
+        Position end = move.getEnd();
+        this.getSpaceAt( end ).removePiece();
     }
 
 }
