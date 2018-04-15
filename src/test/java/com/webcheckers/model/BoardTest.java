@@ -44,11 +44,11 @@ public class BoardTest {
     @Test
     public void test_deMove(){
         final Move.MoveType moveType =  Move.MoveType.JUMP;
-        move.setMoveType(moveType);
-        final Move moves = new Move(position,start);
-        moves.getStart();
-        moves.getEnd();
-        board.doMove(moves);
+        final Move moves1 = new Move(position,start);
+        moves1.setMoveType(moveType);
+        moves1.getStart();
+        moves1.getEnd();
+        board.doMove(moves1);
         assertNotNull(board.getSpace(position));
     }
     @Test

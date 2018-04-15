@@ -56,7 +56,10 @@ public class PlayerTest {
     }
     @Test
     public void  removeOppoentTest(){
+        Player CuT1 = new Player(null);
         Player CuT = new Player(opponent);
+        CuT1.addOpponent(null);
+        CuT1.removeOpponent();
         CuT.removeOpponent();
         assertFalse(isIngame);
         assertNotNull(opponent);

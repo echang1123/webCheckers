@@ -82,7 +82,6 @@ public class PostValidateMoveRouteTest {
 
         final String dataString = " ";
         jsonUtils.fromJson( dataString, Move.class );
-
         final Move move = new Move(start,end);
         games.addVerifiedMove(move);
         games.getMoveVerifier();
