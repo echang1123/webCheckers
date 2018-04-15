@@ -171,11 +171,15 @@ public class GetGameRoute implements Route {
             // if your opponent is null, they resigned so: remove your opponent, remove the game from the lobby
             // set inGame to false, create message that your opponent resigned, populate vm and render home
             if( game.isComplete() ) {
-                currentPlayer.removeOpponent();
-                gameLobby.removeGame( game );
                 httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
-
-                response.redirect( RoutesAndKeys.HOME_URL );
+                if( currentPlayer.equals( game.getWinner() ) ) {
+                    Message victoryMessage = new Message( "You won!", Message.MessageType.info );
+                    vm.put( RoutesAndKeys.MESSAGE_KEY, victoryMessage );
+                }
+                else {
+                    Message defeatMessage = new Message( "You lost!", Message.MessageType.info );
+                    vm.put( RoutesAndKeys.MESSAGE_KEY, defeatMessage );
+                }
             }
 
             boardModel = game.getBoard(); // get the board that has been updated with all moves made
@@ -183,7 +187,6 @@ public class GetGameRoute implements Route {
             Player playerTwo = game.getPlayerTwo();
             vm.put( "redPlayer", playerOne );
             vm.put( "whitePlayer", playerTwo );
-
 
             int whoseTurn = game.getWhoseTurn();
             if( whoseTurn == 0 ) { // it is player one's turn (red)

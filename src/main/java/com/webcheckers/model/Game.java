@@ -27,6 +27,7 @@ public class Game {
     private Board board; // the board
     private Player playerOne; // player 1
     private Player playerTwo; // player 2
+    private Player winner;
     private int whoseTurn; // 0 is for player1 and 1 is for player2
     private ArrayList< Move > verifiedMoves; // keeps track of moves that have been validated
     private final MoveVerifier mv;
@@ -47,6 +48,7 @@ public class Game {
         this.verifiedMoves = new ArrayList<>();
         this.mv = new MoveVerifier();
         this.gameState = GameState.in_progress;
+        this.winner = null;
     }
 
     /**
@@ -56,6 +58,36 @@ public class Game {
      */
     public int getWhoseTurn() {
         return this.whoseTurn;
+    }
+
+
+    /**
+     * Getter for the game state
+     *
+     * @return the state of the game
+     */
+    public GameState getGameState() {
+        return this.gameState;
+    }
+
+
+    /**
+     * Setter for the winner
+     *
+     * @param winner the winner
+     */
+    public void setWinner( Player winner ) {
+        this.winner = winner;
+    }
+
+
+    /**
+     * Getter for the winner
+     *
+     * @return the winner
+     */
+    public Player getWinner() {
+        return this.winner;
     }
 
 

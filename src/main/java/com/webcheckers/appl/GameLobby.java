@@ -71,7 +71,8 @@ public class GameLobby {
     public Game findGame( Player player ) {
         for( Game game : this.games ) {
             if( game.contains( player ) ) {
-                return game;
+                if( !game.isComplete() )
+                    return game;
             }
         }
         return null;
