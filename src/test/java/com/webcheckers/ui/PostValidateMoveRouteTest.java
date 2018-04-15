@@ -1,4 +1,4 @@
-/*
+
 package com.webcheckers.ui;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
@@ -20,12 +20,12 @@ import spark.TemplateEngine;
 
 import java.util.HashMap;
 
-*/
+
 /**
  * The unit test suite for the PostValidateMoveRoute
  *
  * @author Hongda Lin
- *//*
+ */
 
 @Tag("UI-tier")
 public class PostValidateMoveRouteTest {
@@ -56,10 +56,10 @@ public class PostValidateMoveRouteTest {
     final Position end  = new Position(row,col);
     private Move move = new Move(start,end);
 
-    */
+
 /**
      * Create all the mock objects before running the tests
-     *//*
+     */
 
     @BeforeEach
     public void setup() {
@@ -84,7 +84,7 @@ public class PostValidateMoveRouteTest {
         jsonUtils.fromJson( dataString, Move.class );
 
         final Move move = new Move(start,end);
-        games.addValidatedMove(move);
+        games.addVerifiedMove(move);
         games.getMoveVerifier();
 
         when(session.attribute(RoutesAndKeys.CURRENT_PLAYER_KEY)).thenReturn(Player1);
@@ -97,4 +97,4 @@ public class PostValidateMoveRouteTest {
         templateEngineTester.assertViewModelNotExists();
     }
 }
-*/
+

@@ -1,7 +1,8 @@
-/*
+
 package com.webcheckers.model;
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.webcheckers.appl.MoveVerifier;
 import com.webcheckers.appl.PlayerLobby;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -10,12 +11,12 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-*/
+
 /**
  * The unit test suite for the PostValidateMoveRoute
  *
  * @author Hongda Lin
- *//*
+ */
 
 @Tag("Model-tier")
 public class GameTest {
@@ -38,11 +39,13 @@ public class GameTest {
     private PlayerLobby playerLobby = new PlayerLobby();
     private final HashMap<String,Object> player = new HashMap<>();
     private Game game = new Game(board,player1,player2);
+    private Game.GameState gameState  = Game.GameState.in_progress;
+    private MoveVerifier moveVerifier = new MoveVerifier();
 
     @Test
     public void addMove(){
-        game.addValidatedMove(move);
-        game.addValidatedMove(move1);
+        game.addVerifiedMove(move);
+        game.addVerifiedMove(move1);
     }
     @Test
     public void  test_Game(){
@@ -81,6 +84,19 @@ public class GameTest {
         assertEquals(game.getWhoseTurn(),whoseTurn);
     }
     @Test
+    public void test_SetGamestate(){
+        game.setGameState(gameState);
+    }
+    @Test
+    public void test_isComplete(){
+        game.setGameState(gameState);
+        assertFalse(game.isComplete());
+    }
+    @Test
+    public void test_getVerifier(){
+        assertNotNull(game.getMoveVerifier());
+    }
+    @Test
     public void test_GetSpaceAT1(){
         assertNotNull(game.getSpaceAt(position));
         assertEquals(game.getSpaceAt(position),board.getSpace(Row,Cell));
@@ -101,34 +117,29 @@ public class GameTest {
     }
     @Test
     public void test_addValidMove(){
-        game.addValidatedMove(move);
+        game.addVerifiedMove(move);
     }
     @Test
     public void test_outOfValidatedMove(){
-        assertTrue(game.outOfValidatedMoves());
+        assertTrue(game.outOfVerifiedMoves());
     }
     @Test
     public void test_backupValidatedMove(){
         addMove();
-        assertEquals(game.backupValidatedMove(),move1);
+        assertEquals(game.backupVerifiedMove(),move1);
    }
-    @Test
-    public void test_getValidatedMove(){
-        validatedMoves = game.getValidatedMoves();
-        assertNotNull(validatedMoves);
-    }
     @Test
     public void test_getFirstValidateMove(){
         addMove();
-        assertEquals(game.getFirstValidatedMove(),move);
+        assertEquals(game.getFirstVerifiedMove(),move);
     }
     @Test
     public void test_noMovesAvailableForPlayerOne(){
-        assertFalse(game.noMovesAvailableForPlayerOne());
+        assertFalse(game.anyMovesAvailableForPlayerOne());
     }
     @Test
     public void test_noMovesAvailableForPlayerTwo(){
-        assertFalse(game.noMovesAvailableForPlayerTwo());
+        assertFalse(game.anyMovesAvailableForPlayerTwo());
     }
     @Test
     public void test_Euqals(){
@@ -136,5 +147,17 @@ public class GameTest {
         playerLobby.addPlayer(player2,player);
         assertFalse(game.equals(player1));
     }
+    @Test
+    public void  test_isThereAKingPieceAt(){
+        assertFalse(game.isThereAKingPieceAt(row1,cell1));
+    }
+    @Test
+    public void  test_getPieceAt1(){
+        assertNotNull(game.getPieceAt(row1,cell1));
+    }
+    @Test
+    public void test_getPieceAt2(){
+        assertNotNull(game.getSpaceAt(position));
+    }
 }
-*/
+
