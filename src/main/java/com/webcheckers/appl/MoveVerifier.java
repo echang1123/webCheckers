@@ -691,6 +691,7 @@ public class MoveVerifier {
                 return true;
             }
         }
+        this.reset();
         return false;
     }
 
