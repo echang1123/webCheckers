@@ -65,6 +65,11 @@
           <fieldset id="game-toolbar">
             <legend>Controls</legend>
             <div class="toolbar"></div>
+              <br/>
+              <form action = "" method = "post">
+                  <input type="submit" class="btn btn-default" value="Player Help" />
+              </form>
+              </form>
           </fieldset>
           
         </div>
