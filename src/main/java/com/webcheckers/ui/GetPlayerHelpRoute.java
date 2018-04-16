@@ -50,7 +50,7 @@ public class GetPlayerHelpRoute implements Route {
      *
      * @param request the HTTP request
      * @param response the HTTP response
-     * @return
+     * @return the rendering by the template engine
      */
     @Override
     public Object handle( Request request, Response response ) {
