@@ -66,7 +66,7 @@
             <legend>Controls</legend>
             <div class="toolbar"></div>
                     <br/>
-                      <button class="button" value="Player Help" onClick="window.open('http://localhost:4567/playerHelp','Player Help', 'resizable,height=300,width=300');">
+                      <button class="button" value="Player Help" onClick="window.open('http://localhost:4567/playerHelp','Player Help', 'resizable,height=800,width=500');">
                           <span class="icon">Player Help</span>
                       </button>
           </fieldset>
