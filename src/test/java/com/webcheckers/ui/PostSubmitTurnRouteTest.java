@@ -76,7 +76,7 @@ public class PostSubmitTurnRouteTest {
         gameLobby = new GameLobby();
         space = new Space(0,null,false);
         message = new Message(" ",Message.MessageType.error);
-        CuT = new PostSubmitTurnRoute(templateEngine,gi);
+        CuT = new PostSubmitTurnRoute( gi );
     }
     @Test
     public void SubmitTurn(){

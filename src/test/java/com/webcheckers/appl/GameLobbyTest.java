@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.webcheckers.model.Board;
 import com.webcheckers.model.Game;
 import com.webcheckers.model.Player;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -40,8 +39,8 @@ public class GameLobbyTest {
     @Test
     public void Test_removeGame(){
         gameLobby.addGame(gameN);
-        assertNotNull(gameLobby.removeGame(gameN));
-        assertFalse(gameLobby.removeGame(gameN));
+        assertNotNull(gameLobby.moveGameToCompleted(gameN));
+        assertFalse(gameLobby.moveGameToCompleted(gameN));
     }
     @Test
     public void Test_findGame(){
