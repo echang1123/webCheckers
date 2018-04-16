@@ -92,7 +92,7 @@ public class GetPlayerHelpRoute implements Route {
 
         Map< String, Object > vm = new HashMap<>();
         MoveVerifier moveVerifier = game.getMoveVerifier();
-        ArrayList< Move > validMoves = new ArrayList<>();
+        ArrayList< Move > validMoves;
         if( currentPlayer.equals( game.getPlayerOne() ) ) {
             vm.put( RoutesAndKeys.IMAGE_SRC_KEY, PLAYER_ONE_BOARD_IMAGE_SRC );
             validMoves = moveVerifier.getValidMoves( game, Piece.Color.RED );
