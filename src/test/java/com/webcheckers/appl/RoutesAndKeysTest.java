@@ -1,16 +1,8 @@
 package com.webcheckers.appl;
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.webcheckers.model.Board;
-import com.webcheckers.model.Game;
-import com.webcheckers.model.Player;
-import net.bytebuddy.asm.Advice;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * The unit test suite for the PostValidateMoveRoute
@@ -59,7 +51,7 @@ public class RoutesAndKeysTest {
     }
     @Test
     public void test_CURRENT_PLAYER_KEY(){
-        assertEquals(routesAndKeys.CURRENT_PLAYER_KEY,"currentPlayer");
+        assertEquals(routesAndKeys.CURRENT_PLAYER_NAME_KEY,"currentPlayer");
     }
     @Test
     public void test_PLAYERS_KEY(){

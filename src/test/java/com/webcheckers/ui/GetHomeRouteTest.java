@@ -9,18 +9,12 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.webcheckers.appl.GlobalInformation;
-import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.appl.RoutesAndKeys;
 import com.webcheckers.model.Player;
-import jdk.nashorn.internal.ir.RuntimeNode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.mockito.internal.matchers.NotNull;
 import spark.*;
-
-import javax.print.attribute.standard.RequestingUserName;
-import java.util.HashMap;
 
 
 /**
@@ -69,7 +63,7 @@ public class GetHomeRouteTest {
 
     @Test
     public void new_session(){
-        when(session.attribute(RoutesAndKeys.CURRENT_PLAYER_KEY)).thenReturn(Player1);
+        when(session.attribute(RoutesAndKeys.CURRENT_PLAYER_NAME_KEY )).thenReturn(Player1);
 
         testHelper = new TemplateEngineTester();
         when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
@@ -85,7 +79,7 @@ public class GetHomeRouteTest {
         testHelper.assertViewModelAttribute("title","Welcome!");
 
         //because player is NOT signed in
-        testHelper.assertViewModelAttribute(RoutesAndKeys.CURRENT_PLAYER_KEY,null);
+        testHelper.assertViewModelAttribute(RoutesAndKeys.CURRENT_PLAYER_NAME_KEY,null);
         testHelper.assertViewModelAttribute(RoutesAndKeys.SIGNED_IN_KEY, false);
         testHelper.assertViewModelAttribute(RoutesAndKeys.PLAYERS_KEY, lobby.getPlayerLobby().getPlayers());
 
@@ -109,8 +103,8 @@ public class GetHomeRouteTest {
         testHelper.assertViewModelExists();
         testHelper.assertViewModelIsaMap();
         //   * model contains all necessary View-Model data
-        String currentPlayerName = session.attribute(RoutesAndKeys.CURRENT_PLAYER_KEY);
-        testHelper.assertViewModelAttribute(RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName);
+        String currentPlayerName = session.attribute(RoutesAndKeys.CURRENT_PLAYER_NAME_KEY );
+        testHelper.assertViewModelAttribute(RoutesAndKeys.CURRENT_PLAYER_NAME_KEY, currentPlayerName);
         testHelper.assertViewModelAttribute(RoutesAndKeys.PLAYERS_KEY, lobby.getPlayerLobby());
         testHelper.assertViewModelAttribute(RoutesAndKeys.SIGNED_IN_KEY, false);
         testHelper.assertViewName("home.ftl");

@@ -65,7 +65,7 @@ public class PostCheckTurnRoute implements Route {
         PlayerLobby playerLobby = gi.getPlayerLobby();
         GameLobby gameLobby = gi.getGameLobby();
 
-        String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER_KEY );
+        String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER_NAME_KEY );
         if( currentPlayerName == null ) {
             response.redirect( RoutesAndKeys.HOME_URL );
         }
@@ -80,18 +80,21 @@ public class PostCheckTurnRoute implements Route {
             response.redirect( RoutesAndKeys.HOME_URL );
         }
 
-        if( currentPlayer.equals( game.getPlayerOne() ) ) {
-            if( game.getWhoseTurn() == 0 )
-                return new Message( "true", Message.MessageType.info );
-            else
-                return new Message( "false", Message.MessageType.info );
-        } else {
+        else {
+            if( currentPlayer.equals( game.getPlayerOne() ) ) {
+                if( game.getWhoseTurn() == 0 )
+                    return new Message( "true", Message.MessageType.info );
+                else
+                    return new Message( "false", Message.MessageType.info );
+            } else {
 
-            if( game.getWhoseTurn() == 0 )
-                return new Message( "false", Message.MessageType.info );
-            else
-                return new Message( "true", Message.MessageType.info );
+                if( game.getWhoseTurn() == 0 )
+                    return new Message( "false", Message.MessageType.info );
+                else
+                    return new Message( "true", Message.MessageType.info );
+            }
         }
+        return new Message( "", Message.MessageType.error );
     }
-}
 
+}

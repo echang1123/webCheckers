@@ -11,6 +11,7 @@
 package com.webcheckers.ui;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -78,7 +79,7 @@ public class GetHomeRoute implements Route {
             vm.put( RoutesAndKeys.SIGNED_IN_KEY, false );
             vm.put( RoutesAndKeys.PLAYERS_KEY, playerLobby.getPlayers() );
         } else { // player is signed in
-            String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER_KEY );
+            String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER_NAME_KEY );
             HashMap< String, Player > players = playerLobby.getPlayers();
             Player currentPlayer = players.get( currentPlayerName );
 
@@ -86,14 +87,15 @@ public class GetHomeRoute implements Route {
             otherPlayers.remove( currentPlayerName ); // remove the current player, so doesn't get shown
 
             // check if you have been selected for a game
-            Game game = gameLobby.findGame( currentPlayer );
-
-            if( game != null ) {
-                response.redirect( RoutesAndKeys.GAME_URL );
+            ArrayList< Game > games = gameLobby.findGames( currentPlayer );
+            for( Game game : games ) {
+                if( !game.isComplete() ) {
+                    response.redirect( RoutesAndKeys.GAME_URL );
+                }
             }
 
             // you have not been selected for a game, display home ( populate the vm )
-            vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName );
+            vm.put( RoutesAndKeys.CURRENT_PLAYER_NAME_KEY, currentPlayerName );
             vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
             vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
 

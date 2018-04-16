@@ -1,6 +1,5 @@
 
 package com.webcheckers.ui;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
@@ -10,8 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import org.mockito.internal.matchers.NotNull;
-import spark.HaltException;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -86,7 +83,7 @@ public class PostValidateMoveRouteTest {
         games.addVerifiedMove(move);
         games.getMoveVerifier();
 
-        when(session.attribute(RoutesAndKeys.CURRENT_PLAYER_KEY)).thenReturn(Player1);
+        when(session.attribute(RoutesAndKeys.CURRENT_PLAYER_NAME_KEY )).thenReturn(Player1);
         //when(global.getGameLobby().findGame(player1)).thenReturn(game);
         final TemplateEngineTester templateEngineTester = new TemplateEngineTester();
         when(templateEngine.render(any(ModelAndView.class))).thenAnswer(templateEngineTester.makeAnswer());

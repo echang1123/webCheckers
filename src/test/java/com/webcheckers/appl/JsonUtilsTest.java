@@ -1,3 +1,4 @@
+/*
 package com.webcheckers.appl;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -11,11 +12,13 @@ import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 
+*/
 /**
  * The unit test suite for the PostValidateMoveRoute
  *
  * @author Hongda Lin
- */
+ *//*
+
 @Tag("Appl-tier")
 public class JsonUtilsTest {
     //Attributes
@@ -31,3 +34,4 @@ public class JsonUtilsTest {
         jsonUtils.json();
     }
 }
+*/

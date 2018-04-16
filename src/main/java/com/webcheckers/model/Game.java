@@ -247,7 +247,7 @@ public class Game {
     public boolean equals( Object o ) {
         if( o != null ) {
             if( o instanceof Game ) {
-                Game g = ( Game ) o;
+                Game g = ( Game )o;
                 return ( this.playerOne.equals( g.getPlayerOne() ) && this.playerTwo.equals( g.getPlayerTwo() ) );
             }
         }

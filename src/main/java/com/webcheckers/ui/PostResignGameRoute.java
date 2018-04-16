@@ -19,7 +19,6 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 import spark.Session;
-import spark.route.Routes;
 
 
 import java.util.Objects;
@@ -60,7 +59,7 @@ public class PostResignGameRoute implements Route {
         PlayerLobby playerLobby = gi.getPlayerLobby();
         GameLobby gameLobby = gi.getGameLobby();
 
-        String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER_KEY );
+        String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER_NAME_KEY );
         if( currentPlayerName == null ) {
             return new Message( "", Message.MessageType.error );
         }
@@ -82,10 +81,10 @@ public class PostResignGameRoute implements Route {
             httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
             game.setGameState( Game.GameState.complete );
             game.setWinner( game.getPlayerTwo() );
-            if( game.getWhoseTurn() == 0 )
-                game.switchTurn();
             httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
             currentPlayer.removeOpponent();
+            if( game.getWhoseTurn() == 0 )
+                game.switchTurn();
             return new Message( "", Message.MessageType.info );
         }
 
@@ -94,10 +93,10 @@ public class PostResignGameRoute implements Route {
             httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
             game.setGameState( Game.GameState.complete );
             game.setWinner( game.getPlayerOne() );
-            if( game.getWhoseTurn() == 1 )
-                game.switchTurn();
             httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
             currentPlayer.removeOpponent();
+            if( game.getWhoseTurn() == 1 )
+                game.switchTurn();
             return new Message( "", Message.MessageType.info );
         }
 
