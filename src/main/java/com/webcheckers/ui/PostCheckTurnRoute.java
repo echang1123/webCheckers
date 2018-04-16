@@ -80,19 +80,21 @@ public class PostCheckTurnRoute implements Route {
             response.redirect( RoutesAndKeys.HOME_URL );
         }
 
-        System.out.println( game.getPlayerOne() == null );
-        if( currentPlayer.equals( game.getPlayerOne() ) ) {
-            if( game.getWhoseTurn() == 0 )
-                return new Message( "true", Message.MessageType.info );
-            else
-                return new Message( "false", Message.MessageType.info );
-        } else {
+        else {
+            if( currentPlayer.equals( game.getPlayerOne() ) ) {
+                if( game.getWhoseTurn() == 0 )
+                    return new Message( "true", Message.MessageType.info );
+                else
+                    return new Message( "false", Message.MessageType.info );
+            } else {
 
-            if( game.getWhoseTurn() == 0 )
-                return new Message( "false", Message.MessageType.info );
-            else
-                return new Message( "true", Message.MessageType.info );
+                if( game.getWhoseTurn() == 0 )
+                    return new Message( "false", Message.MessageType.info );
+                else
+                    return new Message( "true", Message.MessageType.info );
+            }
         }
+        return new Message( "", Message.MessageType.error );
     }
-}
 
+}

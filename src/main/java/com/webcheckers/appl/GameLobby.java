@@ -29,6 +29,7 @@ public class GameLobby {
      */
     public GameLobby() {
         this.gamesInProgress = new ArrayList<>();
+        this.completedGames = new ArrayList<>();
     }
 
 
@@ -48,14 +49,15 @@ public class GameLobby {
 
 
     /**
-     * Removes a game from the game lobby if it exists
+     * Removes a game from the game lobby if it exists and moves it to completed games
      *
-     * @param game the game to remove
-     * @return boolean whether the game was successfully removed from the lobby
+     * @param game the game to move
+     * @return boolean whether the game was successfully moved
      */
-    public boolean removeGame( Game game ) {
+    public boolean moveGameToCompleted( Game game ) {
         if( this.gamesInProgress.contains( game ) ) {
-            this.gamesInProgress.remove( game );
+            int gameIndex = this.gamesInProgress.indexOf( game );
+            this.completedGames.add( this.gamesInProgress.remove( gameIndex ) );
             return true;
         }
         return false;
@@ -69,13 +71,31 @@ public class GameLobby {
      * @return the game that the player is in, or null if no such game exists
      */
     public Game findGame( Player player ) {
-        for( Game game : this.gamesInProgress ) {
+        for( int i = this.gamesInProgress.size() - 1; i >= 0; i-- ) {
+            Game game = this.gamesInProgress.get( i );
             if( game.contains( player ) ) {
-                if( !game.isComplete() )
-                    return game;
+                return game;
             }
         }
         return null;
+    }
+
+
+    /**
+     * Method that returns all the games that a player is part of
+     *
+     * @param player the player
+     * @return list of games
+     */
+    public ArrayList< Game > findGames( Player player ) {
+        ArrayList< Game > games = new ArrayList<>();
+        for( int i = this.gamesInProgress.size() - 1; i >= 0; i-- ) {
+            Game game = this.gamesInProgress.get( i );
+            if( game.contains( player ) ) {
+                games.add( game );
+            }
+        }
+        return games;
     }
 
 

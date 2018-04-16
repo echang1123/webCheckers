@@ -11,6 +11,7 @@
 package com.webcheckers.ui;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -86,10 +87,11 @@ public class GetHomeRoute implements Route {
             otherPlayers.remove( currentPlayerName ); // remove the current player, so doesn't get shown
 
             // check if you have been selected for a game
-            Game game = gameLobby.findGame( currentPlayer );
-
-            if( game != null ) {
-                response.redirect( RoutesAndKeys.GAME_URL );
+            ArrayList< Game > games = gameLobby.findGames( currentPlayer );
+            for( Game game : games ) {
+                if( !game.isComplete() ) {
+                    response.redirect( RoutesAndKeys.GAME_URL );
+                }
             }
 
             // you have not been selected for a game, display home ( populate the vm )
