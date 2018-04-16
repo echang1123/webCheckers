@@ -29,8 +29,6 @@ public class GetPlayerHelpRoute implements Route {
     private static final Logger LOG = Logger.getLogger( GetPlayerHelpRoute.class.getName() );
     private TemplateEngine templateEngine;
     private final GlobalInformation gi;
-    private final String PLAYER_ONE_BOARD_IMAGE = "../../../../resources/public/img/player1-board.jpg";
-    private final String PLAYER_TWO_BOARD_IMAGE = "../../../public/img/player2-board.jpg";
 
 
     /**
@@ -72,6 +70,12 @@ public class GetPlayerHelpRoute implements Route {
         if( game == null ) {
             response.redirect( RoutesAndKeys.HOME_URL );
         }
+
+
+        final String PLAYER_ONE_BOARD_IMAGE = "http://localhost:4567/player1-board.jpg";
+        final String PLAYER_TWO_BOARD_IMAGE = "http://localhost:4567/player2-board.jpg";
+
+
 
         Map< String, Object > vm = new HashMap<>();
         if( currentPlayer.equals( game.getPlayerOne() ) ) {
