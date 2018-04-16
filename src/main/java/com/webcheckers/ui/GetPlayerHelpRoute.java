@@ -29,7 +29,7 @@ public class GetPlayerHelpRoute implements Route {
     private static final Logger LOG = Logger.getLogger( GetPlayerHelpRoute.class.getName() );
     private TemplateEngine templateEngine;
     private final GlobalInformation gi;
-    private final String PLAYER_ONE_BOARD_IMAGE = "../../../public/img/player1-board.jpg";
+    private final String PLAYER_ONE_BOARD_IMAGE = "../../../../resources/public/img/player1-board.jpg";
     private final String PLAYER_TWO_BOARD_IMAGE = "../../../public/img/player2-board.jpg";
 
 
