@@ -22,7 +22,6 @@ import java.util.logging.Logger;
 import com.webcheckers.appl.GlobalInformation;
 import com.webcheckers.appl.JsonUtils;
 import com.webcheckers.appl.RoutesAndKeys;
-import spark.Route;
 import spark.TemplateEngine;
 
 
@@ -70,7 +69,7 @@ public class WebServer {
         post( RoutesAndKeys.SIGN_IN_URL, new PostSignInRoute( templateEngine, gi ) );
         post( RoutesAndKeys.VALIDATE_MOVE_URL, new PostValidateMoveRoute( gi ), JsonUtils.json() );
         post( RoutesAndKeys.CHECK_TURN_URL, new PostCheckTurnRoute( templateEngine, gi ), JsonUtils.json() );
-        post( RoutesAndKeys.SUBMIT_TURN_URL, new PostSubmitTurnRoute( templateEngine, gi ), JsonUtils.json() );
+        post( RoutesAndKeys.SUBMIT_TURN_URL, new PostSubmitTurnRoute( gi ), JsonUtils.json() );
         post( RoutesAndKeys.RESIGN_GAME_URL, new PostResignGameRoute( gi ), JsonUtils.json() );
         post( RoutesAndKeys.BACKUP_MOVE_URL, new PostBackupMoveRoute( gi ), JsonUtils.json() );
 

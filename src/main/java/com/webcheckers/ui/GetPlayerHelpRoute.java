@@ -71,11 +71,8 @@ public class GetPlayerHelpRoute implements Route {
             response.redirect( RoutesAndKeys.HOME_URL );
         }
 
-
         final String PLAYER_ONE_BOARD_IMAGE = "http://localhost:4567/img/player1-board.jpg";
         final String PLAYER_TWO_BOARD_IMAGE = "http://localhost:4567/img/player2-board.jpg";
-
-
 
         Map< String, Object > vm = new HashMap<>();
         if( currentPlayer.equals( game.getPlayerOne() ) ) {

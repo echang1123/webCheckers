@@ -26,7 +26,6 @@ public class PostSubmitTurnRoute implements Route {
     // Attributes
     private static final Logger LOG = Logger.getLogger( PostSubmitTurnRoute.class.getName() );
     private GlobalInformation gi;
-    private final TemplateEngine templateEngine;
 
 
     /**
@@ -34,13 +33,11 @@ public class PostSubmitTurnRoute implements Route {
      *
      * @param gi the global information
      */
-    public PostSubmitTurnRoute( TemplateEngine templateEngine, GlobalInformation gi ) {
+    PostSubmitTurnRoute( GlobalInformation gi ) {
         // validate
         Objects.requireNonNull( LOG, "Log cannot be null" );
         Objects.requireNonNull( gi, "gi cannot be null" );
-        Objects.requireNonNull( templateEngine, "templateEngine must not be null" );
 
-        this.templateEngine = templateEngine;
         this.gi = gi;
     }
 

@@ -1,5 +1,5 @@
 /*
- * Class that keeps track of all games in play
+ * Class that keeps track of all gamesInProgress in play
  *
  * @author Karthik Iyer
  * @author Emily Wesson
@@ -13,22 +13,22 @@ package com.webcheckers.appl;
 import com.webcheckers.model.Game;
 import com.webcheckers.model.Player;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 
 public class GameLobby {
     // Attributes
     private static final Logger LOG = Logger.getLogger( PlayerLobby.class.getName() );
-    private Set< Game > games; // the set of games
+    private ArrayList< Game > gamesInProgress; // the set of games in progress
+    private ArrayList< Game > completedGames; // the set of completed games
 
 
     /**
      * Constructor for the GameLobby class
      */
     public GameLobby() {
-        this.games = new HashSet<>();
+        this.gamesInProgress = new ArrayList<>();
     }
 
 
@@ -39,10 +39,10 @@ public class GameLobby {
      * @return if added successfully
      */
     public boolean addGame( Game game ) {
-        if( this.games.contains( game ) ) {
+        if( this.gamesInProgress.contains( game ) ) {
             return false;
         }
-        this.games.add( game );
+        this.gamesInProgress.add( game );
         return true;
     }
 
@@ -54,8 +54,8 @@ public class GameLobby {
      * @return boolean whether the game was successfully removed from the lobby
      */
     public boolean removeGame( Game game ) {
-        if( this.games.contains( game ) ) {
-            this.games.remove( game );
+        if( this.gamesInProgress.contains( game ) ) {
+            this.gamesInProgress.remove( game );
             return true;
         }
         return false;
@@ -63,13 +63,13 @@ public class GameLobby {
 
 
     /**
-     * Function that goes through all the games and finds a game that the player is part of
+     * Function that goes through all the gamesInProgress and finds a game that the player is part of
      *
      * @param player the player
      * @return the game that the player is in, or null if no such game exists
      */
     public Game findGame( Player player ) {
-        for( Game game : this.games ) {
+        for( Game game : this.gamesInProgress ) {
             if( game.contains( player ) ) {
                 if( !game.isComplete() )
                     return game;
