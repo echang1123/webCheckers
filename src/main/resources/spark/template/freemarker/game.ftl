@@ -110,3 +110,9 @@
   
 </body>
 </html>
+
+<!--
+<button class="button" onClick="window.open('http://localhost:4567','Player Help', 'resizable,height=300,width=300');">
+    <span class="icon">Open</span>
+</button>
+--!>
