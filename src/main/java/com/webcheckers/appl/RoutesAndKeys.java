@@ -25,11 +25,12 @@ public class RoutesAndKeys {
     // KEYS
 
     public static final String SIGNED_IN_KEY = "isSignedIn";
-    public static final String CURRENT_PLAYER_KEY = "currentPlayer";
+    public static final String CURRENT_PLAYER_NAME_KEY = "currentPlayer";
     public static final String PLAYERS_KEY = "players";
     public static final String PLAYER_LOBBY_KEY = "playerLobby";
     public static final String GAME_LOBBY_KEY = "gameLobby";
     public static final String GLOBAL_INFORMATION_KEY = "globalInformation";
     public static final String IN_GAME_KEY = "inGame";
     public static final String MESSAGE_KEY = "message";
+    public static final String IMAGE_SRC = "imageSrc";
 }

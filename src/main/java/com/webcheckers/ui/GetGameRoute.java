@@ -68,7 +68,7 @@ public class GetGameRoute implements Route {
         final PlayerLobby playerLobby = gi.getPlayerLobby();
         HashMap< String, Player > players = playerLobby.getPlayers();
 
-        String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER_KEY );
+        String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER_NAME_KEY );
         if( currentPlayerName == null ) {
             response.redirect( RoutesAndKeys.HOME_URL );
         }
@@ -123,7 +123,7 @@ public class GetGameRoute implements Route {
                         if( players.get( opponentName ).getOpponent() != null ) { // the selected opponent is already in game
                             String message = "Player \"" + opponentName + "\" is already playing a game.";
                             vm.put( "message", message );
-                            vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayerName );
+                            vm.put( RoutesAndKeys.CURRENT_PLAYER_NAME_KEY, currentPlayerName );
                             vm.put( RoutesAndKeys.PLAYERS_KEY, otherPlayers );
                             vm.put( RoutesAndKeys.SIGNED_IN_KEY, true );
                             // render home with error message
@@ -155,7 +155,7 @@ public class GetGameRoute implements Route {
 
             board = new BoardView( boardModel, isFirstPlayer );
             vm.put( "board", board );
-            vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayer );
+            vm.put( RoutesAndKeys.CURRENT_PLAYER_NAME_KEY, currentPlayer );
             httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, true );
         }
 
@@ -197,7 +197,7 @@ public class GetGameRoute implements Route {
 
             // currentPlayer will be the first player if it is the same as playerOne
             board = new BoardView( boardModel, currentPlayer.equals( playerOne ) );
-            vm.put( RoutesAndKeys.CURRENT_PLAYER_KEY, currentPlayer );
+            vm.put( RoutesAndKeys.CURRENT_PLAYER_NAME_KEY, currentPlayer );
             vm.put( "board", board );
         }
 

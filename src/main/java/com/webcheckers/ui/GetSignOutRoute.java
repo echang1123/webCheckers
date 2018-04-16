@@ -59,7 +59,7 @@ public class GetSignOutRoute implements Route {
             response.redirect( RoutesAndKeys.HOME_URL );
         }
 
-        String username = session.attribute( RoutesAndKeys.CURRENT_PLAYER_KEY );
+        String username = session.attribute( RoutesAndKeys.CURRENT_PLAYER_NAME_KEY );
         if( username == null ) {
             response.redirect( RoutesAndKeys.HOME_URL );
         }

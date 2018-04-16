@@ -65,6 +65,7 @@ public class WebServer {
         get( RoutesAndKeys.SIGN_IN_URL, new GetSignInRoute( templateEngine, gi ) );
         get( RoutesAndKeys.SIGN_OUT_URL, new GetSignOutRoute( gi ) );
         get( RoutesAndKeys.GAME_URL, new GetGameRoute( templateEngine, gi ) );
+        get( RoutesAndKeys.PLAYER_HELP_URL, new GetPlayerHelpRoute( gi, templateEngine ) );
 
         post( RoutesAndKeys.SIGN_IN_URL, new PostSignInRoute( templateEngine, gi ) );
         post( RoutesAndKeys.VALIDATE_MOVE_URL, new PostValidateMoveRoute( gi ), JsonUtils.json() );

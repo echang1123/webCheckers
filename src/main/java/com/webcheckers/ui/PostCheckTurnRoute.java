@@ -65,7 +65,7 @@ public class PostCheckTurnRoute implements Route {
         PlayerLobby playerLobby = gi.getPlayerLobby();
         GameLobby gameLobby = gi.getGameLobby();
 
-        String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER_KEY );
+        String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER_NAME_KEY );
         if( currentPlayerName == null ) {
             response.redirect( RoutesAndKeys.HOME_URL );
         }

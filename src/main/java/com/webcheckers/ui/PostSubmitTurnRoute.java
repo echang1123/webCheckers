@@ -60,7 +60,7 @@ public class PostSubmitTurnRoute implements Route {
         PlayerLobby playerLobby = gi.getPlayerLobby();
         GameLobby gameLobby = gi.getGameLobby();
 
-        String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER_KEY );
+        String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER_NAME_KEY );
         if( currentPlayerName == null ) {
             return new Message( "", Message.MessageType.error );
         }
