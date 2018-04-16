@@ -1,13 +1,10 @@
 package com.webcheckers.ui;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import java.util.*;
 
-import com.webcheckers.appl.GameLobby;
 import com.webcheckers.appl.GlobalInformation;
 import com.webcheckers.appl.RoutesAndKeys;
 import com.webcheckers.model.Board;
@@ -19,8 +16,6 @@ import org.junit.jupiter.api.Test;
 
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.model.Player;
-import org.mockito.internal.matchers.NotNull;
-import spark.HaltException;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -81,7 +76,7 @@ public class PostBackupMoveRouteTest{
         final Game game = new Game(board,player1,player2);
         gi.getGameLobby().addGame(game);
 
-        when(session.attribute(RoutesAndKeys.CURRENT_PLAYER_KEY)).thenReturn(Player1);
+        when(session.attribute(RoutesAndKeys.CURRENT_PLAYER_NAME_KEY )).thenReturn(Player1);
         final TemplateEngineTester templateEngineTester = new TemplateEngineTester();
         when(templateEngine.render(any(ModelAndView.class))).thenAnswer(templateEngineTester.makeAnswer());
         // invoke the test
@@ -94,7 +89,7 @@ public class PostBackupMoveRouteTest{
         gi.getPlayerLobby().addPlayer(player1,players);
         gi.getPlayerLobby().addPlayer(player2,players);
 
-        when(session.attribute(RoutesAndKeys.CURRENT_PLAYER_KEY)).thenReturn(Player1);
+        when(session.attribute(RoutesAndKeys.CURRENT_PLAYER_NAME_KEY )).thenReturn(Player1);
         final TemplateEngineTester templateEngineTester = new TemplateEngineTester();
         when(templateEngine.render(any(ModelAndView.class))).thenAnswer(templateEngineTester.makeAnswer());
         // invoke the test

@@ -1,11 +1,9 @@
 package com.webcheckers.ui;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import java.util.*;
 
 import com.webcheckers.appl.*;
 import com.webcheckers.model.*;
@@ -13,8 +11,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import org.mockito.internal.matchers.NotNull;
-import spark.HaltException;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -87,7 +83,7 @@ public class GetGameRouteTest {
         gi.getPlayerLobby().addPlayer(player2,players);
         final Game game = new Game(board,player1,player2);
         gi.getGameLobby().addGame(game);
-        when(session.attribute(RoutesAndKeys.CURRENT_PLAYER_KEY)).thenReturn(Player1);
+        when(session.attribute(RoutesAndKeys.CURRENT_PLAYER_NAME_KEY )).thenReturn(Player1);
         // setup
         when(request.queryParams("name")).thenReturn(Player1);
         final TemplateEngineTester templateEngineTester = new TemplateEngineTester();
