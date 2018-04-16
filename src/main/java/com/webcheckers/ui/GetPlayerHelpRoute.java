@@ -18,7 +18,6 @@ import spark.*;
 
 import java.util.*;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 
 public class GetPlayerHelpRoute implements Route {
