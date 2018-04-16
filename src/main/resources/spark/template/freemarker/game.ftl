@@ -65,11 +65,10 @@
           <fieldset id="game-toolbar">
             <legend>Controls</legend>
             <div class="toolbar"></div>
-              <br/>
-              <form action = "" method = "post">
-                  <input type="submit" class="btn btn-default" value="Player Help" />
-              </form>
-              </form>
+                    <br/>
+                      <button class="button" value="Player Help" onClick="window.open('http://localhost:4567/playerHelp','Player Help', 'resizable,height=300,width=300');">
+                          <span class="icon">Player Help</span>
+                      </button>
           </fieldset>
           
         </div>
