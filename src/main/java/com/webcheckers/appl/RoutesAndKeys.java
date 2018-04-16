@@ -20,6 +20,7 @@ public class RoutesAndKeys {
     public static final String BACKUP_MOVE_URL = "/backupMove";
     public static final String SUBMIT_TURN_URL = "/submitTurn";
     public static final String RESIGN_GAME_URL = "/resignGame";
+    public static final String PLAYER_HELP_URL = "/playerHelp";
 
     // KEYS
 
