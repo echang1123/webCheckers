@@ -72,8 +72,8 @@ public class GetPlayerHelpRoute implements Route {
         }
 
 
-        final String PLAYER_ONE_BOARD_IMAGE = "http://localhost:4567/player1-board.jpg";
-        final String PLAYER_TWO_BOARD_IMAGE = "http://localhost:4567/player2-board.jpg";
+        final String PLAYER_ONE_BOARD_IMAGE = "http://localhost:4567/img/player1-board.jpg";
+        final String PLAYER_TWO_BOARD_IMAGE = "http://localhost:4567/img/player2-board.jpg";
 
 
 
