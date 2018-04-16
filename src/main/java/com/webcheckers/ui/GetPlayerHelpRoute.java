@@ -8,19 +8,17 @@
 package com.webcheckers.ui;
 
 
-import com.webcheckers.appl.GameLobby;
-import com.webcheckers.appl.GlobalInformation;
-import com.webcheckers.appl.PlayerLobby;
-import com.webcheckers.appl.RoutesAndKeys;
+import com.webcheckers.appl.*;
 import com.webcheckers.model.Game;
+import com.webcheckers.model.Move;
+import com.webcheckers.model.Piece;
 import com.webcheckers.model.Player;
 import spark.*;
 
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 
 public class GetPlayerHelpRoute implements Route {
@@ -40,6 +38,24 @@ public class GetPlayerHelpRoute implements Route {
         Objects.requireNonNull( templateEngine, "template engine cannot be null" );
         this.gi = gi;
         this.templateEngine = templateEngine;
+    }
+
+
+    /**
+     * Helper method that generates move strings
+     *
+     * @param validMoves the valid moves
+     * @return move strings
+     */
+    private ArrayList< String > getMoveStrings( ArrayList< Move > validMoves ) {
+        ArrayList< String > moveStrings = new ArrayList<>();
+        for( Move move : validMoves ) {
+            String moveString = "Move (";
+            moveString += move.getStart().getRow() + ", " + move.getStart().getCell() + ") to (";
+            moveString += move.getEnd().getRow() + ", " + move.getEnd().getCell() + ")";
+            moveStrings.add( moveString );
+        }
+        return moveStrings;
     }
 
 
@@ -71,16 +87,25 @@ public class GetPlayerHelpRoute implements Route {
             response.redirect( RoutesAndKeys.HOME_URL );
         }
 
-        final String PLAYER_ONE_BOARD_IMAGE = "http://localhost:4567/img/player1-board.jpg";
-        final String PLAYER_TWO_BOARD_IMAGE = "http://localhost:4567/img/player2-board.jpg";
+        final String PLAYER_ONE_BOARD_IMAGE_SRC = "http://localhost:4567/img/player1-board.jpg";
+        final String PLAYER_TWO_BOARD_IMAGE_SRC = "http://localhost:4567/img/player2-board.jpg";
 
         Map< String, Object > vm = new HashMap<>();
+        MoveVerifier moveVerifier = game.getMoveVerifier();
+        ArrayList< Move > validMoves = new ArrayList<>();
         if( currentPlayer.equals( game.getPlayerOne() ) ) {
-            vm.put( RoutesAndKeys.IMAGE_SRC, PLAYER_ONE_BOARD_IMAGE );
+            vm.put( RoutesAndKeys.IMAGE_SRC_KEY, PLAYER_ONE_BOARD_IMAGE_SRC );
+            validMoves = moveVerifier.getValidMoves( game, Piece.Color.RED );
         }
         else {
-            vm.put( RoutesAndKeys.IMAGE_SRC, PLAYER_TWO_BOARD_IMAGE );
+            vm.put( RoutesAndKeys.IMAGE_SRC_KEY, PLAYER_TWO_BOARD_IMAGE_SRC );
+            validMoves = moveVerifier.getValidMoves( game, Piece.Color.WHITE );
         }
+
+        HashSet< Move > uniqueMoveSet = new HashSet<>( validMoves );
+        ArrayList< Move > uniqueMoves = new ArrayList<>( uniqueMoveSet );
+        ArrayList< String > validMoveStrings = getMoveStrings( uniqueMoves );
+        vm.put( RoutesAndKeys.VALID_MOVE_STRINGS_KEY, validMoveStrings );
 
         // render
         return templateEngine.render( new ModelAndView( vm, "playerHelp.ftl" ) );

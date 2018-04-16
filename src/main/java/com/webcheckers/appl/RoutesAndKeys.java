@@ -32,5 +32,6 @@ public class RoutesAndKeys {
     public static final String GLOBAL_INFORMATION_KEY = "globalInformation";
     public static final String IN_GAME_KEY = "inGame";
     public static final String MESSAGE_KEY = "message";
-    public static final String IMAGE_SRC = "imageSrc";
+    public static final String IMAGE_SRC_KEY = "imageSrc";
+    public static final String VALID_MOVE_STRINGS_KEY = "validMoveStrings";
 }

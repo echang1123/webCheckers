@@ -9,6 +9,8 @@
 package com.webcheckers.model;
 
 
+import java.util.Objects;
+
 public class Move {
 
     // enum
@@ -72,5 +74,31 @@ public class Move {
      */
     public MoveType getMoveType() {
         return moveType;
+    }
+
+
+    /**
+     * Override of the equals method
+     *
+     * @param o the object
+     * @return whether it is equal
+     */
+    public boolean equals( Object o ) {
+        if( o instanceof Move ) {
+            Move m = ( Move )o;
+            return ( m.getStart().equals( this.start ) ) && ( m.getEnd().equals( this.end ) );
+        }
+        return false;
+    }
+
+
+    /**
+     * Override of the hash code
+     *
+     * @return the hash code
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash( start, end );
     }
 }
