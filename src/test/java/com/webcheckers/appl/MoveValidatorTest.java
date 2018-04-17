@@ -43,48 +43,155 @@ public class MoveValidatorTest {
         assertTrue(moveValidator.isNormalMoveAvailable(game,Row,Cell,board));
     }
     @Test
-    private boolean isWithinBounds(int row, int col) {
-        return ( ( row <= 7 ) && ( row >= 0 ) && ( col <= 7 ) && ( col >= 0 ) );
-    }
-    @Test
-    private boolean isSimpleMove( Game game, Move move ) {
-        Position start = move.getStart();
-        Position end = move.getEnd();
-        if( game.getWhoseTurn() == 0 ) {
-            return ( end.getRow() - start.getRow() == 1 ) &&
-                    ( Math.abs( end.getCell() - start.getCell() ) == 1 );
-        }
-        else {
-            return ( start.getRow() - end.getRow() == 1 ) &&
-                    ( Math.abs( end.getCell() - start.getCell() ) == 1 );
-        }
-    }
-    @Test
-    private boolean isKingSimpleMove( Game game, Move move ) {
-        Position start = move.getStart();
-        Position end = move.getEnd();
-        Space space = game.getBoard().getSpace( start.getRow(), start.getCell() );
-        return false;
-    }
-//    @Test
-//    public void test_isKingMoveAvailable(){
-//        ;
-//
-//        assertTrue(moveValidator.isKingMoveAvailable(game,Row,Cell,board));
-//    }
-    @Test
     public void test_singleJumpAvailable(){
         assertFalse(moveValidator.singleJumpAvailable(game,Row,Cell,board));
     }
-//    @Test
-//    public void test_is(){
-//        space.setPiece(new Piece(Piece.PieceType.KING, Piece.Color.RED));
-//        assertFalse(moveValidator.kingJumpAvailable(game,Row,Cell,board));
-//    }
+    @Test
+    public void test_isKingMoveAvailable(){
+        final Position start = new Position(1,2);
+        Piece piece = new Piece(Piece.PieceType.SINGLE, Piece.Color.RED);
+        board.getSpace(start).setPiece(piece);
+        board.getSpace(1,1).setPiece(null);
+        assertFalse(moveValidator.isKingMoveAvailable(game,1,2,board));
+        moveValidator.isNormalMoveAvailable(game,1,2,board);
+        moveValidator.isNormalMoveAvailable(game,0,0,board);
+    }
+    @Test
+    public void test_isKingMoveAvailablewithWhiePiece(){
+        final Position start = new Position(2,2);
+        game.switchTurn();
+        Piece piece = new Piece(Piece.PieceType.KING, Piece.Color.WHITE);
+        piece.setColor(Piece.Color.WHITE);
+        board.getSpace(start).setPiece(piece);
+        board.getSpace(1,1).setPiece(null);
+        moveValidator.isKingMoveAvailable(game,2,2,board);
+        moveValidator.isNormalMoveAvailable(game,2,2,board);
+    }
+    @Test
+    public void test_WhitePieceKingMove(){
+        final Position start = new Position(1,0);
+        game.switchTurn();
+        Piece piece = new Piece(Piece.PieceType.KING, Piece.Color.WHITE);
+        piece.setColor(Piece.Color.WHITE);
+        board.getSpace(start).setPiece(piece);
+        moveValidator.isKingMoveAvailable(game,1,0,board);
+        moveValidator.isNormalMoveAvailable(game,1,0,board);
+    }
+    @Test
+    public void test_isKingMoveAvailablewithRedPiece(){
+        final Position start = new Position(1,2);
+        Piece piece = new Piece(Piece.PieceType.KING, Piece.Color.RED);
+        piece.setColor(Piece.Color.RED);
+        board.getSpace(start).setPiece(piece);
+        moveValidator.isKingMoveAvailable(game,1,2,board);
+        moveValidator.isNormalMoveAvailable(game,1,2,board);
+    }
+    @Test
+    public void test_RedPieceKingMove(){
+        final Position start = new Position(2,2);
+        Piece piece = new Piece(Piece.PieceType.KING, Piece.Color.RED);
+        piece.setColor(Piece.Color.RED);
+        board.getSpace(start).setPiece(piece);
+        board.getSpace(1,3).setPiece(null);
+        moveValidator.isKingMoveAvailable(game,2,2,board);
+    }
+    @Test
+    public void test_singleJump(){
+        final Position start = new Position(2,2);
+        Piece piece = new Piece(Piece.PieceType.KING, Piece.Color.RED);
+        Piece piece1 = new Piece(Piece.PieceType.SINGLE, Piece.Color.WHITE);
+        piece.setColor(Piece.Color.RED);
+        board.getSpace(start).setPiece(piece);
+        board.getSpace(3,1).setPiece(piece1);
+        moveValidator.singleJumpAvailable(game,2,2,board);
+        moveValidator.kingJumpAvailable(game,2,2,board);
+     }
+    @Test
+    public void test_singleJump2(){
+        final Position start = new Position(2,2);
+        Piece piece = new Piece(Piece.PieceType.KING, Piece.Color.RED);
+        Piece piece1 = new Piece(Piece.PieceType.SINGLE, Piece.Color.WHITE);
+        piece.setColor(Piece.Color.RED);
+        board.getSpace(start).setPiece(piece);
+        board.getSpace(3,3).setPiece(piece1);
+        moveValidator.singleJumpAvailable(game,2,2,board);
+        moveValidator.kingJumpAvailable(game,2,2,board);
+    }
+    @Test
+    public void test_singleJumpWhitePiece(){
+        final Position start = new Position(2,2);
+        game.switchTurn();
+        Piece piece = new Piece(Piece.PieceType.KING, Piece.Color.WHITE);
+        Piece piece1 = new Piece(Piece.PieceType.SINGLE, Piece.Color.RED);
+        board.getSpace(start).setPiece(piece);
+        board.getSpace(1,1).setPiece(piece1);
+        moveValidator.singleJumpAvailable(game,2,2,board);
+        moveValidator.kingJumpAvailable(game,2,2,board);
+    }
+    @Test
+    public void test_singleJumpWhitePiece2(){
+        final Position start = new Position(3,2);
+        game.switchTurn();
+        Piece piece = new Piece(Piece.PieceType.KING, Piece.Color.WHITE);
+        Piece piece1 = new Piece(Piece.PieceType.SINGLE, Piece.Color.RED);
+        board.getSpace(start).setPiece(piece);
+        board.getSpace(2,3).setPiece(piece1);
+        moveValidator.singleJumpAvailable(game,3,2,board);
+        moveValidator.kingJumpAvailable(game,3,2,board);
+    }
+    @Test
+    public void test_KingJumpWhitePiece1(){
+        final Position start = new Position(4,3);
+        game.switchTurn();
+        Piece piece = new Piece(Piece.PieceType.KING, Piece.Color.WHITE);
+        Piece piece1 = new Piece(Piece.PieceType.SINGLE, Piece.Color.RED);
+        board.getSpace(start).setPiece(piece);
+        board.getSpace(5,4).setPiece(piece1);
+        moveValidator.kingJumpAvailable(game,4,3,board);
+    }
+    @Test
+    public void test_KingJumpWhitePiece(){
+        final Position start = new Position(5,3);
+        game.switchTurn();
+        Piece piece = new Piece(Piece.PieceType.KING, Piece.Color.WHITE);
+        Piece piece1 = new Piece(Piece.PieceType.SINGLE, Piece.Color.RED);
+        board.getSpace(start).setPiece(piece);
+        board.getSpace(6,2).setPiece(piece1);
+        moveValidator.kingJumpAvailable(game,5,3,board);
+    }
+    @Test
+    public void test_KingJumpRedPiece(){
+        final Position start = new Position(7,7);
+        Piece piece = new Piece(Piece.PieceType.KING, Piece.Color.RED);
+        Piece piece1 = new Piece(Piece.PieceType.SINGLE, Piece.Color.WHITE);
+        board.getSpace(start).setPiece(piece);
+        board.getSpace(6,6).setPiece(piece1);
+        moveValidator.kingJumpAvailable(game,7,7,board);
+    }
+    @Test
+    public void test_KingJumpRedPiece2(){
+        final Position start = new Position(5,5);
+        Piece piece = new Piece(Piece.PieceType.KING, Piece.Color.RED);
+        Piece piece1 = new Piece(Piece.PieceType.SINGLE, Piece.Color.WHITE);
+        board.getSpace(start).setPiece(piece);
+        board.getSpace(4,6).setPiece(piece1);
+        moveValidator.kingJumpAvailable(game,5,5,board);
+    }
     @Test
     public void test_validate(){
         assertFalse(moveValidator.validate(game,move));
     }
+    @Test
+    public void test_validate1(){
+        final Position start = new Position(5,5);
+        final Position end = new Position(7,3);
+        Piece piece = new Piece(Piece.PieceType.KING, Piece.Color.RED);
+        board.getSpace(start).setPiece(piece);
+        final Move move = new Move(start,end);
+        move.setMoveType(Move.MoveType.JUMP);
+        game.addVerifiedMove(move);
+        game.setGameState(Game.GameState.in_progress);
 
+    }
 }
 
