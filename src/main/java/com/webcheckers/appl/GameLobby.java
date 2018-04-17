@@ -40,9 +40,9 @@ public class GameLobby {
      * @return if added successfully
      */
     public boolean addGame( Game game ) {
-        if( this.gamesInProgress.contains( game ) ) {
-            return false;
-        }
+        //if( this.gamesInProgress.contains( game ) ) {
+          //  return false;
+        //}
         this.gamesInProgress.add( game );
         return true;
     }
@@ -65,7 +65,7 @@ public class GameLobby {
 
 
     /**
-     * Function that goes through all the gamesInProgress and finds a game that the player is part of
+     * Function that goes through all the gamesInProgress and finds the latest game that the player is part of
      *
      * @param player the player
      * @return the game that the player is in, or null if no such game exists
