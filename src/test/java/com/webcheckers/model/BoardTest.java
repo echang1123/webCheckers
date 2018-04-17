@@ -15,8 +15,8 @@ public class BoardTest {
     //attribute
     private static final  int row = 5;
     private static final  int col = 5;
-    private static final  int row1 = 6;
-    private static final int cell = 6;
+    private static final  int row1 = 7;
+    private static final int cell = 7;
     private static final int redPiecesInPlay = 12;
     private static final int whitePiecesInPlay = 12;
     final Position position = new Position(row,col);
@@ -31,6 +31,10 @@ public class BoardTest {
         board = new Board();
         assertNotNull(board);
     }
+//    @Test
+//    public void test_GetSpace(){
+//        assertEquals(board.getSpace(8,8),"The row index must be in [ 0, 7 ]");
+//    }
     @Test
     public void getSpaceTest(){
         assertNotEquals(board.getSpace(row,col),space);
@@ -46,10 +50,21 @@ public class BoardTest {
         final Move.MoveType moveType =  Move.MoveType.JUMP;
         final Move moves1 = new Move(position,start);
         moves1.setMoveType(moveType);
-        moves1.getStart();
-        moves1.getEnd();
+        Piece piece = new Piece(Piece.PieceType.SINGLE, Piece.Color.RED);
+        board.getSpace(start).setPiece(piece);
         board.doMove(moves1);
         assertNotNull(board.getSpace(position));
+    }
+    @Test
+    public void test_deMove2(){
+        final Position start = new Position(1,1);
+        final Position end = new Position(0,0);
+        final Move.MoveType moveType =  Move.MoveType.SIMPLE;
+        final Move moves1 = new Move(position,start);
+        moves1.setMoveType(moveType);
+        Piece piece = new Piece(Piece.PieceType.SINGLE, Piece.Color.WHITE);
+        board.getSpace(start).setPiece(piece);
+        board.doMove(moves1);
     }
     @Test
     public void test_getRedPiecesInPlay(){

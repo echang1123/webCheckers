@@ -33,7 +33,7 @@ public class GameTest {
     final Position start = new Position(Row,Cell);
     final Position end = new Position(row1,cell1);
     final Move move = new Move(start,end);
-    final Move move1 = new Move(start,end);
+    final Move move1 = new Move(end,start);
     final Player player1 = new Player(name);
     final Player player2 = new Player(opponent);
     private PlayerLobby playerLobby = new PlayerLobby();
@@ -130,14 +130,17 @@ public class GameTest {
     public void test_outOfValidatedMove(){
         assertTrue(game.outOfVerifiedMoves());
     }
-//    @Test
-//    public void test_backupValidatedMove(){
-//        assertEquals(game.backupVerifiedMove(),move);
-//   }
-//    @Test
-//    public void test_getFirstValidateMove(){
-//        assertEquals(game.getFirstVerifiedMove(),move);
-//    }
+    @Test
+    public void test_backupValidatedMove(){
+        game.addVerifiedMove(move);
+        game.addVerifiedMove(move1);
+        assertNotNull(game.backupVerifiedMove());
+   }
+    @Test
+    public void test_getFirstValidateMove(){
+        game.addVerifiedMove(move);
+        assertEquals(game.getFirstVerifiedMove(),move);
+    }
     @Test
     public void test_noMovesAvailableForPlayerOne(){
         assertTrue(game.anyMovesAvailableForPlayerOne());
