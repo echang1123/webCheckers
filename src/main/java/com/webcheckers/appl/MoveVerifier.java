@@ -696,4 +696,36 @@ public class MoveVerifier {
     }
 
 
+    /**
+     * The alternative "main" method of the class that will be used for verifying consequent jump moves
+     *
+     * @param move the jump move to verify
+     * @param game the Web Checkers game
+     * @return whether the jump move was verified to be correct
+     */
+    public boolean verifyJumpMove( Move move, Game game ) {
+        Position start = move.getStart();
+        Position end = move.getEnd();
+        int startRow = start.getRow();
+        int startCol = start.getCell();
+        int endRow = end.getRow();
+        int endCol = end.getCell();
+
+        if( isAnyJumpMoveAvailable( game ) ) {
+            if( verifySimpleJumpMove( game, startRow, startCol, endRow, endCol ) ) {
+                move.setMoveType( Move.MoveType.JUMP );
+                this.reset();
+                return true;
+            }
+            if( verifyKingJumpMove( game, startRow, startCol, endRow, endCol ) ) {
+                move.setMoveType( Move.MoveType.KING_JUMP );
+                this.reset();
+                return true;
+            }
+        }
+
+        this.reset();
+        return false;
+    }
+
 }
