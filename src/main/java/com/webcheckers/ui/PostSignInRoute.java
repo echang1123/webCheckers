@@ -71,7 +71,7 @@ public class PostSignInRoute implements Route {
             Player player = new Player( userName );
             if( playerLobby.addPlayer( player, vm ) ) { // try adding the username to the hash table
                 session.attribute( RoutesAndKeys.SIGNED_IN_KEY, true );
-                session.attribute( RoutesAndKeys.CURRENT_PLAYER_KEY, userName );
+                session.attribute( RoutesAndKeys.CURRENT_PLAYER_NAME_KEY, userName );
                 response.redirect( RoutesAndKeys.HOME_URL );
             } else { // didn't work!
                 return templateEngine.render( new ModelAndView( vm, "signin.ftl" ) );

@@ -3,7 +3,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.google.gson.Gson;
 import com.webcheckers.model.*;
-import javafx.scene.control.Cell;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -26,7 +25,7 @@ public class MoveVerifierTest {
     final Board board = new Board();
     final Space space = new Space(0,null,false);
     final Game game = new Game(board, player1, player2);
-    final MoveValidator moveValidator = new MoveValidator();
+    final Move move = new Move(start,end);
     final MoveVerifier mv = new MoveVerifier();
 
     @Test

@@ -119,6 +119,8 @@ public class Board {
                 whitePiecesInPlay--;
             }
         }
+
+        this.getSpace( start ).removePiece();
     }
 
 

@@ -56,7 +56,7 @@ public class PostValidateMoveRoute implements Route {
         PlayerLobby playerLobby = gi.getPlayerLobby();
         GameLobby gameLobby = gi.getGameLobby();
 
-        String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER_KEY );
+        String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER_NAME_KEY );
         if( currentPlayerName == null ) {
             response.redirect( RoutesAndKeys.HOME_URL );
         }
@@ -79,7 +79,12 @@ public class PostValidateMoveRoute implements Route {
             return new Message( "Invalid move", Message.MessageType.error );
         }
 
-        boolean isVerifiedMove = moveVerifier.verifyMove(move, game);
+        boolean isVerifiedMove;
+        if( game.outOfVerifiedMoves() ) {
+            isVerifiedMove = moveVerifier.verifyMove( move, game );
+        } else {
+            isVerifiedMove = moveVerifier.verifyJumpMove( move, game );
+        }
 
         // if the move is valid, add it to the validatedMoves array list and
         // return a message of type info

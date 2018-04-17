@@ -1,5 +1,5 @@
 /*
- * Class that keeps track of all games in play
+ * Class that keeps track of all gamesInProgress in play
  *
  * @author Karthik Iyer
  * @author Emily Wesson
@@ -13,22 +13,23 @@ package com.webcheckers.appl;
 import com.webcheckers.model.Game;
 import com.webcheckers.model.Player;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 
 public class GameLobby {
     // Attributes
     private static final Logger LOG = Logger.getLogger( PlayerLobby.class.getName() );
-    private Set< Game > games; // the set of games
+    private ArrayList< Game > gamesInProgress; // the set of games in progress
+    private ArrayList< Game > completedGames; // the set of completed games
 
 
     /**
      * Constructor for the GameLobby class
      */
     public GameLobby() {
-        this.games = new HashSet<>();
+        this.gamesInProgress = new ArrayList<>();
+        this.completedGames = new ArrayList<>();
     }
 
 
@@ -39,23 +40,24 @@ public class GameLobby {
      * @return if added successfully
      */
     public boolean addGame( Game game ) {
-        if( this.games.contains( game ) ) {
-            return false;
-        }
-        this.games.add( game );
+        //if( this.gamesInProgress.contains( game ) ) {
+          //  return false;
+        //}
+        this.gamesInProgress.add( game );
         return true;
     }
 
 
     /**
-     * Removes a game from the game lobby if it exists
+     * Removes a game from the game lobby if it exists and moves it to completed games
      *
-     * @param game the game to remove
-     * @return boolean whether the game was successfully removed from the lobby
+     * @param game the game to move
+     * @return boolean whether the game was successfully moved
      */
-    public boolean removeGame( Game game ) {
-        if( this.games.contains( game ) ) {
-            this.games.remove( game );
+    public boolean moveGameToCompleted( Game game ) {
+        if( this.gamesInProgress.contains( game ) ) {
+            int gameIndex = this.gamesInProgress.indexOf( game );
+            this.completedGames.add( this.gamesInProgress.remove( gameIndex ) );
             return true;
         }
         return false;
@@ -63,18 +65,37 @@ public class GameLobby {
 
 
     /**
-     * Function that goes through all the games and finds a game that the player is part of
+     * Function that goes through all the gamesInProgress and finds the latest game that the player is part of
      *
      * @param player the player
      * @return the game that the player is in, or null if no such game exists
      */
     public Game findGame( Player player ) {
-        for( Game game : this.games ) {
+        for( int i = this.gamesInProgress.size() - 1; i >= 0; i-- ) {
+            Game game = this.gamesInProgress.get( i );
             if( game.contains( player ) ) {
                 return game;
             }
         }
         return null;
+    }
+
+
+    /**
+     * Method that returns all the games that a player is part of
+     *
+     * @param player the player
+     * @return list of games
+     */
+    public ArrayList< Game > findGames( Player player ) {
+        ArrayList< Game > games = new ArrayList<>();
+        for( int i = this.gamesInProgress.size() - 1; i >= 0; i-- ) {
+            Game game = this.gamesInProgress.get( i );
+            if( game.contains( player ) ) {
+                games.add( game );
+            }
+        }
+        return games;
     }
 
 

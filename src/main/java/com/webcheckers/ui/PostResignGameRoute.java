@@ -59,7 +59,7 @@ public class PostResignGameRoute implements Route {
         PlayerLobby playerLobby = gi.getPlayerLobby();
         GameLobby gameLobby = gi.getGameLobby();
 
-        String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER_KEY );
+        String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER_NAME_KEY );
         if( currentPlayerName == null ) {
             return new Message( "", Message.MessageType.error );
         }
@@ -80,7 +80,10 @@ public class PostResignGameRoute implements Route {
         if( game.getPlayerOne().equals( currentPlayer ) ) {
             httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
             game.setGameState( Game.GameState.complete );
-            game.removePlayerOne();
+            if( game.getWinner() == null )
+                game.setWinner( game.getPlayerTwo() );
+            httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
+            currentPlayer.removeOpponent();
             if( game.getWhoseTurn() == 0 )
                 game.switchTurn();
             return new Message( "", Message.MessageType.info );
@@ -90,7 +93,10 @@ public class PostResignGameRoute implements Route {
         else if( game.getPlayerTwo().equals( currentPlayer ) ) {
             httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
             game.setGameState( Game.GameState.complete );
-            game.removePlayerTwo();
+            if( game.getWinner() == null )
+                game.setWinner( game.getPlayerOne() );
+            httpSession.attribute( RoutesAndKeys.IN_GAME_KEY, false );
+            currentPlayer.removeOpponent();
             if( game.getWhoseTurn() == 1 )
                 game.switchTurn();
             return new Message( "", Message.MessageType.info );

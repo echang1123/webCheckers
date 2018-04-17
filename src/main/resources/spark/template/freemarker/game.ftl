@@ -18,15 +18,7 @@
 <body>
   <div class="page">
     <h1>Web Checkers</h1>
-    
-    <div class="navigation">
-    <#if currentPlayer??>
-      <a href="/">my home</a> |
-      <a href="/signout">sign out [${currentPlayer.name}]</a>
-    <#else>
-      <a href="/signin">sign in</a>
-    </#if>
-    </div>
+
     
     <div class="body">
       
@@ -65,6 +57,10 @@
           <fieldset id="game-toolbar">
             <legend>Controls</legend>
             <div class="toolbar"></div>
+                    <br/>
+                      <button class="button" value="Player Help" onClick="window.open('http://localhost:4567/playerHelp','Player Help', 'resizable,height=800,width=500');">
+                          <span class="icon">Player Help</span>
+                      </button>
           </fieldset>
           
         </div>
@@ -105,3 +101,9 @@
   
 </body>
 </html>
+
+<!--
+<button class="button" onClick="window.open('http://localhost:4567','Player Help', 'resizable,height=300,width=300');">
+    <span class="icon">Open</span>
+</button>
+--!>

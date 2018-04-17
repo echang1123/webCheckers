@@ -12,7 +12,31 @@ import com.webcheckers.model.Move;
 import com.webcheckers.model.Piece;
 import com.webcheckers.model.Position;
 
+import java.util.ArrayList;
+
 public class MoveVerifier {
+
+    // Attributes
+    private ArrayList< Move > jumpMoves;
+    private ArrayList< Move > simpleMoves;
+
+
+    /**
+     * Default constructor for the MoveVerifier
+     */
+    public MoveVerifier() {
+        this.jumpMoves = new ArrayList<>();
+        this.simpleMoves = new ArrayList<>();
+    }
+
+
+    /**
+     * Resets the move lists
+     */
+    private void reset() {
+        this.simpleMoves = new ArrayList<>();
+        this.jumpMoves = new ArrayList<>();
+    }
 
 
     /**
@@ -69,23 +93,32 @@ public class MoveVerifier {
      */
     private boolean isUpSimpleMovePossible( Game game, Piece.Color currentPlayerColor, int row, int col ) {
         Piece currentPiece = game.getPieceAt( row, col );
+        boolean result = false;
         if( currentPiece != null ) {
             if( currentPiece.getColor() == currentPlayerColor ) {
                 if( isWithinBounds( row + 1, col + 1 ) ) {
                     Piece landingPiece = game.getPieceAt( row + 1, col + 1 );
                     if( landingPiece == null ) {
-                        return true;
+                        Position start = new Position( row, col );
+                        Position end = new Position( row + 1, col + 1 );
+                        Move upSimpleMove = new Move( start, end );
+                        this.simpleMoves.add( upSimpleMove );
+                        result = true;
                     }
                 }
                 if( isWithinBounds( row + 1, col - 1 ) ) {
                     Piece landingPiece = game.getPieceAt( row + 1, col - 1 );
                     if( landingPiece == null ) {
-                        return true;
+                        Position start = new Position( row, col );
+                        Position end = new Position( row + 1, col - 1 );
+                        Move upSimpleMove = new Move( start, end );
+                        this.simpleMoves.add( upSimpleMove );
+                        result = true;
                     }
                 }
             }
         }
-        return false;
+        return result;
     }
 
 
@@ -101,23 +134,32 @@ public class MoveVerifier {
      */
     private boolean isDownSimpleMovePossible( Game game, Piece.Color currentPlayerColor, int row, int col ) {
         Piece currentPiece = game.getPieceAt( row, col );
+        boolean result = false;
         if( currentPiece != null ) {
             if( currentPiece.getColor() == currentPlayerColor ) {
                 if( isWithinBounds( row - 1, col + 1 ) ) {
                     Piece landingPiece = game.getPieceAt( row - 1, col + 1 );
                     if( landingPiece == null ) {
-                        return true;
+                        Position start = new Position( row, col );
+                        Position end = new Position( row - 1, col + 1 );
+                        Move downSimpleMove = new Move( start, end );
+                        this.simpleMoves.add( downSimpleMove );
+                        result = true;
                     }
                 }
                 if( isWithinBounds( row - 1, col - 1 ) ) {
                     Piece landingPiece = game.getPieceAt( row - 1, col - 1 );
                     if( landingPiece == null ) {
-                        return true;
+                        Position start = new Position( row, col );
+                        Position end = new Position( row - 1, col - 1 );
+                        Move downSimpleMove = new Move( start, end );
+                        this.simpleMoves.add( downSimpleMove );
+                        result = true;
                     }
                 }
             }
         }
-        return false;
+        return result;
     }
 
 
@@ -130,13 +172,12 @@ public class MoveVerifier {
      */
     private boolean isSimpleMoveAvailable( Game game ) {
         Piece.Color currentPlayerColor = getCurrentPlayerColor( game );
-        // First player (Red)
-        // This means row must increase by one, and column varies by one
+        boolean result = false;
         if( currentPlayerColor == Piece.Color.RED ) {
             for( int row = 0; row < 8; row++ ) {
                 for( int col = 0; col < 8; col++ ) {
                     if( isUpSimpleMovePossible( game, currentPlayerColor, row, col ) ) {
-                        return true;
+                        result = true;
                     }
                 }
             }
@@ -147,13 +188,13 @@ public class MoveVerifier {
             for( int row = 0; row < 8; row++ ) {
                 for( int col = 0; col < 8; col++ ) {
                     if( isDownSimpleMovePossible( game, currentPlayerColor, row, col ) ) {
-                        return true;
+                        result = true;
                     }
                 }
             }
         }
         // no simple moves are possible
-        return false;
+        return result;
     }
 
 
@@ -166,12 +207,13 @@ public class MoveVerifier {
      */
     private boolean isKingMoveAvailable( Game game ) {
         Piece.Color currentPlayerColor = getCurrentPlayerColor( game );
+        boolean result = false;
         if( currentPlayerColor == Piece.Color.RED ) {
             for( int row = 0; row < 8; row++ ) {
                 for( int col = 0; col < 8; col++ ) {
                     if( game.isThereAKingPieceAt( row, col ) &&
                         isDownSimpleMovePossible( game, currentPlayerColor, row, col ) ) {
-                        return true;
+                        result = true;
                     }
                 }
             }
@@ -181,13 +223,13 @@ public class MoveVerifier {
                 for( int col = 0; col < 8; col++ ) {
                     if( game.isThereAKingPieceAt( row, col ) &&
                         isUpSimpleMovePossible( game, currentPlayerColor, row, col ) ) {
-                        return true;
+                        result = true;
                     }
                 }
             }
         }
         // no king moves possible
-        return false;
+        return result;
     }
 
 
@@ -203,6 +245,7 @@ public class MoveVerifier {
      */
     private boolean isUpJumpMovePossible( Game game, Piece.Color currentPlayerColor, int row, int col ) {
         Piece currentPiece = game.getPieceAt( row, col );
+        boolean result = false;
         if( currentPiece != null ) {
             if( currentPiece.getColor() == currentPlayerColor ) {
                 if( isWithinBounds( row + 1, col + 1 ) ) {
@@ -210,7 +253,11 @@ public class MoveVerifier {
                         if( isWithinBounds( row + 2, col + 2 ) ) {
                             Piece landingPiece = game.getPieceAt( row + 2, col + 2 );
                             if( landingPiece == null ) {
-                                return true;
+                                Position start = new Position( row, col );
+                                Position end = new Position( row + 2, col + 2 );
+                                Move upJumpMove = new Move( start, end );
+                                jumpMoves.add( upJumpMove );
+                                result = true;
                             }
                         }
                     }
@@ -220,14 +267,18 @@ public class MoveVerifier {
                         if( isWithinBounds( row + 2, col - 2 ) ) {
                             Piece landingPiece = game.getPieceAt( row + 2, col - 2 );
                             if( landingPiece == null ) {
-                                return true;
+                                Position start = new Position( row, col );
+                                Position end = new Position( row + 2, col - 2 );
+                                Move upJumpMove = new Move( start, end );
+                                jumpMoves.add( upJumpMove );
+                                result = true;
                             }
                         }
                     }
                 }
             }
         }
-        return false;
+        return result;
     }
 
 
@@ -243,6 +294,7 @@ public class MoveVerifier {
      */
     private boolean isDownJumpMovePossible( Game game, Piece.Color currentPlayerColor, int row, int col ) {
         Piece currentPiece = game.getPieceAt( row, col );
+        boolean result = false;
         if( currentPiece != null ) {
             if( currentPiece.getColor() == currentPlayerColor ) {
                 if( isWithinBounds( row - 1, col + 1 ) ) {
@@ -250,7 +302,11 @@ public class MoveVerifier {
                         if( isWithinBounds( row - 2, col + 2 ) ) {
                             Piece landingPiece = game.getPieceAt( row - 2, col + 2 );
                             if( landingPiece == null ) {
-                                return true;
+                                Position start = new Position( row, col );
+                                Position end = new Position( row - 2, col + 2 );
+                                Move downJumpMove = new Move( start, end );
+                                jumpMoves.add( downJumpMove );
+                                result = true;
                             }
                         }
                     }
@@ -260,14 +316,18 @@ public class MoveVerifier {
                         if( isWithinBounds( row - 2, col - 2 ) ) {
                             Piece landingPiece = game.getPieceAt( row - 2, col - 2 );
                             if( landingPiece == null ) {
-                                return true;
+                                Position start = new Position( row, col );
+                                Position end = new Position( row - 2, col - 2 );
+                                Move downJumpMove = new Move( start, end );
+                                jumpMoves.add( downJumpMove );
+                                result = true;
                             }
                         }
                     }
                 }
             }
         }
-        return false;
+        return result;
     }
 
 
@@ -516,6 +576,84 @@ public class MoveVerifier {
 
 
     /**
+     * Helper method that generates all possible jump moves
+     *
+     * @param game the Web Checkers game
+     */
+    private void generateJumpMoves( Game game, Piece.Color currentPlayerColor ) {
+        if( currentPlayerColor == Piece.Color.RED ) {
+            for( int row = 0; row < 8; row++ ) {
+                for( int col = 0; col < 8; col++ ) {
+                    if( game.isThereAKingPieceAt( row, col ) ) {
+                        isDownJumpMovePossible( game, currentPlayerColor, row, col );
+                    }
+                    isUpJumpMovePossible( game, currentPlayerColor, row, col );
+                }
+            }
+        }
+        if( currentPlayerColor == Piece.Color.WHITE ) {
+            for( int row = 0; row < 8; row++ ) {
+                for( int col = 0; col < 8; col++ ) {
+                    if( game.isThereAKingPieceAt( row, col ) ) {
+                        isUpJumpMovePossible( game, currentPlayerColor, row, col );
+                    }
+                    isDownJumpMovePossible( game, currentPlayerColor, row, col );
+                }
+            }
+        }
+
+    }
+
+
+    /**
+     * Helper method that generates all simple moves
+     *
+     * @param game the Web Checkers game
+     */
+    private void generateSimpleMoves( Game game, Piece.Color currentPlayerColor ) {
+        if( currentPlayerColor == Piece.Color.RED ) {
+            for( int row = 0; row < 8; row++ ) {
+                for( int col = 0; col < 8; col++ ) {
+                    if( game.isThereAKingPieceAt( row, col ) ) {
+                        isDownSimpleMovePossible( game, currentPlayerColor, row, col );
+                    }
+                    isUpSimpleMovePossible( game, currentPlayerColor, row, col );
+                }
+            }
+        }
+        if( currentPlayerColor == Piece.Color.WHITE ) {
+            for( int row = 0; row < 8; row++ ) {
+                for( int col = 0; col < 8; col++ ) {
+                    if( game.isThereAKingPieceAt( row, col ) ) {
+                        isUpSimpleMovePossible( game, currentPlayerColor, row, col );
+                    }
+                    isDownSimpleMovePossible( game, currentPlayerColor, row, col );
+                }
+            }
+        }
+    }
+
+
+    /**
+     * Helper method that returns valid moves
+     *
+     * @param game the game
+     * @return valid moves
+     */
+    public ArrayList< Move > getValidMoves( Game game, Piece.Color currentPlayerColor ) {
+        this.reset();
+        if( isAnyJumpMoveAvailable( game ) ) {
+            generateJumpMoves( game, currentPlayerColor );
+            return this.jumpMoves;
+        }
+        else {
+            generateSimpleMoves( game, currentPlayerColor );
+            return this.simpleMoves;
+        }
+    }
+
+
+    /**
      * The "main" method of this class, if you will. Takes in a move and verifies it.
      *
      * @param move the move to verify
@@ -533,24 +671,61 @@ public class MoveVerifier {
         if( isAnyJumpMoveAvailable( game ) ) {
             if( verifySimpleJumpMove( game, startRow, startCol, endRow, endCol ) ) {
                 move.setMoveType( Move.MoveType.JUMP );
+                this.reset();
                 return true;
             }
             if( verifyKingJumpMove( game, startRow, startCol, endRow, endCol ) ) {
                 move.setMoveType( Move.MoveType.KING_JUMP );
+                this.reset();
                 return true;
             }
         } else {
             if( verifySimpleMove( game, startRow, startCol, endRow, endCol ) ) {
                 move.setMoveType( Move.MoveType.SIMPLE );
+                this.reset();
                 return true;
             }
             if( verifyKingSimpleMove( game, startRow, startCol, endRow, endCol ) ) {
                 move.setMoveType( Move.MoveType.KING_SIMPLE );
+                this.reset();
                 return true;
             }
         }
+        this.reset();
         return false;
     }
 
+
+    /**
+     * The alternative "main" method of the class that will be used for verifying consequent jump moves
+     *
+     * @param move the jump move to verify
+     * @param game the Web Checkers game
+     * @return whether the jump move was verified to be correct
+     */
+    public boolean verifyJumpMove( Move move, Game game ) {
+        Position start = move.getStart();
+        Position end = move.getEnd();
+        int startRow = start.getRow();
+        int startCol = start.getCell();
+        int endRow = end.getRow();
+        int endCol = end.getCell();
+
+        if( isAnyJumpMoveAvailable( game ) ) {
+            if( verifySimpleJumpMove( game, startRow, startCol, endRow, endCol ) ) {
+                move.setMoveType( Move.MoveType.JUMP );
+                this.reset();
+                return true;
+            }
+            if( verifyKingJumpMove( game, startRow, startCol, endRow, endCol ) ) {
+                move.setMoveType( Move.MoveType.KING_JUMP );
+                this.reset();
+                return true;
+            }
+        }
+
+        this.reset();
+        return false;
+    }
 
 }

@@ -8,6 +8,9 @@
 
 package com.webcheckers.model;
 
+
+import java.util.Objects;
+
 public class Position {
 
     private int row; // the index of the row
@@ -43,6 +46,33 @@ public class Position {
      */
     public int getCell() {
         return this.cell;
+    }
+
+
+    /**
+     * Override of the equals method
+     *
+     * @param o the object
+     * @return whether it is equal
+     */
+    @Override
+    public boolean equals( Object o ) {
+        if( o instanceof Position ) {
+            Position p = ( Position )o;
+            return ( p.getRow() == this.row ) && ( p.getCell() == this.cell );
+        }
+        return false;
+    }
+
+
+    /**
+     * Override of the hash function
+     *
+     * @return the hash code
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash( row, cell );
     }
 
 }

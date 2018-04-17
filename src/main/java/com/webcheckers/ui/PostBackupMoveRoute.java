@@ -62,7 +62,7 @@ public class PostBackupMoveRoute implements Route {
             return new Message( "", Message.MessageType.error );
         }
 
-        String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER_KEY );
+        String currentPlayerName = httpSession.attribute( RoutesAndKeys.CURRENT_PLAYER_NAME_KEY );
         if( currentPlayerName == null ) {
             return new Message( "", Message.MessageType.error );
         }

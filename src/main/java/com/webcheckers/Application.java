@@ -68,7 +68,7 @@ public final class Application {
 
     /**
      * Constructor for the Application
-     * @param webServer the webserver
+     * @param webServer the web server
      */
     private Application( final WebServer webServer ) {
         // validation

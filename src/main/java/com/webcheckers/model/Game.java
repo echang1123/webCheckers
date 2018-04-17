@@ -27,6 +27,7 @@ public class Game {
     private Board board; // the board
     private Player playerOne; // player 1
     private Player playerTwo; // player 2
+    private Player winner;
     private int whoseTurn; // 0 is for player1 and 1 is for player2
     private ArrayList< Move > verifiedMoves; // keeps track of moves that have been validated
     private final MoveVerifier mv;
@@ -47,6 +48,7 @@ public class Game {
         this.verifiedMoves = new ArrayList<>();
         this.mv = new MoveVerifier();
         this.gameState = GameState.in_progress;
+        this.winner = null;
     }
 
     /**
@@ -56,6 +58,36 @@ public class Game {
      */
     public int getWhoseTurn() {
         return this.whoseTurn;
+    }
+
+
+    /**
+     * Getter for the game state
+     *
+     * @return the state of the game
+     */
+    public GameState getGameState() {
+        return this.gameState;
+    }
+
+
+    /**
+     * Setter for the winner
+     *
+     * @param winner the winner
+     */
+    public void setWinner( Player winner ) {
+        this.winner = winner;
+    }
+
+
+    /**
+     * Getter for the winner
+     *
+     * @return the winner
+     */
+    public Player getWinner() {
+        return this.winner;
     }
 
 
@@ -215,7 +247,7 @@ public class Game {
     public boolean equals( Object o ) {
         if( o != null ) {
             if( o instanceof Game ) {
-                Game g = ( Game ) o;
+                Game g = ( Game )o;
                 return ( this.playerOne.equals( g.getPlayerOne() ) && this.playerTwo.equals( g.getPlayerTwo() ) );
             }
         }
@@ -252,9 +284,7 @@ public class Game {
      * @return the move that was removed
      */
     public Move backupVerifiedMove() {
-        Move oldMove = this.verifiedMoves.get( this.verifiedMoves.size() - 1 );
-        Move reverseMove = new Move( oldMove.getEnd(), oldMove.getStart() );
-        this.simulateVerifiedMove( reverseMove );
+        this.reverseSimulateVerifiedMove( this.verifiedMoves.get( this.verifiedMoves.size() - 1 ) );
         return this.verifiedMoves.remove( this.verifiedMoves.size() - 1 );
     }
 
@@ -315,8 +345,14 @@ public class Game {
         Piece oldPiece = this.getPieceAt( start );
         Piece newPiece = new Piece( oldPiece.getType(), oldPiece.getColor() );
         this.getSpaceAt( end ).setPiece( newPiece );
-        this.getSpaceAt( start ).removePiece();
 
+    }
+
+
+    private void reverseSimulateVerifiedMove( Move move ) {
+        Position start = move.getStart();
+        Position end = move.getEnd();
+        this.getSpaceAt( end ).removePiece();
     }
 
 }

@@ -1,5 +1,4 @@
 package com.webcheckers.ui;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
@@ -9,8 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import org.mockito.internal.matchers.NotNull;
-import spark.HaltException;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -86,7 +83,7 @@ public class PostCheckTurnRouteTest {
         final Move move = new Move(start,end);
         board.doMove(move);
         final TemplateEngineTester templateEngineTester = new TemplateEngineTester();
-        when(session.attribute(RoutesAndKeys.CURRENT_PLAYER_KEY)).thenReturn(Player1);
+        when(session.attribute(RoutesAndKeys.CURRENT_PLAYER_NAME_KEY )).thenReturn(Player1);
         when(templateEngine.render(any(ModelAndView.class))).thenAnswer(templateEngineTester.makeAnswer());
         // invoke the test
         CuT.handle(request, response);
@@ -97,7 +94,7 @@ public class PostCheckTurnRouteTest {
 //    @Test
 //    public void checkTurnNoplayer(){
 //        final TemplateEngineTester templateEngineTester = new TemplateEngineTester();
-//        when(session.attribute(RoutesAndKeys.CURRENT_PLAYER_KEY)).thenReturn(Player1);
+//        when(session.attribute(RoutesAndKeys.CURRENT_PLAYER_NAME_KEY)).thenReturn(Player1);
 //        when(templateEngine.render(any(ModelAndView.class))).thenAnswer(templateEngineTester.makeAnswer());
 //        // invoke the test
 //        CuT.handle(request, response);
@@ -112,7 +109,7 @@ public class PostCheckTurnRouteTest {
 //        gi.getPlayerLobby().addPlayer(player1, players);
 //        gi.getPlayerLobby().addPlayer(player2, players);
 //        final TemplateEngineTester templateEngineTester = new TemplateEngineTester();
-//        when(session.attribute(RoutesAndKeys.CURRENT_PLAYER_KEY)).thenReturn(Player1);
+//        when(session.attribute(RoutesAndKeys.CURRENT_PLAYER_NAME_KEY)).thenReturn(Player1);
 //        when(templateEngine.render(any(ModelAndView.class))).thenAnswer(templateEngineTester.makeAnswer());
 //        // invoke the test
 //        CuT.handle(request, response);
