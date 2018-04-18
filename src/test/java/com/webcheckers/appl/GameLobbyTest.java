@@ -34,7 +34,7 @@ public class GameLobbyTest {
     @Test
     public void Test_AddGame(){
         assertNotNull(gameLobby.addGame(gameN));
-        assertFalse(gameLobby.addGame(gameN));
+        assertTrue(gameLobby.addGame(gameN));
     }
     @Test
     public void Test_removeGame(){
@@ -44,7 +44,14 @@ public class GameLobbyTest {
     }
     @Test
     public void Test_findGame(){
-        assertNull(gameLobby.findGame(player1));
-        assertNull(gameLobby.findGame(player2));
+        gameLobby.addGame(gameN);
+        assertNotNull(gameLobby.findGame(player1));
+        assertNotNull(gameLobby.findGame(player2));
+    }
+    @Test
+    public void Test_findgames(){
+        gameLobby.addGame(gameN);
+        assertNotNull(gameLobby.findGames(player1));
+        assertNotNull(gameLobby.findGames(player2));
     }
 }

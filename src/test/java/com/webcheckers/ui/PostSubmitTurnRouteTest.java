@@ -87,13 +87,14 @@ public class PostSubmitTurnRouteTest {
         gi.getPlayerLobby().addPlayer(player2,players);
         final Game game = new Game(board,player1,player2);
         gi.getGameLobby().addGame(game);
-
-        final Space spaces[][] = new Space[8][8];
-        board.getSpace(7,7);
-
+        final Piece piece = new Piece(Piece.PieceType.KING, Piece.Color.RED);
+        board.getSpace(start).setPiece(piece);
+        final Position start = new Position(1,1);
+        final Position end = new Position(2,2);
         final Move move = new Move(start,end);
+        move.setMoveType(Move.MoveType.SIMPLE);
         board.doMove(move);
-        games.addVerifiedMove(move);
+        game.setGameState(Game.GameState.in_progress);
         final HashMap<String, Player> players1 = new HashMap<>();
         final TemplateEngineTester templateEngineTester = new TemplateEngineTester();
         when(session.attribute(RoutesAndKeys.CURRENT_PLAYER_NAME_KEY )).thenReturn(Player1);

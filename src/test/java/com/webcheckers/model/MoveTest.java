@@ -42,4 +42,8 @@ public class MoveTest {
         assertNotNull(move.getMoveType());
         assertEquals(move.getMoveType(),moveType);
     }
+    @Test
+    public void test_hasdcode(){
+        assertNotNull(move.hashCode());
+    }
 }
