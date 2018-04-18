@@ -9,10 +9,7 @@
 package com.webcheckers.ui;
 
 
-import com.webcheckers.appl.GameLobby;
-import com.webcheckers.appl.GlobalInformation;
-import com.webcheckers.appl.PlayerLobby;
-import com.webcheckers.appl.RoutesAndKeys;
+import com.webcheckers.appl.*;
 import com.webcheckers.model.*;
 import spark.*;
 
@@ -73,6 +70,11 @@ public class PostSubmitTurnRoute implements Route {
 
         Board board = game.getBoard();
         int numberOfMovesSubmitted = 0;
+
+        MoveVerifier moveVerifier = game.getMoveVerifier();
+        if( moveVerifier.isAnyJumpMoveAvailable( game ) ) {
+            return new Message( "There are jump moves you must make!", Message.MessageType.error );
+        }
 
         // iterate till we have used all the validated moves
         while( !game.outOfVerifiedMoves() ) {

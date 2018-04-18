@@ -404,7 +404,7 @@ public class MoveVerifier {
      * @param game the Web Checkers game
      * @return whether any jump move is available
      */
-    private boolean isAnyJumpMoveAvailable( Game game ) {
+    public boolean isAnyJumpMoveAvailable( Game game ) {
         return isKingJumpMoveAvailable( game ) || isSimpleJumpMoveAvailable( game );
     }
 
