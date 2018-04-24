@@ -654,6 +654,45 @@ public class MoveVerifier {
 
 
     /**
+     * Check if a subsequent jump is possible
+     *
+     * @param move the move
+     * @param game the Web Checkers game
+     * @return if a subsequent jump move is possible
+     */
+    public boolean checkMultipleJumps( Move move, Game game ) {
+        if( ( move.getMoveType() == Move.MoveType.JUMP ) || ( move.getMoveType() == Move.MoveType.KING_JUMP ) ) {
+            Position end = move.getEnd();
+            int endRow = end.getRow();
+            int endCol = end.getCell();
+            Piece.Color currentColor = game.getPieceAt( end ).getColor();
+
+            if( currentColor == Piece.Color.RED ) {
+                if( game.isThereAKingPieceAt( endRow, endCol ) ) {
+                    if( isDownJumpMovePossible( game, currentColor, endRow, endCol ) ) {
+                        return true;
+                    }
+                }
+                if( isUpJumpMovePossible( game, currentColor, endRow, endCol ) ) {
+                    return true;
+                }
+            }
+            else {
+                if( game.isThereAKingPieceAt( endRow, endCol ) ) {
+                    if( isUpJumpMovePossible( game, currentColor, endRow, endCol ) ) {
+                        return true;
+                    }
+                }
+                if( isDownJumpMovePossible( game, currentColor, endRow, endCol ) ) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+    /**
      * The "main" method of this class, if you will. Takes in a move and verifies it.
      *
      * @param move the move to verify

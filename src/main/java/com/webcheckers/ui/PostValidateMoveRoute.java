@@ -90,6 +90,9 @@ public class PostValidateMoveRoute implements Route {
         // return a message of type info
         if( isVerifiedMove ) {
             game.addVerifiedMove( move );
+            if( moveVerifier.checkMultipleJumps( move, game ) ) {
+                return new Message( "You can make more jumps!", Message.MessageType.info );
+            }
             return new Message( "Valid move", Message.MessageType.info );
         }
 

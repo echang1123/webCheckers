@@ -344,15 +344,31 @@ public class Game {
 
         Piece oldPiece = this.getPieceAt( start );
         Piece newPiece = new Piece( oldPiece.getType(), oldPiece.getColor() );
+
         this.getSpaceAt( end ).setPiece( newPiece );
 
     }
 
 
+    /**
+     * Reverse simulates a verified move by moving the piece involved in the move.
+     * It does not remove captured piece (if any), that is done in board.doMove()
+     *
+     * @param move the move to simulate
+     */
     private void reverseSimulateVerifiedMove( Move move ) {
-        Position start = move.getStart();
         Position end = move.getEnd();
         this.getSpaceAt( end ).removePiece();
+    }
+
+
+    /**
+     * Method that returns the latest added verified move
+     *
+     * @return the latest added verified move
+     */
+    public Move getLatestVerifiedMove() {
+        return this.verifiedMoves.get( this.verifiedMoves.size() - 1 );
     }
 
 }
